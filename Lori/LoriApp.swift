@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import FirebaseCore
 
 @main
 struct LoriApp: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashScreenView()
         }
     }
 }
