@@ -4,7 +4,6 @@ import FirebaseFirestore
 
 struct SignUpView: View {
     @Environment(\.presentationMode) var presentationMode
-    @State private var email = ""
     @State private var password = ""
     @State private var confirmPassword = ""
     @State private var username = ""
@@ -72,11 +71,6 @@ struct SignUpView: View {
                                 }
                             }
                             
-                            TextField("E-posta", text: $email)
-                                .textFieldStyle(CustomTextFieldStyle())
-                                .keyboardType(.emailAddress)
-                                .autocapitalization(.none)
-                            
                             SecureField("Şifre", text: $password)
                                 .textFieldStyle(CustomTextFieldStyle())
                             
@@ -123,7 +117,7 @@ struct SignUpView: View {
             )
         }
         .sheet(isPresented: $isShowingVerification) {
-            EmailVerificationView(email: email, username: username, password: password)
+            EmailVerificationView(username: username, password: password)
         }
     }
     
@@ -142,7 +136,7 @@ struct SignUpView: View {
     }
     
     private func signUp() {
-        guard !username.isEmpty, !email.isEmpty, !password.isEmpty else {
+        guard !username.isEmpty, !password.isEmpty else {
             alertMessage = "Lütfen tüm alanları doldurun."
             showAlert = true
             return
@@ -160,23 +154,6 @@ struct SignUpView: View {
             return
         }
         
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            if let error = error {
-                alertMessage = error.localizedDescription
-                showAlert = true
-                return
-            }
-            
-            if let user = result?.user {
-                user.sendEmailVerification { error in
-                    if let error = error {
-                        alertMessage = error.localizedDescription
-                        showAlert = true
-                        return
-                    }
-                    isShowingVerification = true
-                }
-            }
-        }
+        isShowingVerification = true
     }
 } 

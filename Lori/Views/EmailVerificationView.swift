@@ -8,15 +8,14 @@ struct EmailVerificationView: View {
     @State private var alertMessage = ""
     @State private var isVerifying = false
     @State private var isVerified = false
-    @State private var email: String
+    @State private var email = ""
     @State private var username: String
     @State private var password: String
     @State private var timer: Timer?
     @State private var timeRemaining = 60
     @State private var opacity: Double = 0.0
     
-    init(email: String, username: String, password: String) {
-        self._email = State(initialValue: email)
+    init(username: String, password: String) {
         self._username = State(initialValue: username)
         self._password = State(initialValue: password)
     }
@@ -51,7 +50,13 @@ struct EmailVerificationView: View {
                         .font(.system(size: 30, weight: .bold))
                         .foregroundColor(.white)
                     
-                    Text("\(email) adresine gönderilen doğrulama bağlantısına tıklayınız")
+                    TextField("E-posta", text: $email)
+                        .textFieldStyle(CustomTextFieldStyle())
+                        .keyboardType(.emailAddress)
+                        .autocapitalization(.none)
+                        .padding(.horizontal)
+                    
+                    Text("E-posta adresinize gönderilen doğrulama bağlantısına tıklayınız")
                         .foregroundColor(.gray)
                         .multilineTextAlignment(.center)
                         .padding(.horizontal)
@@ -73,9 +78,13 @@ struct EmailVerificationView: View {
                 .padding(.horizontal)
                 
                 Button(action: {
-                    checkVerification()
+                    if isVerified {
+                        checkVerification()
+                    } else {
+                        createUser()
+                    }
                 }) {
-                    Text("Doğrulamayı Kontrol Et")
+                    Text(isVerified ? "Doğrulamayı Kontrol Et" : "Kayıt Ol")
                         .font(.headline)
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity)
@@ -84,16 +93,18 @@ struct EmailVerificationView: View {
                         .cornerRadius(25)
                 }
                 .padding(.horizontal)
-                .disabled(isVerifying)
+                .disabled(isVerifying || (!isVerified && email.isEmpty))
                 
-                Button(action: {
-                    resendCode()
-                }) {
-                    Text(timeRemaining > 0 ? "Kodu Tekrar Gönder (\(timeRemaining)s)" : "Kodu Tekrar Gönder")
-                        .foregroundColor(.white)
-                        .font(.subheadline)
+                if isVerified {
+                    Button(action: {
+                        resendCode()
+                    }) {
+                        Text(timeRemaining > 0 ? "Kodu Tekrar Gönder (\(timeRemaining)s)" : "Kodu Tekrar Gönder")
+                            .foregroundColor(.white)
+                            .font(.subheadline)
+                    }
+                    .disabled(isVerifying || timeRemaining > 0)
                 }
-                .disabled(isVerifying || timeRemaining > 0)
             }
         }
         .onAppear {
@@ -127,6 +138,39 @@ struct EmailVerificationView: View {
         }
     }
     
+    private func createUser() {
+        guard !email.isEmpty else {
+            alertMessage = "Lütfen e-posta adresinizi girin."
+            showAlert = true
+            return
+        }
+        
+        isVerifying = true
+        
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if let error = error {
+                alertMessage = error.localizedDescription
+                showAlert = true
+                isVerifying = false
+                return
+            }
+            
+            if let user = result?.user {
+                user.sendEmailVerification { error in
+                    if let error = error {
+                        alertMessage = error.localizedDescription
+                        showAlert = true
+                    } else {
+                        isVerified = true
+                        alertMessage = "Doğrulama bağlantısı gönderildi. Lütfen e-postanızı kontrol edin."
+                        showAlert = true
+                    }
+                    isVerifying = false
+                }
+            }
+        }
+    }
+    
     private func checkVerification() {
         isVerifying = true
         
@@ -140,7 +184,6 @@ struct EmailVerificationView: View {
             
             if let user = Auth.auth().currentUser {
                 if user.isEmailVerified {
-                    isVerified = true
                     // Kullanıcı bilgilerini Firestore'a kaydet
                     let db = Firestore.firestore()
                     db.collection("users").document(user.uid).setData([
@@ -151,6 +194,12 @@ struct EmailVerificationView: View {
                         if let error = error {
                             alertMessage = error.localizedDescription
                             showAlert = true
+                        } else {
+                            alertMessage = "Hesabınız başarıyla oluşturuldu!"
+                            showAlert = true
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                                presentationMode.wrappedValue.dismiss()
+                            }
                         }
                         isVerifying = false
                     }
