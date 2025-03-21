@@ -3,6 +3,7 @@ import FirebaseAuth
 
 struct LoginView: View {
     @State private var isShowingSignUp = false
+    @State private var isShowingForgotPassword = false
     @State private var email = ""
     @State private var password = ""
     @State private var isAnimating = false
@@ -49,13 +50,26 @@ struct LoginView: View {
                     }
                     .padding(.horizontal)
                     
-                    Button(action: {
-                        isShowingSignUp = true
-                    }) {
-                        Text("Hesabın yok mu? Kayıt ol")
-                            .foregroundColor(.white)
-                            .font(.subheadline)
+                    HStack {
+                        Button(action: {
+                            isShowingSignUp = true
+                        }) {
+                            Text("Hesabın yok mu? Kayıt ol")
+                                .foregroundColor(.white)
+                                .font(.subheadline)
+                        }
+                        
+                        Spacer()
+                        
+                        Button(action: {
+                            isShowingForgotPassword = true
+                        }) {
+                            Text("Şifremi Unuttum")
+                                .foregroundColor(.white)
+                                .font(.subheadline)
+                        }
                     }
+                    .padding(.horizontal)
                 }
                 .opacity(isAnimating ? 1 : 0)
                 .offset(y: isAnimating ? 0 : 20)
@@ -71,6 +85,9 @@ struct LoginView: View {
         .sheet(isPresented: $isShowingSignUp) {
             SignUpView()
         }
+        .sheet(isPresented: $isShowingForgotPassword) {
+            ForgotPasswordView()
+        }
     }
 }
 
@@ -80,8 +97,8 @@ struct CustomTextFieldStyle: TextFieldStyle {
             .padding()
             .background(Color(.systemGray6))
             .cornerRadius(25)
-            .foregroundColor(.black)
-            .tint(.black)
+            .foregroundColor(.white)
+            .tint(.white)
     }
 }
 
@@ -96,4 +113,4 @@ extension View {
             self
         }
     }
-} 
+}

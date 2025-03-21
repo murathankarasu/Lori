@@ -13,7 +13,7 @@ struct SplashScreenView: View {
                 Color.black.edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Text("Welcome")
+                    Text("Hoşgeldiniz")
                         .font(.system(size: 60, weight: .bold))
                         .foregroundColor(.white)
                 }
@@ -35,4 +35,4 @@ struct SplashScreenView: View {
             }
         }
     }
-} 
+}

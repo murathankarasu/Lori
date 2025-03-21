@@ -14,6 +14,14 @@ struct EmailVerificationView: View {
     @State private var timer: Timer?
     @State private var timeRemaining = 60
     @State private var opacity: Double = 0.0
+    @State private var showEmailSuggestions = false
+    @State private var emailSuggestions: [String] = []
+    
+    private let commonEmailDomains = [
+        "@gmail.com",
+        "@outlook.com",
+        "@icloud.com",
+    ]
     
     init(username: String, password: String) {
         self._username = State(initialValue: username)
@@ -50,11 +58,38 @@ struct EmailVerificationView: View {
                         .font(.system(size: 30, weight: .bold))
                         .foregroundColor(.white)
                     
-                    TextField("E-posta", text: $email)
-                        .textFieldStyle(CustomTextFieldStyle())
-                        .keyboardType(.emailAddress)
-                        .autocapitalization(.none)
-                        .padding(.horizontal)
+                    VStack {
+                        TextField("E-posta", text: $email)
+                            .textFieldStyle(CustomTextFieldStyle())
+                            .keyboardType(.emailAddress)
+                            .autocapitalization(.none)
+                            .padding(.horizontal)
+                            .onChange(of: email) { newValue in
+                                updateEmailSuggestions(email: newValue)
+                            }
+                        
+                        if showEmailSuggestions && !emailSuggestions.isEmpty {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 10) {
+                                    ForEach(emailSuggestions, id: \.self) { suggestion in
+                                        Button(action: {
+                                            email = suggestion
+                                            showEmailSuggestions = false
+                                        }) {
+                                            Text(suggestion)
+                                                .foregroundColor(.white)
+                                                .padding(.vertical, 8)
+                                                .padding(.horizontal, 16)
+                                                .background(Color(.systemGray6))
+                                                .cornerRadius(20)
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal)
+                            }
+                            .frame(height: 50)
+                        }
+                    }
                     
                     Text("E-posta adresinize gönderilen doğrulama bağlantısına tıklayınız")
                         .foregroundColor(.gray)
@@ -123,6 +158,23 @@ struct EmailVerificationView: View {
                 message: Text(alertMessage),
                 dismissButton: .default(Text("Tamam"))
             )
+        }
+    }
+    
+    private func updateEmailSuggestions(email: String) {
+        let components = email.split(separator: "@")
+        if components.count == 1 {
+            let localPart = String(components[0])
+            if !localPart.isEmpty {
+                emailSuggestions = commonEmailDomains.map { localPart + $0 }
+                showEmailSuggestions = true
+            } else {
+                emailSuggestions = []
+                showEmailSuggestions = false
+            }
+        } else {
+            emailSuggestions = []
+            showEmailSuggestions = false
         }
     }
     

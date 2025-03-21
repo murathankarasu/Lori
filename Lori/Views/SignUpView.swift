@@ -14,6 +14,13 @@ struct SignUpView: View {
     @State private var isCheckingUsername = false
     @State private var isShowingVerification = false
     
+    // Şifre gereksinimleri için state değişkenleri
+    @State private var hasMinLength = false
+    @State private var hasUpperCase = false
+    @State private var hasLowerCase = false
+    @State private var hasNumber = false
+    @State private var hasSpecialChar = false
+    
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
@@ -69,18 +76,75 @@ struct SignUpView: View {
                                         .foregroundColor(isUsernameAvailable ? .green : .red)
                                         .font(.caption)
                                 }
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             
                             SecureField("Şifre", text: $password)
                                 .textFieldStyle(CustomTextFieldStyle())
+                                .onChange(of: password) { newValue in
+                                    checkPasswordRequirements(password: newValue)
+                                }
+                            
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("Şifre Gereksinimleri:")
+                                    .foregroundColor(.gray)
+                                    .font(.caption)
+                                
+                                HStack {
+                                    Image(systemName: hasMinLength ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(hasMinLength ? .green : .gray)
+                                    Text("En az 8 karakter")
+                                        .foregroundColor(.gray)
+                                        .font(.caption)
+                                }
+                                
+                                HStack {
+                                    Image(systemName: hasUpperCase ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(hasUpperCase ? .green : .gray)
+                                    Text("En az bir büyük harf")
+                                        .foregroundColor(.gray)
+                                        .font(.caption)
+                                }
+                                
+                                HStack {
+                                    Image(systemName: hasLowerCase ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(hasLowerCase ? .green : .gray)
+                                    Text("En az bir küçük harf")
+                                        .foregroundColor(.gray)
+                                        .font(.caption)
+                                }
+                                
+                                HStack {
+                                    Image(systemName: hasNumber ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(hasNumber ? .green : .gray)
+                                    Text("En az bir rakam")
+                                        .foregroundColor(.gray)
+                                        .font(.caption)
+                                }
+                                
+                                HStack {
+                                    Image(systemName: hasSpecialChar ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(hasSpecialChar ? .green : .gray)
+                                    Text("En az bir özel karakter (!@#$%^&*)")
+                                        .foregroundColor(.gray)
+                                        .font(.caption)
+                                }
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding(.leading, 5)
                             
                             SecureField("Şifre Tekrar", text: $confirmPassword)
                                 .textFieldStyle(CustomTextFieldStyle())
                             
                             if !confirmPassword.isEmpty && password != confirmPassword {
-                                Text("Şifreler eşleşmiyor")
-                                    .foregroundColor(.red)
-                                    .font(.caption)
+                                HStack {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(.red)
+                                    Text("Şifreler eşleşmiyor")
+                                        .foregroundColor(.red)
+                                        .font(.caption)
+                                }
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             }
                         }
                         .padding(.horizontal)
@@ -97,7 +161,7 @@ struct SignUpView: View {
                                 .cornerRadius(25)
                         }
                         .padding(.horizontal)
-                        .disabled(!isUsernameAvailable || password != confirmPassword)
+                        .disabled(!isUsernameAvailable || password != confirmPassword || !isPasswordValid())
                     }
                     .opacity(isAnimating ? 1 : 0)
                     .offset(y: isAnimating ? 0 : 20)
@@ -133,6 +197,18 @@ struct SignUpView: View {
             
             isUsernameAvailable = snapshot?.documents.isEmpty ?? true
         }
+    }
+    
+    private func checkPasswordRequirements(password: String) {
+        hasMinLength = password.count >= 8
+        hasUpperCase = password.contains(where: { $0.isUppercase })
+        hasLowerCase = password.contains(where: { $0.isLowercase })
+        hasNumber = password.contains(where: { $0.isNumber })
+        hasSpecialChar = password.contains(where: { "!@#$%^&*".contains($0) })
+    }
+    
+    private func isPasswordValid() -> Bool {
+        return hasMinLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar
     }
     
     private func signUp() {

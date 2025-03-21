@@ -37,9 +37,22 @@
 		DA840C2E2D88C540003E1FE2 /* Lori.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lori.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		DACCCA0D2D8D539700AAC53E /* Exceptions for "Lori" folder in "Lori" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = DA840C2D2D88C540003E1FE2 /* Lori */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		DA840C302D88C540003E1FE2 /* Lori */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				DACCCA0D2D8D539700AAC53E /* Exceptions for "Lori" folder in "Lori" target */,
+			);
 			path = Lori;
 			sourceTree = "<group>";
 		};
@@ -333,6 +346,7 @@
 				DEVELOPMENT_TEAM = FLT57F4ZA9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lori/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -362,6 +376,7 @@
 				DEVELOPMENT_TEAM = FLT57F4ZA9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Lori/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
