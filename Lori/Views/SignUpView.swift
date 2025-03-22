@@ -1,25 +1,78 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
+import Combine
+
+// Yasaklı kelime modeli
+struct BannedWord: Identifiable {
+    let id = UUID()
+    let word: String
+    let category: String
+}
+
+// Yasaklı kelime servisi
+class ContentFilterService {
+    static let shared = ContentFilterService()
+    private var bannedWords: [BannedWord] = []
+    
+    init() {
+        loadBannedWords()
+    }
+    
+    private func loadBannedWords() {
+        guard let path = Bundle.main.path(forResource: "banned_words", ofType: "csv") else {
+            print("CSV dosyası bulunamadı")
+            return
+        }
+        
+        do {
+            let content = try String(contentsOfFile: path, encoding: .utf8)
+            let rows = content.components(separatedBy: "\n").dropFirst() // Başlık satırını atla
+            
+            bannedWords = rows.compactMap { row in
+                let columns = row.components(separatedBy: ",")
+                guard columns.count >= 2 else { return nil }
+                return BannedWord(word: columns[0].trimmingCharacters(in: .whitespacesAndNewlines),
+                                category: columns[1].trimmingCharacters(in: .whitespacesAndNewlines))
+            }
+        } catch {
+            print("CSV dosyası okunamadı: \(error)")
+        }
+    }
+    
+    func checkInappropriateContent(_ text: String) -> (isInappropriate: Bool, category: String?) {
+        let lowercasedText = text.lowercased()
+        
+        for bannedWord in bannedWords {
+            if lowercasedText.contains(bannedWord.word.lowercased()) {
+                return (true, bannedWord.category)
+            }
+        }
+        
+        return (false, nil)
+    }
+}
 
 struct SignUpView: View {
     @Environment(\.presentationMode) var presentationMode
+    @State private var username = ""
     @State private var password = ""
     @State private var confirmPassword = ""
-    @State private var username = ""
     @State private var showAlert = false
     @State private var alertMessage = ""
-    @State private var isUsernameAvailable = true
-    @State private var isAnimating = false
     @State private var isCheckingUsername = false
+    @State private var isUsernameAvailable = true
     @State private var isShowingVerification = false
+    @State private var isAnimating = false
+    @State private var containsInappropriateContent = false
+    @State private var inappropriateCategory: String?
+    @State private var usernameDebounceTimer: Timer?
     
     // Şifre gereksinimleri için state değişkenleri
     @State private var hasMinLength = false
     @State private var hasUpperCase = false
     @State private var hasLowerCase = false
     @State private var hasNumber = false
-    @State private var hasSpecialChar = false
     
     var body: some View {
         ZStack {
@@ -48,19 +101,21 @@ struct SignUpView: View {
                     .padding()
                     
                     VStack(spacing: 20) {
-                        Text("Yeni Hesap Oluştur")
-                            .font(.system(size: 30, weight: .bold))
-                            .foregroundColor(.white)
-                    }
-                    .opacity(isAnimating ? 1 : 0)
-                    .offset(y: isAnimating ? 0 : 20)
-                    
-                    VStack(spacing: 20) {
                         VStack(spacing: 15) {
                             TextField("Kullanıcı Adı", text: $username)
                                 .textFieldStyle(CustomTextFieldStyle())
+                                .autocapitalization(.none)
                                 .onChange(of: username) { newValue in
-                                    checkUsernameAvailability(username: newValue)
+                                    usernameDebounceTimer?.invalidate()
+                                    
+                                    if !newValue.isEmpty {
+                                        usernameDebounceTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+                                            checkUsername(newValue)
+                                        }
+                                    } else {
+                                        containsInappropriateContent = false
+                                        inappropriateCategory = nil
+                                    }
                                 }
                             
                             if !username.isEmpty {
@@ -69,11 +124,11 @@ struct SignUpView: View {
                                         ProgressView()
                                             .scaleEffect(0.8)
                                     } else {
-                                        Image(systemName: isUsernameAvailable ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                            .foregroundColor(isUsernameAvailable ? .green : .red)
+                                        Image(systemName: isUsernameAvailable && !containsInappropriateContent ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                            .foregroundColor(isUsernameAvailable && !containsInappropriateContent ? .green : .red)
                                     }
-                                    Text(isUsernameAvailable ? "Kullanıcı adı uygundur" : "Bu kullanıcı adı zaten kullanılıyor")
-                                        .foregroundColor(isUsernameAvailable ? .green : .red)
+                                    Text(getStatusMessage())
+                                        .foregroundColor(isUsernameAvailable && !containsInappropriateContent ? .green : .red)
                                         .font(.caption)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -121,14 +176,6 @@ struct SignUpView: View {
                                         .foregroundColor(.gray)
                                         .font(.caption)
                                 }
-                                
-                                HStack {
-                                    Image(systemName: hasSpecialChar ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(hasSpecialChar ? .green : .gray)
-                                    Text("En az bir özel karakter (!@#$%^&*)")
-                                        .foregroundColor(.gray)
-                                        .font(.caption)
-                                }
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.leading, 5)
@@ -152,7 +199,7 @@ struct SignUpView: View {
                         Button(action: {
                             signUp()
                         }) {
-                            Text("Kayıt Ol")
+                            Text("Devam Et")
                                 .font(.headline)
                                 .foregroundColor(.black)
                                 .frame(maxWidth: .infinity)
@@ -173,6 +220,9 @@ struct SignUpView: View {
                 isAnimating = true
             }
         }
+        .onDisappear {
+            usernameDebounceTimer?.invalidate()
+        }
         .alert(isPresented: $showAlert) {
             Alert(
                 title: Text("Bilgi"),
@@ -185,17 +235,55 @@ struct SignUpView: View {
         }
     }
     
-    private func checkUsernameAvailability(username: String) {
-        isCheckingUsername = true
-        let db = Firestore.firestore()
-        db.collection("users").whereField("username", isEqualTo: username).getDocuments { snapshot, error in
-            isCheckingUsername = false
-            if let error = error {
-                print("Error checking username: \(error)")
-                return
+    private func getStatusMessage() -> String {
+        if containsInappropriateContent {
+            if let category = inappropriateCategory {
+                return "Bu kullanıcı adı uygunsuz içerik içeriyor: \(category)"
             }
-            
-            isUsernameAvailable = snapshot?.documents.isEmpty ?? true
+            return "Bu kullanıcı adı uygunsuz içerik içeriyor"
+        } else if !isUsernameAvailable {
+            return "Bu kullanıcı adı zaten kullanılıyor"
+        }
+        return "Kullanıcı adı uygundur"
+    }
+    
+    private func checkUsername(_ username: String) {
+        isCheckingUsername = true
+        
+        // Boşluk kontrolü
+        if username.contains(" ") {
+            containsInappropriateContent = true
+            inappropriateCategory = "Boşluk içeremez"
+            isUsernameAvailable = false
+            isCheckingUsername = false
+            return
+        }
+        
+        // Uygunsuz içerik kontrolü
+        let (isInappropriate, category) = ContentFilterService.shared.checkInappropriateContent(username)
+        containsInappropriateContent = isInappropriate
+        inappropriateCategory = category
+        
+        // Eğer uygunsuz içerik yoksa, kullanılabilirlik kontrolü yap
+        if !containsInappropriateContent {
+            Task {
+                await checkUsernameAvailability(username: username)
+                isCheckingUsername = false
+            }
+        } else {
+            isUsernameAvailable = false
+            isCheckingUsername = false
+        }
+    }
+    
+    private func checkUsernameAvailability(username: String) async {
+        let db = Firestore.firestore()
+        do {
+            let snapshot = try await db.collection("users").whereField("username", isEqualTo: username).getDocuments()
+            isUsernameAvailable = snapshot.documents.isEmpty
+        } catch {
+            print("Error checking username: \(error)")
+            isUsernameAvailable = false
         }
     }
     
@@ -204,11 +292,10 @@ struct SignUpView: View {
         hasUpperCase = password.contains(where: { $0.isUppercase })
         hasLowerCase = password.contains(where: { $0.isLowercase })
         hasNumber = password.contains(where: { $0.isNumber })
-        hasSpecialChar = password.contains(where: { "!@#$%^&*".contains($0) })
     }
     
     private func isPasswordValid() -> Bool {
-        return hasMinLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar
+        return hasMinLength && hasUpperCase && hasLowerCase && hasNumber
     }
     
     private func signUp() {
@@ -226,6 +313,16 @@ struct SignUpView: View {
         
         guard isUsernameAvailable else {
             alertMessage = "Bu kullanıcı adı zaten kullanılıyor."
+            showAlert = true
+            return
+        }
+        
+        guard !containsInappropriateContent else {
+            if let category = inappropriateCategory {
+                alertMessage = "Bu kullanıcı adı uygunsuz içerik içeriyor: \(category)"
+            } else {
+                alertMessage = "Bu kullanıcı adı uygunsuz içerik içeriyor."
+            }
             showAlert = true
             return
         }

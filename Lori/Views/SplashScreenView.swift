@@ -13,8 +13,8 @@ struct SplashScreenView: View {
                 Color.black.edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Text("Hoşgeldiniz")
-                        .font(.system(size: 60, weight: .bold))
+                    Text("Merhaba")
+                        .font(.system(size: 50, weight: .bold))
                         .foregroundColor(.white)
                 }
                 .scaleEffect(size)
