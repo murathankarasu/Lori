@@ -1,9 +1,12 @@
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
 
 struct LoadingView: View {
     @State private var opacity: Double = 0
     @State private var scale: CGFloat = 0.8
     @Binding var isPresented: Bool
+    @State private var shouldShowInterests = false
     var onFinish: () -> Void
     
     var body: some View {
@@ -20,24 +23,38 @@ struct LoadingView: View {
             }
         }
         .onAppear {
-            // Fade in animasyonu
             withAnimation(.easeIn(duration: 1.0)) {
                 opacity = 1
                 scale = 1
             }
             
-            // 2 saniye bekle
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                // Fade out animasyonu
-                withAnimation(.easeOut(duration: 1.0)) {
-                    opacity = 0
-                    scale = 0.8
-                }
+            checkUserInterests()
+        }
+        .fullScreenCover(isPresented: $shouldShowInterests, onDismiss: {
+            isPresented = false
+            onFinish()
+        }) {
+            InterestsView()
+        }
+    }
+    
+    private func checkUserInterests() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        let db = Firestore.firestore()
+        
+        db.collection("users").document(userId).getDocument { document, error in
+            if let document = document, document.exists {
+                let hasSelectedInitialInterests = document.data()?["hasSelectedInitialInterests"] as? Bool ?? false
                 
-                // Animasyon bittikten sonra
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                    isPresented = false
-                    onFinish()
+                    if hasSelectedInitialInterests {
+                        // İlgi alanları daha önce seçilmişse direkt FeedView'a git
+                        isPresented = false
+                        onFinish()
+                    } else {
+                        // İlgi alanları seçilmemişse InterestsView'ı göster
+                        shouldShowInterests = true
+                    }
                 }
             }
         }

@@ -11,103 +11,89 @@ struct LoginView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var isLoading = false
-    @State private var isLoggedIn = false
-    @State private var showFeed = false
     @State private var showLoadingView = false
+    @Binding var isLoggedIn: Bool
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                Color.black.edgesIgnoringSafeArea(.all)
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
+            
+            VStack(spacing: 30) {
+                Spacer()
                 
-                VStack(spacing: 30) {
-                    Spacer()
-                    
-                    VStack(spacing: 20) {
-                        Image("loginlogo")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 150, height: 150)
+                VStack(spacing: 20) {
+                    Image("loginlogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 150, height: 150)
+                }
+                .opacity(isAnimating ? 1 : 0)
+                .offset(y: isAnimating ? 0 : 20)
+                
+                Spacer()
+                
+                VStack(spacing: 20) {
+                    VStack(spacing: 15) {
+                        TextField("Kullanıcı Adı", text: $username)
+                            .textFieldStyle(CustomTextFieldStyle())
+                            .autocapitalization(.none)
+                        
+                        SecureField("Şifre", text: $password)
+                            .textFieldStyle(CustomTextFieldStyle())
                     }
-                    .opacity(isAnimating ? 1 : 0)
-                    .offset(y: isAnimating ? 0 : 20)
+                    .padding(.horizontal)
                     
-                    Spacer()
-                    
-                    VStack(spacing: 20) {
-                        VStack(spacing: 15) {
-                            TextField("Kullanıcı Adı", text: $username)
-                                .textFieldStyle(CustomTextFieldStyle())
-                                .autocapitalization(.none)
-                            
-                            SecureField("Şifre", text: $password)
-                                .textFieldStyle(CustomTextFieldStyle())
+                    Button(action: {
+                        Task {
+                            await loginUser()
                         }
-                        .padding(.horizontal)
+                    }) {
+                        Text("Giriş Yap")
+                            .font(.headline)
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 50)
+                            .background(Color.white)
+                            .cornerRadius(25)
+                    }
+                    .padding(.horizontal)
+                    
+                    HStack {
+                        Button(action: {
+                            isShowingSignUp = true
+                        }) {
+                            Text("Hesabın yok mu? Kayıt ol")
+                                .foregroundColor(.white)
+                                .font(.subheadline)
+                        }
+                        
+                        Spacer()
                         
                         Button(action: {
-                            Task {
-                                await loginUser()
-                            }
+                            isShowingForgotPassword = true
                         }) {
-                            Text("Giriş Yap")
-                                .font(.headline)
-                                .foregroundColor(.black)
-                                .frame(maxWidth: .infinity)
-                                .frame(height: 50)
-                                .background(Color.white)
-                                .cornerRadius(25)
+                            Text("Şifremi Unuttum")
+                                .foregroundColor(.white)
+                                .font(.subheadline)
                         }
-                        .padding(.horizontal)
-                        
-                        HStack {
-                            Button(action: {
-                                isShowingSignUp = true
-                            }) {
-                                Text("Hesabın yok mu? Kayıt ol")
-                                    .foregroundColor(.white)
-                                    .font(.subheadline)
-                            }
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                isShowingForgotPassword = true
-                            }) {
-                                Text("Şifremi Unuttum")
-                                    .foregroundColor(.white)
-                                    .font(.subheadline)
-                            }
-                        }
-                        .padding(.horizontal)
                     }
-                    .opacity(isAnimating ? 1 : 0)
-                    .offset(y: isAnimating ? 0 : 20)
-                    
-                    Spacer()
+                    .padding(.horizontal)
                 }
-            }
-            .navigationDestination(isPresented: $showFeed) {
-                FeedView()
-            }
-            .fullScreenCover(isPresented: $showLoadingView) {
-                LoadingView(isPresented: $showLoadingView) {
-                    showFeed = true
-                }
+                .opacity(isAnimating ? 1 : 0)
+                .offset(y: isAnimating ? 0 : 20)
+                
+                Spacer()
             }
         }
         .onAppear {
             withAnimation(.easeOut(duration: 0.8)) {
                 isAnimating = true
             }
-            
-            // SignUp'tan gelen bildirimi dinle
-            NotificationCenter.default.addObserver(
-                forName: NSNotification.Name("DismissSignUp"),
-                object: nil,
-                queue: .main) { _ in
-                    isShowingSignUp = false
-                }
+        }
+        .fullScreenCover(isPresented: $showLoadingView) {
+            LoadingView(isPresented: $showLoadingView) {
+                isLoggedIn = true
+            }
         }
         .sheet(isPresented: $isShowingSignUp) {
             SignUpView()
@@ -116,11 +102,7 @@ struct LoginView: View {
             ForgotPasswordView()
         }
         .alert("Bilgi", isPresented: $showAlert) {
-            Button("Tamam", role: .cancel) {
-                if isLoggedIn {
-                    showLoadingView = true
-                }
-            }
+            Button("Tamam", role: .cancel) { }
         } message: {
             Text(alertMessage)
         }
@@ -170,19 +152,19 @@ struct LoginView: View {
                     return
                 }
                 
-                isLoggedIn = true
-                alertMessage = "Giriş başarılı!"
-                showAlert = true
+                isLoading = false
+                showLoadingView = true
+                
             } catch {
                 alertMessage = "Kullanıcı adı veya şifre hatalı."
                 showAlert = true
+                isLoading = false
             }
         } catch {
             alertMessage = "Giriş yapılırken bir hata oluştu."
             showAlert = true
+            isLoading = false
         }
-        
-        isLoading = false
     }
 }
 

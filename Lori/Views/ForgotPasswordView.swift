@@ -2,7 +2,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct ForgotPasswordView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.dismiss) private var dismiss
     @State private var email = ""
     @State private var showAlert = false
     @State private var alertMessage = ""
@@ -22,9 +22,10 @@ struct ForgotPasswordView: View {
             Color.black.edgesIgnoringSafeArea(.all)
             
             VStack(spacing: 30) {
+                // Üst kısım - Geri dönüş butonu ve başlık
                 HStack {
                     Button(action: {
-                        presentationMode.wrappedValue.dismiss()
+                        dismiss()
                     }) {
                         Image(systemName: "chevron.left")
                             .foregroundColor(.white)
@@ -92,6 +93,8 @@ struct ForgotPasswordView: View {
                         .scaleEffect(0.8)
                 }
                 
+                Spacer()
+                
                 Button(action: {
                     resetPassword()
                 }) {
@@ -156,7 +159,7 @@ struct ForgotPasswordView: View {
                 alertMessage = "Şifre sıfırlama bağlantısı gönderildi. Lütfen e-postanızı kontrol edin."
                 showAlert = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                    presentationMode.wrappedValue.dismiss()
+                    dismiss()
                 }
             }
         }
