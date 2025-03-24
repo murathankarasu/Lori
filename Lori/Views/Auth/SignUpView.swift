@@ -136,8 +136,8 @@ struct SignUpView: View {
                             
                             SecureField("Şifre", text: $password)
                                 .textFieldStyle(CustomTextFieldStyle())
-                                .onChange(of: password) { newValue in
-                                    checkPasswordRequirements(password: newValue)
+                                .onChange(of: password) { oldValue, newValue in
+                                    validatePassword()
                                 }
                             
                             VStack(alignment: .leading, spacing: 5) {
@@ -182,6 +182,9 @@ struct SignUpView: View {
                             
                             SecureField("Şifre Tekrar", text: $confirmPassword)
                                 .textFieldStyle(CustomTextFieldStyle())
+                                .onChange(of: confirmPassword) { oldValue, newValue in
+                                    validatePassword()
+                                }
                             
                             if !confirmPassword.isEmpty && password != confirmPassword {
                                 HStack {
@@ -287,7 +290,7 @@ struct SignUpView: View {
         }
     }
     
-    private func checkPasswordRequirements(password: String) {
+    private func validatePassword() {
         hasMinLength = password.count >= 8
         hasUpperCase = password.contains(where: { $0.isUppercase })
         hasLowerCase = password.contains(where: { $0.isLowercase })
@@ -327,6 +330,7 @@ struct SignUpView: View {
             return
         }
         
+        // E-posta doğrulama ekranına yönlendir
         isShowingVerification = true
     }
 } 

@@ -7,7 +7,17 @@ struct LoadingView: View {
     @State private var scale: CGFloat = 0.8
     @Binding var isPresented: Bool
     @State private var shouldShowInterests = false
+    @Binding var isLoggedIn: Bool
     var onFinish: () -> Void
+    
+    let username: String
+    
+    init(isPresented: Binding<Bool>, isLoggedIn: Binding<Bool>, onFinish: @escaping () -> Void, username: String) {
+        self._isPresented = isPresented
+        self._isLoggedIn = isLoggedIn
+        self.onFinish = onFinish
+        self.username = username
+    }
     
     var body: some View {
         ZStack {
@@ -34,7 +44,7 @@ struct LoadingView: View {
             isPresented = false
             onFinish()
         }) {
-            InterestsView()
+            InterestsView(isLoggedIn: $isLoggedIn, username: username)
         }
     }
     

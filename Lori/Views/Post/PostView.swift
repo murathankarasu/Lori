@@ -140,7 +140,9 @@ struct PostView_Previews: PreviewProvider {
                 imageUrl: nil,
                 timestamp: Date(),
                 likes: 0,
-                comments: []
+                comments: [],
+                isViewed: false,
+                tags: []
             ),
             isFollowing: false,
             onFollowTapped: { _ in }

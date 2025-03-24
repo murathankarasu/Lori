@@ -33,7 +33,7 @@ struct CreatePostView: View {
                                 .padding()
                                 .background(Color(.systemGray6))
                                 .cornerRadius(10)
-                                .onChange(of: postContent) { newValue in
+                                .onChange(of: postContent) { oldValue, newValue in
                                     // Debounce timer'ı iptal et
                                     debounceTimer?.invalidate()
                                     
@@ -156,7 +156,9 @@ struct CreatePostView: View {
             imageUrl: nil,
             timestamp: Date(),
             likes: 0,
-            comments: []
+            comments: [],
+            isViewed: false,
+            tags: []
         )
         
         // Firebase'e kaydet

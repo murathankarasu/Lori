@@ -3,6 +3,7 @@ import SwiftUI
 struct PostCard: View {
     let post: Post
     @State private var showComments = false
+    @State private var isLiked = false
     
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -24,6 +25,13 @@ struct PostCard: View {
                 }
                 
                 Spacer()
+                
+                // Tag'leri göster
+                if !post.tags.isEmpty {
+                    Text(post.tags.joined(separator: ", "))
+                        .font(.caption)
+                        .foregroundColor(.gray)
+                }
             }
             .padding(.horizontal)
             
@@ -32,6 +40,7 @@ struct PostCard: View {
                 .font(.body)
                 .foregroundColor(.white)
                 .padding(.horizontal)
+                .multilineTextAlignment(.leading)
             
             // Gönderi resmi (varsa)
             if let imageUrl = post.imageUrl {
@@ -46,27 +55,27 @@ struct PostCard: View {
             }
             
             // Etkileşim butonları
-            HStack {
+            HStack(spacing: 20) {
                 Button(action: {
-                    // Beğeni işlemi
+                    isLiked.toggle()
                 }) {
                     HStack {
-                        Image(systemName: "heart")
+                        Image(systemName: isLiked ? "heart.fill" : "heart")
+                            .foregroundColor(isLiked ? .red : .white)
                         Text("\(post.likes)")
+                            .foregroundColor(.white)
                     }
-                    .foregroundColor(.white)
                 }
-                
-                Spacer()
                 
                 Button(action: {
                     showComments = true
                 }) {
                     HStack {
                         Image(systemName: "bubble.right")
+                            .foregroundColor(.white)
                         Text("\(post.comments.count)")
+                            .foregroundColor(.white)
                     }
-                    .foregroundColor(.white)
                 }
                 
                 Spacer()

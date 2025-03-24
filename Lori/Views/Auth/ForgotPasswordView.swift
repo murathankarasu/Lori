@@ -59,7 +59,7 @@ struct ForgotPasswordView: View {
                             .keyboardType(.emailAddress)
                             .autocapitalization(.none)
                             .padding(.horizontal)
-                            .onChange(of: email) { newValue in
+                            .onChange(of: email) { oldValue, newValue in
                                 updateEmailSuggestions(email: newValue)
                             }
                         
@@ -121,6 +121,11 @@ struct ForgotPasswordView: View {
                 message: Text(alertMessage),
                 dismissButton: .default(Text("Tamam"))
             )
+        }
+        .onChange(of: showAlert) { oldValue, newValue in
+            if !newValue {
+                dismiss()
+            }
         }
     }
     

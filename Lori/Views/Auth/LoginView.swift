@@ -91,9 +91,9 @@ struct LoginView: View {
             }
         }
         .fullScreenCover(isPresented: $showLoadingView) {
-            LoadingView(isPresented: $showLoadingView) {
+            LoadingView(isPresented: $showLoadingView, isLoggedIn: $isLoggedIn, onFinish: {
                 isLoggedIn = true
-            }
+            }, username: username)
         }
         .sheet(isPresented: $isShowingSignUp) {
             SignUpView()
@@ -143,8 +143,16 @@ struct LoginView: View {
             
             do {
                 let authResult = try await Auth.auth().signIn(withEmail: email, password: password)
+                let user = authResult.user
                 
-                if !authResult.user.isEmailVerified {
+                try await user.reload()
+                
+                let currentUser = Auth.auth().currentUser
+                if let isVerified = currentUser?.isEmailVerified, !isVerified {
+                    print("E-posta doğrulama durumu: \(isVerified)")
+                    print("Kullanıcı UID: \(currentUser?.uid ?? "Yok")")
+                    print("E-posta: \(currentUser?.email ?? "Yok")")
+                    
                     alertMessage = "Lütfen email adresinizi doğrulayın."
                     showAlert = true
                     isLoading = false
@@ -152,15 +160,20 @@ struct LoginView: View {
                     return
                 }
                 
+                print("Giriş başarılı - UID: \(user.uid)")
+                print("E-posta doğrulandı: \(user.isEmailVerified)")
+                
                 isLoading = false
                 showLoadingView = true
                 
             } catch {
+                print("Giriş hatası: \(error.localizedDescription)")
                 alertMessage = "Kullanıcı adı veya şifre hatalı."
                 showAlert = true
                 isLoading = false
             }
         } catch {
+            print("Firestore hatası: \(error.localizedDescription)")
             alertMessage = "Giriş yapılırken bir hata oluştu."
             showAlert = true
             isLoading = false

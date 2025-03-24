@@ -4,7 +4,6 @@
 //
 //  Created by Murathan Karasu on 18.03.2025.
 //
-
 import SwiftUI
 import FirebaseCore
 
@@ -18,3 +17,4 @@ struct LoriApp: App {
         }
     }
 }
+

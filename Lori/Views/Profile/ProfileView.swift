@@ -106,12 +106,11 @@ struct ProfileView: View {
                                 AsyncImage(url: URL(string: imageUrl)) { image in
                                     image
                                         .resizable()
-                                        .scaledToFill()
+                                        .scaledToFit()
                                 } placeholder: {
-                                    Color.gray
+                                    ProgressView()
+                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
                                 }
-                                .frame(height: 120)
-                                .clipped()
                             }
                         }
                     }
@@ -196,7 +195,9 @@ struct ProfileView: View {
                             imageUrl: data["imageUrl"] as? String,
                             timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date(),
                             likes: data["likes"] as? Int ?? 0,
-                            comments: []
+                            comments: [],
+                            isViewed: false,
+                            tags: []
                         )
                     }
                 }

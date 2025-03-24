@@ -17,8 +17,15 @@ struct InterestsView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @Environment(\.presentationMode) var presentationMode
+    @State private var isCreatingUser = false
+    @State private var showLoadingView = false
+    @State private var shouldNavigateToFeed = false
+    @State private var showExitAlert = false
+    @Binding var isLoggedIn: Bool
     
-    let interests: [Interest] = [
+    let username: String
+    
+    @State private var interests: [Interest] = [
         Interest(name: "Teknoloji", icon: "laptopcomputer"),
         Interest(name: "Spor", icon: "sportscourt"),
         Interest(name: "Müzik", icon: "music.note"),
@@ -37,11 +44,31 @@ struct InterestsView: View {
                 Color.black.edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 20) {
-                    Text("İlgi Alanlarınızı Seçin")
-                        .font(.title)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.top, 30)
+                    // Üst bar
+                    HStack {
+                        Button(action: {
+                            showExitAlert = true
+                        }) {
+                            Image(systemName: "xmark")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                        }
+                        
+                        Spacer()
+                        
+                        Text("İlgi Alanlarınızı Seçin")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        // Sağ tarafta boşluk bırakmak için
+                        Color.clear
+                            .frame(width: 30, height: 30)
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 30)
                     
                     Text("En az 3 ilgi alanı seçin")
                         .foregroundColor(.gray)
@@ -56,10 +83,12 @@ struct InterestsView: View {
                                     interest: interest,
                                     isSelected: selectedInterests.contains(interest),
                                     action: {
-                                        if selectedInterests.contains(interest) {
-                                            selectedInterests.remove(interest)
-                                        } else {
-                                            selectedInterests.insert(interest)
+                                        withAnimation(.spring()) {
+                                            if selectedInterests.contains(interest) {
+                                                selectedInterests.remove(interest)
+                                            } else {
+                                                selectedInterests.insert(interest)
+                                            }
                                         }
                                     }
                                 )
@@ -78,36 +107,96 @@ struct InterestsView: View {
                             .cornerRadius(25)
                             .padding(.horizontal)
                     }
-                    .disabled(selectedInterests.count < 3)
+                    .disabled(selectedInterests.count < 3 || isCreatingUser)
                     .padding(.bottom, 30)
                 }
             }
             .navigationBarHidden(true)
         }
         .alert(isPresented: $showAlert) {
-            Alert(title: Text("Bilgi"), message: Text(alertMessage), dismissButton: .default(Text("Tamam")))
+            Alert(
+                title: Text("Bilgi"),
+                message: Text(alertMessage),
+                dismissButton: .default(Text("Tamam")) {
+                    if alertMessage.contains("başarıyla") {
+                        shouldNavigateToFeed = true
+                    }
+                }
+            )
+        }
+        .alert("Çıkış Yap", isPresented: $showExitAlert) {
+            Button("İptal", role: .cancel) { }
+            Button("Çıkış Yap", role: .destructive) {
+                do {
+                    try Auth.auth().signOut()
+                    isLoggedIn = false
+                } catch {
+                    alertMessage = "Çıkış yapılırken bir hata oluştu: \(error.localizedDescription)"
+                    showAlert = true
+                }
+            }
+        } message: {
+            Text("Çıkış yapmak istediğinizden emin misiniz?")
+        }
+        .onChange(of: shouldNavigateToFeed) { newValue in
+            if newValue {
+                isLoggedIn = true
+            }
         }
     }
     
     private func saveInterests() {
-        guard let userId = Auth.auth().currentUser?.uid else { return }
-        let db = Firestore.firestore()
+        guard selectedInterests.count >= 3 else {
+            alertMessage = "Lütfen en az 3 ilgi alanı seçin."
+            showAlert = true
+            return
+        }
         
+        isCreatingUser = true
+        
+        guard let userId = Auth.auth().currentUser?.uid else {
+            alertMessage = "Kullanıcı oturumu bulunamadı."
+            showAlert = true
+            isCreatingUser = false
+            return
+        }
+        
+        let db = Firestore.firestore()
         let interests = selectedInterests.map { $0.name }
         
-        db.collection("users").document(userId).updateData([
-            "interests": interests,
-            "hasSelectedInitialInterests": true,
-            "interestCounts": interests.reduce(into: [String: Int]()) { dict, interest in
-                dict[interest] = 1
-            }
-        ]) { error in
+        Auth.auth().currentUser?.reload { error in
             if let error = error {
-                alertMessage = "Hata: \(error.localizedDescription)"
+                alertMessage = "Kullanıcı bilgileri kontrol edilemedi: \(error.localizedDescription)"
                 showAlert = true
-            } else {
-                // İlgi alanları başarıyla kaydedildi, LoadingView'a geri dön
-                presentationMode.wrappedValue.dismiss()
+                isCreatingUser = false
+                return
+            }
+            
+            guard let user = Auth.auth().currentUser, user.isEmailVerified else {
+                alertMessage = "Lütfen önce e-posta adresinizi doğrulayın."
+                showAlert = true
+                isCreatingUser = false
+                return
+            }
+            
+            db.collection("users").document(userId).updateData([
+                "interests": interests,
+                "hasSelectedInitialInterests": true,
+                "interestCounts": interests.reduce(into: [String: Int]()) { dict, interest in
+                    dict[interest] = 1
+                }
+            ]) { error in
+                isCreatingUser = false
+                
+                if let error = error {
+                    alertMessage = "İlgi alanları kaydedilemedi: \(error.localizedDescription)"
+                    showAlert = true
+                    return
+                }
+                
+                alertMessage = "İlgi alanlarınız başarıyla kaydedildi!"
+                showAlert = true
+                shouldNavigateToFeed = true
             }
         }
     }
@@ -132,5 +221,6 @@ struct InterestCell: View {
             .foregroundColor(isSelected ? .black : .white)
             .cornerRadius(15)
         }
+        .buttonStyle(PlainButtonStyle())
     }
 } 

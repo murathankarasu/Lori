@@ -6,6 +6,8 @@ struct SettingsView: View {
     @State private var showLogoutAlert = false
     @State private var showError = false
     @State private var errorMessage = ""
+    @State private var isSigningOut = false
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
@@ -15,12 +17,19 @@ struct SettingsView: View {
                         showLogoutAlert = true
                     }) {
                         HStack {
-                            Image(systemName: "rectangle.portrait.and.arrow.right")
-                                .foregroundColor(.red)
-                            Text("Çıkış Yap")
-                                .foregroundColor(.red)
+                            if isSigningOut {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .red))
+                                    .scaleEffect(0.8)
+                            } else {
+                                Image(systemName: "rectangle.portrait.and.arrow.right")
+                                    .foregroundColor(.red)
+                                Text("Çıkış Yap")
+                                    .foregroundColor(.red)
+                            }
                         }
                     }
+                    .disabled(isSigningOut)
                 }
                 
                 Section("Hesap") {
@@ -62,7 +71,7 @@ struct SettingsView: View {
             .alert("Çıkış Yap", isPresented: $showLogoutAlert) {
                 Button("İptal", role: .cancel) { }
                 Button("Çıkış Yap", role: .destructive) {
-                    logout()
+                    signOut()
                 }
             } message: {
                 Text("Çıkış yapmak istediğinizden emin misiniz?")
@@ -75,13 +84,29 @@ struct SettingsView: View {
         }
     }
     
-    private func logout() {
-        do {
-            try Auth.auth().signOut()
-            isLoggedIn = false
-        } catch {
-            errorMessage = "Çıkış yapılırken bir hata oluştu: \(error.localizedDescription)"
-            showError = true
+    private func signOut() {
+        isSigningOut = true
+        
+        Task {
+            do {
+                // Önce kullanıcı oturumunu kapat
+                try Auth.auth().signOut()
+                
+                // Sonra UI'ı güncelle ve login ekranına yönlendir
+                await MainActor.run {
+                    withAnimation {
+                        isLoggedIn = false
+                        isSigningOut = false
+                        dismiss() // Mevcut view'ı kapat
+                    }
+                }
+            } catch {
+                await MainActor.run {
+                    errorMessage = "Çıkış yapılırken bir hata oluştu: \(error.localizedDescription)"
+                    showError = true
+                    isSigningOut = false
+                }
+            }
         }
     }
 } 

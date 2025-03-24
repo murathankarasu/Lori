@@ -111,11 +111,16 @@ struct EmailVerificationView: View {
                             }
                         }
                         
-                        Text(statusMessage)
-                            .foregroundColor(.gray)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
-                            .lineSpacing(4)
+                        if verificationStatus == .codeSent {
+                            HStack {
+                                Image(systemName: "envelope")
+                                    .foregroundColor(.gray)
+                                Text("E-posta adresinize gönderilen doğrulama bağlantısına tıklayın")
+                                    .foregroundColor(.gray)
+                                    .font(.subheadline)
+                            }
+                            .padding(.top, 10)
+                        }
                     }
                     .opacity(opacity)
                     
@@ -127,38 +132,66 @@ struct EmailVerificationView: View {
                     }
                     .padding(.horizontal)
                     
-                    Button(action: {
-                        switch verificationStatus {
-                        case .initial:
-                            createUser()
-                        case .codeSent:
-                            checkVerification()
-                        case .verified:
-                            shouldDismissToLogin = true
-                            alertMessage = "Hesabınız başarıyla oluşturuldu!\nGiriş yapabilirsiniz."
-                            showAlert = true
+                    VStack(spacing: 15) {
+                        if verificationStatus == .initial {
+                            Button(action: createUser) {
+                                Text("Kodu Gönder")
+                                    .foregroundColor(.gray)
+                                    .font(.subheadline)
+                            }
+                            .disabled(isVerifying || email.isEmpty)
+                            
+                            Button(action: checkVerification) {
+                                Text("Kontrol Et")
+                                    .font(.headline)
+                                    .foregroundColor(.black)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 50)
+                                    .background(Color.white)
+                                    .cornerRadius(25)
+                            }
+                            .padding(.horizontal)
+                            .disabled(isVerifying || email.isEmpty)
                         }
-                    }) {
-                        Text(verificationStatus.buttonText)
-                            .font(.headline)
-                            .foregroundColor(.black)
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 50)
-                            .background(Color.white)
-                            .cornerRadius(25)
-                    }
-                    .padding(.horizontal)
-                    .disabled(isVerifying || (verificationStatus == .initial && email.isEmpty))
-                    
-                    if verificationStatus == .codeSent {
-                        Button(action: {
-                            resendCode()
-                        }) {
-                            Text(timeRemaining > 0 ? "Kodu Tekrar Gönder (\(timeRemaining)s)" : "Kodu Tekrar Gönder")
-                                .foregroundColor(.white)
-                                .font(.subheadline)
+                        
+                        if verificationStatus == .codeSent {
+                            Button(action: checkVerification) {
+                                Text("Kontrol Et")
+                                    .font(.headline)
+                                    .foregroundColor(.black)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 50)
+                                    .background(Color.white)
+                                    .cornerRadius(25)
+                            }
+                            .padding(.horizontal)
+                            .disabled(isVerifying)
+                            
+                            Button(action: resendCode) {
+                                Text(timeRemaining > 0 ? "Kodu Tekrar Gönder (\(timeRemaining)s)" : "Kodu Tekrar Gönder")
+                                    .foregroundColor(.white)
+                                    .font(.subheadline)
+                            }
+                            .disabled(isVerifying || timeRemaining > 0)
                         }
-                        .disabled(isVerifying || timeRemaining > 0)
+                        
+                        if verificationStatus == .verified {
+                            Button(action: {
+                                shouldDismissToLogin = true
+                                alertMessage = "Hesabınız başarıyla oluşturuldu!\nGiriş yapabilirsiniz."
+                                showAlert = true
+                            }) {
+                                Text("Devam Et")
+                                    .font(.headline)
+                                    .foregroundColor(.black)
+                                    .frame(maxWidth: .infinity)
+                                    .frame(height: 50)
+                                    .background(Color.white)
+                                    .cornerRadius(25)
+                            }
+                            .padding(.horizontal)
+                            .disabled(isVerifying)
+                        }
                     }
                 }
                 .padding(.bottom, 30)
@@ -226,30 +259,49 @@ struct EmailVerificationView: View {
         
         isVerifying = true
         
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+        // Önce e-posta adresinin kullanımda olup olmadığını kontrol et
+        let db = Firestore.firestore()
+        db.collection("users").whereField("email", isEqualTo: email).getDocuments { snapshot, error in
             if let error = error {
-                alertMessage = error.localizedDescription
+                alertMessage = "E-posta kontrolü sırasında bir hata oluştu: \(error.localizedDescription)"
                 showAlert = true
                 isVerifying = false
                 return
             }
             
-            if let user = result?.user {
-                // Email doğrulama maili gönder
-                user.sendEmailVerification { error in
-                    if let error = error {
-                        // Hata durumunda kullanıcıyı sil
-                        user.delete { _ in
-                            alertMessage = error.localizedDescription
-                            showAlert = true
-                        }
-                    } else {
-                        verificationStatus = .codeSent
-                        alertMessage = "Doğrulama bağlantısı gönderildi.\nLütfen e-postanızı kontrol edin."
-                        showAlert = true
-                        startTimer()
-                    }
+            if let snapshot = snapshot, !snapshot.documents.isEmpty {
+                alertMessage = "Bu e-posta adresi zaten kullanımda."
+                showAlert = true
+                isVerifying = false
+                return
+            }
+            
+            // E-posta kullanımda değilse kullanıcıyı oluştur
+            Auth.auth().createUser(withEmail: email, password: password) { result, error in
+                if let error = error {
+                    alertMessage = error.localizedDescription
+                    showAlert = true
                     isVerifying = false
+                    return
+                }
+                
+                if let user = result?.user {
+                    // Email doğrulama maili gönder
+                    user.sendEmailVerification { error in
+                        if let error = error {
+                            // Hata durumunda kullanıcıyı sil
+                            user.delete { _ in
+                                alertMessage = error.localizedDescription
+                                showAlert = true
+                            }
+                        } else {
+                            verificationStatus = .codeSent
+                            alertMessage = "Doğrulama bağlantısı gönderildi.\nLütfen e-postanızı kontrol edin."
+                            showAlert = true
+                            startTimer()
+                        }
+                        isVerifying = false
+                    }
                 }
             }
         }
@@ -258,15 +310,15 @@ struct EmailVerificationView: View {
     private func checkVerification() {
         isVerifying = true
         
-        Auth.auth().currentUser?.reload { error in
-            if let error = error {
-                alertMessage = error.localizedDescription
-                showAlert = true
-                isVerifying = false
-                return
-            }
-            
-            if let user = Auth.auth().currentUser {
+        if let user = Auth.auth().currentUser {
+            user.reload { error in
+                if let error = error {
+                    alertMessage = error.localizedDescription
+                    showAlert = true
+                    isVerifying = false
+                    return
+                }
+                
                 if user.isEmailVerified {
                     // Email doğrulandıktan sonra Firestore'a kaydet
                     let db = Firestore.firestore()
@@ -299,6 +351,10 @@ struct EmailVerificationView: View {
                     isVerifying = false
                 }
             }
+        } else {
+            alertMessage = "Kullanıcı oturumu bulunamadı."
+            showAlert = true
+            isVerifying = false
         }
     }
     

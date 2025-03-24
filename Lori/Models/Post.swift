@@ -9,4 +9,6 @@ struct Post: Identifiable {
     let timestamp: Date
     var likes: Int
     var comments: [Comment]
+    var isViewed: Bool
+    var tags: [String]
 } 
