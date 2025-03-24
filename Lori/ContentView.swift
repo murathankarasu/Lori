@@ -12,7 +12,7 @@ struct ContentView: View {
     @State private var isLoggedIn = false
     
     var body: some View {
-        NavigationStack {
+        Group {
             if isLoggedIn {
                 FeedView(isLoggedIn: $isLoggedIn)
             } else {
@@ -20,8 +20,9 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            // Kullanıcının oturum durumunu kontrol et
-            isLoggedIn = Auth.auth().currentUser != nil
+            Auth.auth().addStateDidChangeListener { _, user in
+                isLoggedIn = user != nil
+            }
         }
     }
 }

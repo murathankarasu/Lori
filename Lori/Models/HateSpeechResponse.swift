@@ -1,7 +1,13 @@
 import Foundation
 
 struct HateSpeechResponse: Codable {
-    let is_hate_speech: Bool
+    let isHateSpeech: Bool
     let confidence: Double
-    let category: String
+    let categories: [String]
+    
+    enum CodingKeys: String, CodingKey {
+        case isHateSpeech = "is_hate_speech"
+        case confidence
+        case categories
+    }
 } 
