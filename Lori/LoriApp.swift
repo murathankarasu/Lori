@@ -11,9 +11,17 @@ import FirebaseCore
 struct LoriApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
+    init() {
+        // Uygulamayı sürekli karanlık temada tut
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            windowScene.windows.first?.overrideUserInterfaceStyle = .dark
+        }
+    }
+    
     var body: some Scene {
         WindowGroup {
             SplashScreenView()
+                .preferredColorScheme(.dark)
         }
     }
 }
