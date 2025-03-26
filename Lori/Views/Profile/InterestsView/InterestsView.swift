@@ -38,6 +38,8 @@ struct InterestsView: View {
         Interest(name: "Bilim", icon: "atom")
     ]
     
+    @State private var searchText = ""
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -72,6 +74,11 @@ struct InterestsView: View {
                     
                     Text("En az 3 ilgi alanı seçin")
                         .foregroundColor(.gray)
+                    
+                    SearchBar(text: $searchText)
+                        .onChange(of: searchText) { oldValue, newValue in
+                            filterInterests(newValue)
+                        }
                     
                     ScrollView {
                         LazyVGrid(columns: [
@@ -198,6 +205,25 @@ struct InterestsView: View {
                 showAlert = true
                 shouldNavigateToFeed = true
             }
+        }
+    }
+    
+    private func filterInterests(_ text: String) {
+        if text.isEmpty {
+            interests = [
+                Interest(name: "Teknoloji", icon: "laptopcomputer"),
+                Interest(name: "Spor", icon: "sportscourt"),
+                Interest(name: "Müzik", icon: "music.note"),
+                Interest(name: "Sanat", icon: "paintpalette"),
+                Interest(name: "Yemek", icon: "fork.knife"),
+                Interest(name: "Seyahat", icon: "airplane"),
+                Interest(name: "Kitap", icon: "book"),
+                Interest(name: "Film", icon: "film"),
+                Interest(name: "Oyun", icon: "gamecontroller"),
+                Interest(name: "Bilim", icon: "atom")
+            ]
+        } else {
+            interests = interests.filter { $0.name.lowercased().contains(text.lowercased()) }
         }
     }
 }
