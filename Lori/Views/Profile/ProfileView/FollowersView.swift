@@ -33,7 +33,7 @@ struct FollowersView: View {
                                 Text(user.username)
                                     .font(.headline)
                                     .foregroundColor(.white)
-                                Text(user.bio)
+                                Text(user.bio ?? "")
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
@@ -80,10 +80,12 @@ struct FollowersView: View {
                                 id: document.documentID,
                                 username: data["username"] as? String ?? "",
                                 email: data["email"] as? String ?? "",
-                                bio: data["bio"] as? String ?? "",
                                 profileImageUrl: data["profileImageUrl"] as? String,
-                                followers: data["followers"] as? [String] ?? [],
-                                following: data["following"] as? [String] ?? []
+                                bio: data["bio"] as? String,
+                                followers: (data["followers"] as? [String])?.count ?? 0,
+                                following: (data["following"] as? [String])?.count ?? 0,
+                                createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
+                                isVerified: data["isVerified"] as? Bool ?? false
                             )
                             loadedFollowers.append(user)
                         }

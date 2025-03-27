@@ -23,6 +23,13 @@ struct HateSpeechResponse: Codable {
                 let averageWordLength: Double
                 let punctuationCount: Int
                 let capitalizationRatio: Double
+                
+                enum CodingKeys: String, CodingKey {
+                    case averageWordLength = "average_word_length"
+                    case capitalizationRatio = "capitalization_ratio"
+                    case punctuationCount = "punctuation_count"
+                    case wordCount = "word_count"
+                }
             }
             
             enum CodingKeys: String, CodingKey {
@@ -68,31 +75,53 @@ enum HateSpeechError: LocalizedError {
 
 // API Response modelleri
 struct APIResponse: Codable {
+    let data: ResponseData
     let status: String
-    let data: ResponseData?
     let timestamp: String
     
     struct ResponseData: Codable {
-        let isHateSpeech: Bool
-        let confidence: Double
         let category: String
-        let categoryDetails: [String]
-        let severityScore: Int
-        let message: String
+        let confidence: Double
         let details: Details
+        let isHateSpeech: Bool
         
         struct Details: Codable {
+            let categoryDetails: [String]
             let emojiCount: Int
-            let textLength: Int
             let foundWords: [String]
+            let metrics: Metrics
+            let severityScore: Int
+            let textLength: Int
+            
+            struct Metrics: Codable {
+                let averageWordLength: Double
+                let capitalizationRatio: Double
+                let punctuationCount: Int
+                let wordCount: Int
+                
+                enum CodingKeys: String, CodingKey {
+                    case averageWordLength = "average_word_length"
+                    case capitalizationRatio = "capitalization_ratio"
+                    case punctuationCount = "punctuation_count"
+                    case wordCount = "word_count"
+                }
+            }
+            
+            enum CodingKeys: String, CodingKey {
+                case categoryDetails = "category_details"
+                case emojiCount = "emoji_count"
+                case foundWords = "found_words"
+                case metrics
+                case severityScore = "severity_score"
+                case textLength = "text_length"
+            }
         }
         
         enum CodingKeys: String, CodingKey {
+            case category
+            case confidence
+            case details
             case isHateSpeech = "is_hate_speech"
-            case confidence, category
-            case categoryDetails = "category_details"
-            case severityScore = "severity_score"
-            case message, details
         }
     }
 }

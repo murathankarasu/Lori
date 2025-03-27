@@ -47,7 +47,6 @@ class CreatePostViewModel: ObservableObject {
     let maxContentLength = 500
     
     private var debounceTimer: Timer?
-    private let apiURL = "http://localhost:8000/api/check-hate-speech"
     
     var canPost: Bool {
         !postContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
@@ -76,76 +75,23 @@ class CreatePostViewModel: ObservableObject {
         }
     }
     
-    func handleContentChange() {
-        debounceTimer?.invalidate()
-        debounceTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false) { [weak self] _ in
-            Task { @MainActor in
-                await self?.checkHateSpeech()
-            }
-        }
-    }
-    
-    func checkHateSpeech() async {
-        guard !postContent.isEmpty else { return }
-        
-        isCheckingHateSpeech = true
-        defer { isCheckingHateSpeech = false }
+    func checkHateSpeech() async throws -> (Bool, String, Double) {
+        let trimmedContent = postContent.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedContent.isEmpty else { return (false, "", 0.0) }
         
         do {
-            let response = try await checkHateSpeech(text: postContent)
-            if response.data.isHateSpeech {
-                showHateSpeechWarning = true
-                
-                // Detaylı uyarı mesajı
-                let category = response.data.category
-                let confidence = Int(response.data.confidence * 100)
-                let severity = Int(response.data.details.severityScore * 100)
-                let details = response.data.details.categoryDetails.joined(separator: ", ")
-                
-                errorMessage = """
-                Bu içerik nefret söylemi içeriyor olabilir:
-                
-                • Kategori: \(category)
-                • Güven Skoru: %\(confidence)
-                • Ciddiyet: %\(severity)
-                • Tespit Edilen Öğeler: \(details)
-                
-                Lütfen içeriğinizi gözden geçirin.
-                """
-            }
+            let response = try await HateSpeechService.shared.checkHateSpeech(text: trimmedContent)
+            
+            // API'den gelen category değeri "0" ise nefret söylemi değil, "1" ise nefret söylemi
+            let isHateSpeech = response.data.category == "1"
+            let category = isHateSpeech ? "Nefret Söylemi" : "Güvenli"
+            
+            return (isHateSpeech, category, response.data.confidence)
         } catch {
-            print("Nefret söylemi kontrolünde hata: \(error)")
-            showError = true
-            errorMessage = PostError.hateSpeechError(error.localizedDescription).localizedDescription
+            print("Nefret söylemi kontrolü hatası: \(error)")
+            // Hata durumunda varsayılan olarak güvenli kabul edelim
+            return (false, "Güvenli", 0.0)
         }
-    }
-    
-    func checkHateSpeech(text: String) async throws -> HateSpeechResponse {
-        guard let url = URL(string: apiURL) else {
-            throw URLError(.badURL)
-        }
-        
-        let body = ["text": text]
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try JSONSerialization.data(withJSONObject: body)
-        
-        let (data, response) = try await URLSession.shared.data(for: request)
-        
-        guard let httpResponse = response as? HTTPURLResponse,
-              httpResponse.statusCode == 200 else {
-            throw URLError(.badServerResponse)
-        }
-        
-        let decoder = JSONDecoder()
-        let result = try decoder.decode(HateSpeechResponse.self, from: data)
-        
-        DispatchQueue.main.async {
-            self.isHateSpeechDetected = result.data.isHateSpeech
-        }
-        
-        return result
     }
     
     func createPost() async {
@@ -164,14 +110,6 @@ class CreatePostViewModel: ObservableObject {
             let trimmedContent = postContent.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !trimmedContent.isEmpty else {
                 throw PostError.invalidContent("Gönderi içeriği boş olamaz")
-            }
-            
-            // Nefret söylemi kontrolü
-            let response = try await checkHateSpeech(text: trimmedContent)
-            
-            if response.data.isHateSpeech {
-                showHateSpeechWarning = true
-                return
             }
             
             // Gönderi oluştur
@@ -200,13 +138,7 @@ class CreatePostViewModel: ObservableObject {
                 "likes": post.likes,
                 "comments": [],
                 "isViewed": post.isViewed,
-                "tags": post.tags,
-                "contentAnalysis": [
-                    "isHateSpeech": response.data.isHateSpeech,
-                    "confidence": response.data.confidence,
-                    "category": response.data.category,
-                    "severityScore": response.data.details.severityScore
-                ]
+                "tags": post.tags
             ]
             
             // Resimleri yükle

@@ -10,7 +10,6 @@ struct CreatePostView: View {
     
     @State private var selectedImage: UIImage?
     @State private var isImagePickerPresented = false
-    @State private var postContent = ""
     @State private var isPublishing = false
     @State private var showHateSpeechAlert = false
     @State private var showEmojiPicker = false
@@ -39,55 +38,92 @@ struct CreatePostView: View {
                     Spacer()
                     
                     Button(action: {
+                        print("\n=== Kontrol Butonu Tıklandı ===")
+                        print("İçerik: \(viewModel.postContent)")
                         Task {
                             isPublishing = true
                             do {
-                                try await viewModel.createPost()
-                                dismiss()
-                            } catch {
-                                if let hateSpeechError = error as NSError?,
-                                   hateSpeechError.domain == "HateSpeechError" {
-                                    showHateSpeechAlert = true
+                                print("Nefret söylemi kontrolü başlıyor...")
+                                let (isHateSpeech, category, _) = try await viewModel.checkHateSpeech()
+                                print("Kontrol sonucu:")
+                                print("- Nefret söylemi var mı?: \(isHateSpeech)")
+                                print("- Kategori: \(category)")
+                                
+                                if isHateSpeech {
+                                    viewModel.errorMessage = "Politikalarımız gereği mesajınıza izin verilmiyor. Kategori: \(category)"
+                                    print("❌ Nefret söylemi tespit edildi")
                                 } else {
-                                    print("Gönderi paylaşma hatası: \(error)")
+                                    viewModel.errorMessage = ""
+                                    print("✅ Nefret söylemi tespit edilmedi")
+                                    // Nefret söylemi yoksa gönderiyi paylaş
+                                    print("Gönderi paylaşılıyor...")
+                                    try await viewModel.createPost()
+                                    print("✅ Gönderi başarıyla paylaşıldı")
+                                    dismiss()
                                 }
+                            } catch {
+                                print("❌ İşlem hatası: \(error)")
                             }
                             isPublishing = false
+                            print("===================\n")
                         }
                     }) {
-                        Text("Paylaş")
-                            .font(.system(size: 16, weight: .semibold))
-                            .foregroundColor(.white)
-                            .frame(width: 80, height: 40)
-                            .background(postContent.isEmpty ? Color.gray : Color.blue)
-                            .clipShape(Capsule())
+                        HStack {
+                            if viewModel.errorMessage.isEmpty {
+                                Image(systemName: "checkmark")
+                                    .font(.system(size: 16, weight: .semibold))
+                            } else {
+                                Text("Paylaş")
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
+                        }
+                        .foregroundColor(.black)
+                        .frame(width: 80, height: 40)
+                        .background(Color.white)
+                        .clipShape(Capsule())
+                        .overlay(
+                            Capsule()
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
                     }
-                    .disabled(postContent.isEmpty || isPublishing)
+                    .disabled(viewModel.postContent.isEmpty || isPublishing)
                 }
                 .padding()
                 
                 ScrollView {
                     VStack(spacing: 20) {
                         // Content Editor
-                        TextEditor(text: $postContent)
+                        TextEditor(text: $viewModel.postContent)
                             .frame(height: 150)
                             .padding()
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(12)
-                            .onChange(of: postContent) { newValue in
-                                Task {
-                                    if !newValue.isEmpty {
-                                        do {
-                                            let result = try await viewModel.checkHateSpeech(text: newValue)
-                                            if result.data.isHateSpeech {
-                                                showHateSpeechAlert = true
+                            .onChange(of: viewModel.postContent) { newValue in
+                                // Sadece nokta veya ünlem işareti ile biten cümlelerde kontrol yap
+                                if newValue.hasSuffix(".") || newValue.hasSuffix("!") {
+                                    Task {
+                                        if !newValue.isEmpty {
+                                            do {
+                                                let (isHateSpeech, category, _) = try await viewModel.checkHateSpeech()
+                                                if isHateSpeech {
+                                                    viewModel.errorMessage = "Politikalarımız gereği mesajınıza izin verilmiyor. Kategori: \(category)"
+                                                } else {
+                                                    viewModel.errorMessage = ""
+                                                }
+                                            } catch {
+                                                print("Nefret söylemi kontrolü hatası: \(error)")
                                             }
-                                        } catch {
-                                            print("Nefret söylemi kontrolü hatası: \(error)")
                                         }
                                     }
                                 }
                             }
+                        
+                        if !viewModel.errorMessage.isEmpty {
+                            Text(viewModel.errorMessage)
+                                .foregroundColor(.red)
+                                .font(.body)
+                                .padding(.horizontal)
+                        }
                         
                         // Toolbar
                         HStack(spacing: 20) {
@@ -145,10 +181,11 @@ struct CreatePostView: View {
         .sheet(isPresented: $showUserMentionPicker) {
             UserMentionPickerView(selectedUser: $selectedUser)
         }
-        .alert("Nefret Söylemi Uyarısı", isPresented: $showHateSpeechAlert) {
+        .alert("Uyarı", isPresented: $showHateSpeechAlert) {
             Button("Tamam", role: .cancel) {}
         } message: {
             Text(viewModel.errorMessage)
+                .foregroundColor(.red)
         }
     }
 }

@@ -60,7 +60,7 @@ struct ProfileView: View {
                         HStack(spacing: 40) {
                             Button(action: { showFollowers = true }) {
                                 VStack {
-                                    Text("\(user?.followers.count ?? 0)")
+                                    Text("\(user?.followers ?? 0)")
                                         .font(.title3)
                                         .fontWeight(.bold)
                                         .foregroundColor(.white)
@@ -72,7 +72,7 @@ struct ProfileView: View {
                             
                             Button(action: { showFollowing = true }) {
                                 VStack {
-                                    Text("\(user?.following.count ?? 0)")
+                                    Text("\(user?.following ?? 0)")
                                         .font(.title3)
                                         .fontWeight(.bold)
                                         .foregroundColor(.white)
@@ -150,10 +150,12 @@ struct ProfileView: View {
                     id: document.documentID,
                     username: data["username"] as? String ?? "",
                     email: data["email"] as? String ?? "",
-                    bio: data["bio"] as? String ?? "",
                     profileImageUrl: data["profileImageUrl"] as? String,
-                    followers: data["followers"] as? [String] ?? [],
-                    following: data["following"] as? [String] ?? []
+                    bio: data["bio"] as? String,
+                    followers: (data["followers"] as? [String])?.count ?? 0,
+                    following: (data["following"] as? [String])?.count ?? 0,
+                    createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
+                    isVerified: data["isVerified"] as? Bool ?? false
                 )
                 
                 username = user?.username ?? ""
