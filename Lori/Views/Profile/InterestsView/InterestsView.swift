@@ -2,16 +2,6 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
 
-struct Interest: Identifiable, Hashable {
-    let id = UUID()
-    let name: String
-    let icon: String
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
 struct InterestsView: View {
     @State private var selectedInterests: Set<Interest> = []
     @State private var showAlert = false

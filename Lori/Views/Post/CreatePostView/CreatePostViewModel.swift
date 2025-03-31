@@ -94,7 +94,7 @@ class CreatePostViewModel: ObservableObject {
         }
     }
     
-    func createPost() async {
+    func createPost() async throws {
         guard canPost else { return }
         
         isPosting = true
@@ -106,40 +106,62 @@ class CreatePostViewModel: ObservableObject {
                 throw PostError.authError("Oturum açmanız gerekiyor")
             }
             
+            // Kullanıcı bilgilerini Firebase'den al
+            let db = Firestore.firestore()
+            let userDoc = try await db.collection("users").document(user.uid).getDocument()
+            guard let userData = userDoc.data(),
+                  let username = userData["username"] as? String else {
+                throw PostError.authError("Kullanıcı bilgileri alınamadı")
+            }
+            
             // İçerik kontrolü
             let trimmedContent = postContent.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !trimmedContent.isEmpty else {
                 throw PostError.invalidContent("Gönderi içeriği boş olamaz")
             }
             
-            // Gönderi oluştur
-            let post = Post(
-                id: UUID().uuidString,
-                userId: user.uid,
-                username: user.displayName ?? "Anonim",
-                content: trimmedContent,
-                imageUrl: nil,
-                timestamp: Date(),
-                likes: 0,
-                comments: [],
-                isViewed: false,
-                tags: []
-            )
+            // Nefret söylemi kontrolü
+            let (isHateSpeech, category, confidence) = try await checkHateSpeech()
+            if isHateSpeech {
+                throw PostError.hateSpeechError("Nefret söylemi tespit edildi. Kategori: \(category)")
+            }
             
-            // Firebase'e kaydet
-            let db = Firestore.firestore()
+            // Etiketleri çıkar
+            let words = trimmedContent.split(separator: " ")
+            var tags: [String] = []
             
+            // @ ile başlayan kullanıcı etiketlerini bul
+            let userMentions = words.filter { $0.hasPrefix("@") }
+                .map { String($0.dropFirst()) }
+            
+            // # ile başlayan hashtag'leri bul
+            let hashtags = words.filter { $0.hasPrefix("#") }
+                .map { String($0.dropFirst()) }
+            
+            // Etiketleri birleştir
+            tags = userMentions + hashtags
+            
+            // Gönderi ID'si oluştur
+            let postId = UUID().uuidString
+            
+            // Gönderi verilerini hazırla
             var postData: [String: Any] = [
-                "id": post.id,
-                "userId": post.userId,
-                "username": post.username,
-                "content": post.content,
-                "timestamp": Timestamp(date: post.timestamp),
-                "likes": post.likes,
+                "id": postId,
+                "userId": user.uid,
+                "username": username,
+                "content": trimmedContent,
+                "timestamp": Timestamp(date: Date()),
+                "likes": 0,
                 "comments": [],
-                "isViewed": post.isViewed,
-                "tags": post.tags
+                "tags": tags
             ]
+            
+            print("\n=== Gönderi Oluşturma ===")
+            print("Gönderi ID: \(postId)")
+            print("Kullanıcı ID: \(user.uid)")
+            print("Kullanıcı Adı: \(username)")
+            print("İçerik: \(trimmedContent)")
+            print("Etiketler: \(tags)")
             
             // Resimleri yükle
             if !processedImages.isEmpty {
@@ -147,7 +169,7 @@ class CreatePostViewModel: ObservableObject {
                 for (index, image) in processedImages.enumerated() {
                     do {
                         if let imageData = image.jpegData(compressionQuality: 0.7) {
-                            let imageName = "\(post.id)_\(index).jpg"
+                            let imageName = "\(postId)_\(index).jpg"
                             let storageRef = Storage.storage().reference().child("posts/\(imageName)")
                             
                             _ = try await storageRef.putDataAsync(imageData)
@@ -160,21 +182,29 @@ class CreatePostViewModel: ObservableObject {
                         throw PostError.uploadError("Resim yüklenirken hata oluştu: \(error.localizedDescription)")
                     }
                 }
+                
                 // İlk resmi imageUrl olarak kaydet
                 if let firstImageUrl = imageUrls.first {
                     postData["imageUrl"] = firstImageUrl
+                    postData["imageUrls"] = imageUrls // Tüm resim URL'lerini de kaydet
                 }
             }
             
-            try await db.collection("posts").document(post.id).setData(postData)
+            // Firebase'e kaydet
+            try await db.collection("posts").document(postId).setData(postData)
+            
+            print("✅ Gönderi başarıyla kaydedildi")
+            print("===================\n")
             
             // Başarılı gönderi sonrası temizlik
             clearPost()
             
         } catch let error as PostError {
+            print("\n❌ Gönderi oluşturma hatası: \(error.localizedDescription)")
             showError = true
             errorMessage = error.localizedDescription
         } catch {
+            print("\n❌ Beklenmeyen hata: \(error.localizedDescription)")
             showError = true
             errorMessage = PostError.uploadError(error.localizedDescription).localizedDescription
         }

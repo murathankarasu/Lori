@@ -1,66 +1,86 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
-import PhotosUI
+import FirebaseStorage
+import Kingfisher
 
+// MARK: - ProfileView
 struct ProfileView: View {
-    @Environment(\.dismiss) private var dismiss
-    @State private var user: User?
-    @State private var posts: [Post] = []
-    @State private var selectedImage: UIImage?
-    @State private var showImagePicker = false
-    @State private var isLoading = false
+    @StateObject private var viewModel = ProfileViewModel()
+    @State private var showEditProfile = false
     @State private var showFollowers = false
     @State private var showFollowing = false
-    @State private var isEditingProfile = false
-    @State private var bio = ""
-    @State private var username = ""
+    @State private var selectedPost: Post?
+    @State private var showPostDetail = false
     
     var body: some View {
-        ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
-            
-            ScrollView {
-                VStack(spacing: 20) {
-                    // Profil başlığı
-                    VStack(spacing: 15) {
-                        // Profil fotoğrafı
-                        Button(action: { showImagePicker = true }) {
-                            if let image = selectedImage {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 120, height: 120)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                            } else {
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 120, height: 120)
-                                    .foregroundColor(.white)
-                                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                            }
+        NavigationStack {
+            ZStack {
+                Color.black.ignoresSafeArea()
+                
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Profil Fotoğrafı
+                        if let imageUrl = viewModel.profileImageUrl {
+                            KFImage(URL(string: imageUrl))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 120, height: 120)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                        } else {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 120, height: 120)
+                                .foregroundColor(.gray)
                         }
                         
-                        // Kullanıcı bilgileri
-                        VStack(spacing: 5) {
-                            Text(username)
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .foregroundColor(.white)
-                            
-                            Text(bio)
-                                .font(.subheadline)
+                        // Kullanıcı Adı
+                        Text(viewModel.username)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        
+                        // Biyografi
+                        if !viewModel.bio.isEmpty {
+                            Text(viewModel.bio)
+                                .font(.body)
                                 .foregroundColor(.gray)
                                 .multilineTextAlignment(.center)
+                                .padding(.horizontal)
                         }
                         
-                        // Takipçi ve takip edilen sayıları
+                        // Profili Düzenle Butonu
+                        Button(action: { showEditProfile = true }) {
+                            Text("Profili Düzenle")
+                                .font(.system(size: 14, weight: .medium))
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 24)
+                                .padding(.vertical, 8)
+                                .background(Color(.systemGray6))
+                                .clipShape(Capsule())
+                        }
+                        
+                        // İstatistikler
                         HStack(spacing: 40) {
+                            // Gönderi Sayısı
+                            Button(action: {}) {
+                                VStack {
+                                    Text("\(viewModel.posts.count)")
+                                        .font(.title3)
+                                        .fontWeight(.bold)
+                                        .foregroundColor(.white)
+                                    Text("Gönderi")
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                            
+                            // Takipçi Sayısı
                             Button(action: { showFollowers = true }) {
                                 VStack {
-                                    Text("\(user?.followers ?? 0)")
+                                    Text("\(viewModel.followersCount)")
                                         .font(.title3)
                                         .fontWeight(.bold)
                                         .foregroundColor(.white)
@@ -70,150 +90,88 @@ struct ProfileView: View {
                                 }
                             }
                             
+                            // Takip Edilen Sayısı
                             Button(action: { showFollowing = true }) {
                                 VStack {
-                                    Text("\(user?.following ?? 0)")
+                                    Text("\(viewModel.followingCount)")
                                         .font(.title3)
                                         .fontWeight(.bold)
                                         .foregroundColor(.white)
-                                    Text("Takip Edilen")
+                                    Text("Takip")
                                         .font(.caption)
                                         .foregroundColor(.gray)
                                 }
                             }
                         }
+                        .padding(.vertical)
                         
-                        // Profil düzenleme butonu
-                        Button(action: { isEditingProfile = true }) {
-                            Text("Profili Düzenle")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(width: 200, height: 40)
-                                .background(Color.blue)
-                                .cornerRadius(20)
-                        }
-                    }
-                    .padding()
-                    
-                    // Gönderiler
-                    LazyVGrid(columns: [
-                        GridItem(.flexible()),
-                        GridItem(.flexible()),
-                        GridItem(.flexible())
-                    ], spacing: 1) {
-                        ForEach(posts) { post in
-                            if let imageUrl = post.imageUrl {
-                                AsyncImage(url: URL(string: imageUrl)) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFit()
-                                } placeholder: {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        // İlgi Alanları
+                        if !viewModel.interests.isEmpty {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 8) {
+                                    ForEach(viewModel.interests, id: \.self) { interest in
+                                        Text(interest)
+                                            .font(.system(size: 14))
+                                            .foregroundColor(.black)
+                                            .padding(.horizontal, 12)
+                                            .padding(.vertical, 6)
+                                            .background(Color.white)
+                                            .clipShape(Capsule())
+                                    }
                                 }
+                                .padding(.horizontal)
                             }
                         }
-                    }
-                }
-            }
-        }
-        .preferredColorScheme(.dark)
-        .sheet(isPresented: $showImagePicker) {
-            ImagePicker(image: $selectedImage)
-                .preferredColorScheme(.dark)
-        }
-        .sheet(isPresented: $showFollowers) {
-            FollowersView(userId: user?.id ?? "")
-                .preferredColorScheme(.dark)
-        }
-        .sheet(isPresented: $showFollowing) {
-            FollowingView(userId: user?.id ?? "")
-                .preferredColorScheme(.dark)
-        }
-        .sheet(isPresented: $isEditingProfile) {
-            EditProfileView(user: user, bio: $bio, username: $username, profileImage: $selectedImage)
-                .preferredColorScheme(.dark)
-        }
-        .onAppear {
-            loadUserData()
-        }
-    }
-    
-    private func loadUserData() {
-        guard let currentUser = Auth.auth().currentUser else { return }
-        let db = Firestore.firestore()
-        
-        db.collection("users").document(currentUser.uid).getDocument(completion: { document, error in
-            if let document = document,
-               let data = document.data() {
-                user = User(
-                    id: document.documentID,
-                    username: data["username"] as? String ?? "",
-                    email: data["email"] as? String ?? "",
-                    profileImageUrl: data["profileImageUrl"] as? String,
-                    bio: data["bio"] as? String,
-                    followers: (data["followers"] as? [String])?.count ?? 0,
-                    following: (data["following"] as? [String])?.count ?? 0,
-                    createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
-                    isVerified: data["isVerified"] as? Bool ?? false
-                )
-                
-                username = user?.username ?? ""
-                bio = user?.bio ?? ""
-                
-                if let imageUrl = user?.profileImageUrl {
-                    // Profil fotoğrafını yükle
-                    loadImage(from: imageUrl)
-                }
-                
-                // Kullanıcının gönderilerini yükle
-                loadUserPosts()
-            }
-        })
-    }
-    
-    private func loadImage(from urlString: String) {
-        guard let url = URL(string: urlString) else { return }
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data, let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    selectedImage = image
-                }
-            }
-        }.resume()
-    }
-    
-    private func loadUserPosts() {
-        guard let userId = user?.id else { return }
-        let db = Firestore.firestore()
-        
-        db.collection("posts")
-            .whereField("userId", isEqualTo: userId)
-            .order(by: "timestamp", descending: true)
-            .getDocuments { snapshot, error in
-                if let documents = snapshot?.documents {
-                    posts = documents.compactMap { document -> Post? in
-                        let data = document.data()
-                        return Post(
-                            id: document.documentID,
-                            userId: data["userId"] as? String ?? "",
-                            username: data["username"] as? String ?? "",
-                            content: data["content"] as? String ?? "",
-                            imageUrl: data["imageUrl"] as? String,
-                            timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date(),
-                            likes: data["likes"] as? Int ?? 0,
-                            comments: [],
-                            isViewed: false,
-                            tags: []
+                        
+                        // Gönderiler
+                        PostsGridView(
+                            isLoading: viewModel.isLoading,
+                            posts: viewModel.posts,
+                            selectedPost: $selectedPost,
+                            showPostDetail: $showPostDetail
                         )
                     }
+                    .padding(.top, 32)
                 }
             }
+            .navigationTitle("Profil")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden(true)
+            .sheet(isPresented: $showEditProfile) {
+                NavigationView {
+                    EditProfileView(
+                        username: $viewModel.username,
+                        bio: $viewModel.bio,
+                        interests: $viewModel.interests,
+                        profileImageUrl: $viewModel.profileImageUrl
+                    )
+                }
+            }
+            .sheet(isPresented: $showFollowers) {
+                NavigationView {
+                    FollowersView(userId: viewModel.userId)
+                }
+            }
+            .sheet(isPresented: $showFollowing) {
+                NavigationView {
+                    FollowingView(userId: viewModel.userId)
+                }
+            }
+            .sheet(isPresented: $showPostDetail) {
+                if let post = selectedPost {
+                    NavigationView {
+                        PostDetailView(post: post)
+                    }
+                }
+            }
+        }
+        .task {
+            await viewModel.fetchUserProfile()
+            await viewModel.fetchUserPosts()
+        }
     }
 }
 
-struct ProfileView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileView()
-    }
+#Preview {
+    ProfileView()
 } 

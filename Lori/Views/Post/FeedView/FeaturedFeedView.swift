@@ -76,31 +76,73 @@ struct FeaturedFeedView: View {
         let userId = Auth.auth().currentUser?.uid ?? ""
         isLoading = true
         
-        // Önce kullanıcının ilgi alanlarını al
-        db.collection("users").document(userId).getDocument { snapshot, error in
-            if let error = error {
-                print("Kullanıcı bilgileri yüklenirken hata oluştu: \(error.localizedDescription)")
-                isLoading = false
-                errorMessage = "Kullanıcı bilgileri yüklenemedi: \(error.localizedDescription)"
-                showError = true
+        print("\n=== Featured Feed Yükleniyor ===")
+        print("Kullanıcı ID: \(userId)")
+        
+        // Önce posts koleksiyonunda veri var mı kontrol et
+        db.collection("posts").limit(to: 1).getDocuments { (checkSnapshot, checkError) in
+            if let error = checkError {
+                print("❌ Kontrol hatası: \(error.localizedDescription)")
                 return
             }
             
-            let userInterests = snapshot?.data()?["interests"] as? [String] ?? []
+            if let count = checkSnapshot?.documents.count, count == 0 {
+                print("❌ Posts koleksiyonu boş!")
+                isLoading = false
+                return
+            }
             
-            // İlgi alanları boşsa veya yoksa tüm gönderileri yükle
-            if userInterests.isEmpty {
-                db.collection("posts")
-                    .order(by: "timestamp", descending: true)
-                    .limit(to: 20)
-                    .getDocuments(completion: handlePostsSnapshot)
-            } else {
-                // İlgi alanlarına göre gönderileri yükle
-                db.collection("posts")
-                    .whereField("tags", arrayContainsAny: userInterests)
-                    .order(by: "timestamp", descending: true)
-                    .limit(to: 20)
-                    .getDocuments(completion: handlePostsSnapshot)
+            print("✅ Posts koleksiyonunda veri var")
+            
+            // Kullanıcı bilgilerini al
+            db.collection("users").document(userId).getDocument { snapshot, error in
+                if let error = error {
+                    print("❌ Kullanıcı bilgileri yüklenirken hata: \(error.localizedDescription)")
+                    isLoading = false
+                    errorMessage = "Kullanıcı bilgileri yüklenemedi: \(error.localizedDescription)"
+                    showError = true
+                    return
+                }
+                
+                let userData = snapshot?.data()
+                print("Kullanıcı verileri: \(String(describing: userData))")
+                
+                let userInterests = userData?["interests"] as? [String] ?? []
+                print("Kullanıcı ilgi alanları: \(userInterests)")
+                
+                // İlgi alanları boşsa veya yoksa tüm gönderileri yükle
+                if userInterests.isEmpty {
+                    print("📝 İlgi alanları boş, tüm gönderiler yükleniyor...")
+                    db.collection("posts")
+                        .order(by: "timestamp", descending: true)
+                        .limit(to: 4) // Limit 4'e indirildi
+                        .getDocuments { snapshot, error in
+                            if let error = error {
+                                print("❌ Gönderi yükleme hatası: \(error.localizedDescription)")
+                            }
+                            if let count = snapshot?.documents.count {
+                                print("✅ \(count) gönderi bulundu")
+                            }
+                            handlePostsSnapshot(snapshot: snapshot, error: error)
+                        }
+                } else {
+                    print("📝 İlgi alanlarına göre gönderiler yükleniyor...")
+                    // İlgi alanlarına göre sorgu yap
+                    let query = db.collection("posts")
+                        .whereField("tags", arrayContainsAny: userInterests)
+                        .order(by: "timestamp", descending: true)
+                        .limit(to: 4) // Limit 4'e indirildi
+                    
+                    query.getDocuments { snapshot, error in
+                        if let error = error {
+                            print("❌ İlgi alanlarına göre yükleme hatası: \(error.localizedDescription)")
+                        }
+                        if let count = snapshot?.documents.count {
+                            print("✅ \(count) gönderi bulundu")
+                        }
+                        handlePostsSnapshot(snapshot: snapshot, error: error)
+                    }
+                }
             }
         }
     }
@@ -110,18 +152,28 @@ struct FeaturedFeedView: View {
             isLoading = false
             
             if let error = error {
+                print("❌ Gönderiler yüklenirken hata: \(error.localizedDescription)")
                 errorMessage = "Gönderiler yüklenirken bir hata oluştu: \(error.localizedDescription)"
                 showError = true
                 return
             }
             
             guard let documents = snapshot?.documents else {
+                print("❌ Gönderi bulunamadı")
                 posts = []
                 return
             }
             
+            print("📝 \(documents.count) gönderi işleniyor...")
+            
             posts = documents.compactMap { document -> Post? in
                 let data = document.data()
+                print("Gönderi verisi:")
+                print("- ID: \(document.documentID)")
+                print("- Kullanıcı: \(data["username"] as? String ?? "Bilinmiyor")")
+                print("- İçerik: \(data["content"] as? String ?? "")")
+                print("- Etiketler: \(data["tags"] as? [String] ?? [])")
+                
                 return Post(
                     id: document.documentID,
                     userId: data["userId"] as? String ?? "",
@@ -144,6 +196,9 @@ struct FeaturedFeedView: View {
                     tags: data["tags"] as? [String] ?? []
                 )
             }
+            
+            print("✅ \(posts.count) gönderi başarıyla yüklendi")
+            print("===================\n")
         }
     }
 } 
