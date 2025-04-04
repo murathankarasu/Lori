@@ -7,10 +7,9 @@ struct PostsGridView: View {
     @Binding var selectedPost: Post?
     @Binding var showPostDetail: Bool
     
-    private let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
+    private var limitedPosts: [Post] {
+        Array(posts.prefix(2))
+    }
     
     var body: some View {
         Group {
@@ -34,16 +33,18 @@ struct PostsGridView: View {
                 }
                 .frame(maxWidth: .infinity, minHeight: 200)
             } else {
-                LazyVGrid(columns: columns, spacing: 2) {
-                    ForEach(posts) { post in
-                        ProfileGridItem(post: post)
-                            .onTapGesture {
-                                selectedPost = post
-                                showPostDetail = true
-                            }
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        ForEach(limitedPosts) { post in
+                            PostCard(post: post)
+                                .onTapGesture {
+                                    selectedPost = post
+                                    showPostDetail = true
+                                }
+                        }
                     }
+                    .padding(.vertical)
                 }
-                .padding(.horizontal, 2)
             }
         }
     }
@@ -69,5 +70,26 @@ struct ProfileGridItem: View {
         }
         .frame(height: UIScreen.main.bounds.width / 2)
         .clipped()
+        .cornerRadius(12)
+    }
+}
+
+struct ProfileActionButton: View {
+    let title: String
+    let systemImage: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            VStack(spacing: 8) {
+                Image(systemName: systemImage)
+                    .font(.system(size: 24))
+                    .foregroundColor(.white)
+                
+                Text(title)
+                    .font(.caption)
+                    .foregroundColor(.white)
+            }
+        }
     }
 } 

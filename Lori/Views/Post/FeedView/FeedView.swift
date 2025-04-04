@@ -9,37 +9,69 @@ struct FeedView: View {
     @State private var showPostDetail = false
     @State private var selectedPost: Post?
     
+    init(isLoggedIn: Binding<Bool>) {
+        self._isLoggedIn = isLoggedIn
+        
+        // TabBar'ın görünümünü özelleştirme
+        let appearance = UITabBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .black
+        
+        // Normal durum için renkleri ayarla
+        appearance.stackedLayoutAppearance.normal.iconColor = .gray
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.gray]
+        
+        // Seçili durum için renkleri ayarla
+        appearance.stackedLayoutAppearance.selected.iconColor = .white
+        appearance.stackedLayoutAppearance.selected.titleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        // Scroll edildiğinde de aynı görünümü koru
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
+    }
+    
     var body: some View {
-        TabView(selection: $selectedTab) {
-            FeaturedFeedView(selectedPost: $selectedPost, showPostDetail: $showPostDetail)
-                .tabItem {
-                    Image(systemName: "star.fill")
-                    Text("Öne Çıkanlar")
-                }
-                .tag(0)
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
             
-            FollowingFeedView(selectedPost: $selectedPost, showPostDetail: $showPostDetail)
-                .tabItem {
-                    Image(systemName: "person.2.fill")
-                    Text("Takip")
-                }
-                .tag(1)
-            
-            ProfileView()
-                .tabItem {
-                    Image(systemName: "person.fill")
-                    Text("Profil")
-                }
-                .tag(2)
-            
-            SettingsView(isLoggedIn: $isLoggedIn)
-                .tabItem {
-                    Image(systemName: "gear")
-                    Text("Ayarlar")
-                }
-                .tag(3)
+            TabView(selection: $selectedTab) {
+                FeaturedFeedView(selectedPost: $selectedPost, showPostDetail: $showPostDetail)
+                    .tabItem {
+                        Image(systemName: selectedTab == 0 ? "house.fill" : "house")
+                        Text("Öne Çıkanlar")
+                    }
+                    .tag(0)
+                
+                FollowingFeedView(selectedPost: $selectedPost, showPostDetail: $showPostDetail)
+                    .tabItem {
+                        Image(systemName: selectedTab == 1 ? "person.2.fill" : "person.2")
+                        Text("Takip")
+                    }
+                    .tag(1)
+                
+                ProfileView()
+                    .tabItem {
+                        Image(systemName: selectedTab == 2 ? "person.fill" : "person")
+                        Text("Profil")
+                    }
+                    .tag(2)
+                
+                GaladrielView()
+                    .tabItem {
+                        Image(systemName: selectedTab == 3 ? "wand.and.stars.inverse" : "wand.and.stars")
+                        Text("Galadriel")
+                    }
+                    .tag(3)
+                
+                SettingsView(isLoggedIn: $isLoggedIn)
+                    .tabItem {
+                        Image(systemName: selectedTab == 4 ? "gearshape.fill" : "gearshape")
+                        Text("Ayarlar")
+                    }
+                    .tag(4)
+            }
+            .accentColor(.white)
         }
-        .tint(.white)
         .sheet(isPresented: $showCreatePost) {
             CreatePostView()
         }

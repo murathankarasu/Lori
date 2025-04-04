@@ -11,6 +11,10 @@ struct FeaturedFeedView: View {
     @State private var errorMessage = ""
     @State private var showCreatePost = false
     
+    // Listener'ları tutmak için
+    @State private var postsListener: ListenerRegistration?
+    @State private var userListener: ListenerRegistration?
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -68,141 +72,113 @@ struct FeaturedFeedView: View {
             .onAppear {
                 loadPosts()
             }
+            .onDisappear {
+                // View kapandığında listener'ları temizle
+                postsListener?.remove()
+                userListener?.remove()
+            }
         }
     }
     
     private func loadPosts() {
         let db = Firestore.firestore()
-        let userId = Auth.auth().currentUser?.uid ?? ""
-        isLoading = true
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         
-        print("\n=== Featured Feed Yükleniyor ===")
-        print("Kullanıcı ID: \(userId)")
+        // Önceki listener'ları temizle
+        postsListener?.remove()
+        userListener?.remove()
         
-        // Önce posts koleksiyonunda veri var mı kontrol et
-        db.collection("posts").limit(to: 1).getDocuments { (checkSnapshot, checkError) in
-            if let error = checkError {
-                print("❌ Kontrol hatası: \(error.localizedDescription)")
-                return
-            }
-            
-            if let count = checkSnapshot?.documents.count, count == 0 {
-                print("❌ Posts koleksiyonu boş!")
-                isLoading = false
-                return
-            }
-            
-            print("✅ Posts koleksiyonunda veri var")
-            
-            // Kullanıcı bilgilerini al
-            db.collection("users").document(userId).getDocument { snapshot, error in
+        // Kullanıcı bilgilerini dinle
+        userListener = db.collection("users").document(userId)
+            .addSnapshotListener { snapshot, error in
                 if let error = error {
-                    print("❌ Kullanıcı bilgileri yüklenirken hata: \(error.localizedDescription)")
-                    isLoading = false
                     errorMessage = "Kullanıcı bilgileri yüklenemedi: \(error.localizedDescription)"
                     showError = true
+                    isLoading = false
                     return
                 }
                 
-                let userData = snapshot?.data()
-                print("Kullanıcı verileri: \(String(describing: userData))")
-                
-                let userInterests = userData?["interests"] as? [String] ?? []
-                print("Kullanıcı ilgi alanları: \(userInterests)")
+                let userInterests = snapshot?.data()?["interests"] as? [String] ?? []
                 
                 // İlgi alanları boşsa veya yoksa tüm gönderileri yükle
                 if userInterests.isEmpty {
-                    print("📝 İlgi alanları boş, tüm gönderiler yükleniyor...")
-                    db.collection("posts")
-                        .order(by: "timestamp", descending: true)
-                        .limit(to: 4) // Limit 4'e indirildi
-                        .getDocuments { snapshot, error in
-                            if let error = error {
-                                print("❌ Gönderi yükleme hatası: \(error.localizedDescription)")
-                            }
-                            if let count = snapshot?.documents.count {
-                                print("✅ \(count) gönderi bulundu")
-                            }
-                            handlePostsSnapshot(snapshot: snapshot, error: error)
-                        }
+                    loadAllPosts()
                 } else {
-                    print("📝 İlgi alanlarına göre gönderiler yükleniyor...")
-                    // İlgi alanlarına göre sorgu yap
-                    let query = db.collection("posts")
-                        .whereField("interests", arrayContainsAny: userInterests)
-                        .order(by: "timestamp", descending: true)
-                        .limit(to: 4) // Limit 4'e indirildi
-                    
-                    query.getDocuments { snapshot, error in
-                        if let error = error {
-                            print("❌ İlgi alanlarına göre yükleme hatası: \(error.localizedDescription)")
-                        }
-                        if let count = snapshot?.documents.count {
-                            print("✅ \(count) gönderi bulundu")
-                        }
-                        handlePostsSnapshot(snapshot: snapshot, error: error)
-                    }
+                    loadPostsByInterests(interests: userInterests)
                 }
             }
-        }
+    }
+    
+    private func loadAllPosts() {
+        let db = Firestore.firestore()
+        
+        postsListener = db.collection("posts")
+            .order(by: "timestamp", descending: true)
+            .limit(to: 20)
+            .addSnapshotListener { snapshot, error in
+                handlePostsSnapshot(snapshot: snapshot, error: error)
+            }
+    }
+    
+    private func loadPostsByInterests(interests: [String]) {
+        let db = Firestore.firestore()
+        
+        postsListener = db.collection("posts")
+            .whereField("interests", arrayContainsAny: interests)
+            .order(by: "timestamp", descending: true)
+            .limit(to: 20)
+            .addSnapshotListener { snapshot, error in
+                handlePostsSnapshot(snapshot: snapshot, error: error)
+            }
     }
     
     private func handlePostsSnapshot(snapshot: QuerySnapshot?, error: Error?) {
-        DispatchQueue.main.async {
-            isLoading = false
-            
-            if let error = error {
-                print("❌ Gönderiler yüklenirken hata: \(error.localizedDescription)")
-                errorMessage = "Gönderiler yüklenirken bir hata oluştu: \(error.localizedDescription)"
-                showError = true
-                return
-            }
-            
-            guard let documents = snapshot?.documents else {
-                print("❌ Gönderi bulunamadı")
-                posts = []
-                return
-            }
-            
-            print("📝 \(documents.count) gönderi işleniyor...")
-            
-            posts = documents.compactMap { document -> Post? in
-                let data = document.data()
-                print("Gönderi verisi:")
-                print("- ID: \(document.documentID)")
-                print("- Kullanıcı: \(data["username"] as? String ?? "Bilinmiyor")")
-                print("- İçerik: \(data["content"] as? String ?? "")")
-                print("- Etiketler: \(data["tags"] as? [String] ?? [])")
-                print("- İlgi Alanları: \(data["interests"] as? [String] ?? [])")
-                
-                return Post(
-                    id: document.documentID,
-                    userId: data["userId"] as? String ?? "",
-                    username: data["username"] as? String ?? "",
-                    content: data["content"] as? String ?? "",
-                    imageUrl: data["imageUrl"] as? String,
-                    timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date(),
-                    likes: data["likes"] as? Int ?? 0,
-                    comments: (data["comments"] as? [[String: Any]])?.compactMap { commentData in
-                        guard let id = commentData["id"] as? String,
-                              let userId = commentData["userId"] as? String,
-                              let username = commentData["username"] as? String,
-                              let content = commentData["content"] as? String,
-                              let timestamp = (commentData["timestamp"] as? Timestamp)?.dateValue() else {
-                            return nil
-                        }
-                        return Comment(id: id, userId: userId, username: username, content: content, timestamp: timestamp)
-                    } ?? [],
-                    isViewed: data["isViewed"] as? Bool ?? false,
-                    tags: data["tags"] as? [String] ?? [],
-                    category: data["category"] as? String ?? "featured",
-                    mentions: data["mentions"] as? [String] ?? [],
-                    interests: data["interests"] as? [String] ?? []
-                )
-            }
-            
-            print("✅ \(posts.count) gönderi başarıyla yüklendi")
-            print("===================\n")
+        isLoading = false
+        
+        if let error = error {
+            errorMessage = "Gönderiler yüklenemedi: \(error.localizedDescription)"
+            showError = true
+            return
+        }
+        
+        guard let documents = snapshot?.documents else {
+            posts = []
+            return
+        }
+        
+        posts = documents.compactMap { document -> Post? in
+            let data = document.data()
+            return Post(
+                id: document.documentID,
+                userId: data["userId"] as? String ?? "",
+                username: data["username"] as? String ?? "",
+                content: data["content"] as? String ?? "",
+                imageUrl: data["imageUrl"] as? String,
+                timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date(),
+                likes: data["likes"] as? Int ?? 0,
+                comments: (data["comments"] as? [[String: Any]])?.compactMap { commentData in
+                    guard let id = commentData["id"] as? String,
+                          let userId = commentData["userId"] as? String,
+                          let username = commentData["username"] as? String,
+                          let content = commentData["content"] as? String,
+                          let timestamp = (commentData["timestamp"] as? Timestamp)?.dateValue() else {
+                        return nil
+                    }
+                    return Comment(
+                        id: id,
+                        postId: document.documentID,
+                        userId: userId,
+                        username: username,
+                        content: content,
+                        timestamp: timestamp
+                    )
+                } ?? [],
+                isViewed: data["isViewed"] as? Bool ?? false,
+                tags: data["tags"] as? [String] ?? [],
+                category: data["category"] as? String ?? "featured",
+                mentions: data["mentions"] as? [String] ?? [],
+                interests: data["interests"] as? [String] ?? []
+            )
         }
     }
 } 

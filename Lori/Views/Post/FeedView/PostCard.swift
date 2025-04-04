@@ -93,7 +93,8 @@ struct PostCard: View {
         .background(Color(.systemGray6))
         .cornerRadius(12)
         .padding(.horizontal)
-        .sheet(isPresented: $showComments) {
+        .buttonStyle(PlainButtonStyle())
+        .fullScreenCover(isPresented: $showComments) {
             PostDetailView(post: post)
         }
     }
