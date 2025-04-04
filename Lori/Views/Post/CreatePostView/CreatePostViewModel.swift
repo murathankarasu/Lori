@@ -114,6 +114,9 @@ class CreatePostViewModel: ObservableObject {
                 throw PostError.authError("Kullanıcı bilgileri alınamadı")
             }
             
+            // Kullanıcının ilgi alanlarını al
+            let userInterests = (userData["interests"] as? [String]) ?? []
+            
             // İçerik kontrolü
             let trimmedContent = postContent.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !trimmedContent.isEmpty else {
@@ -153,7 +156,8 @@ class CreatePostViewModel: ObservableObject {
                 "timestamp": Timestamp(date: Date()),
                 "likes": 0,
                 "comments": [],
-                "tags": tags
+                "tags": tags,
+                "interests": userInterests
             ]
             
             print("\n=== Gönderi Oluşturma ===")

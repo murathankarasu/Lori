@@ -14,6 +14,7 @@ struct Post: Identifiable, Codable {
     var tags: [String]
     var category: String // "featured" veya "following"
     var mentions: [String] // @kullanıcıadı şeklinde etiketlenen kullanıcılar
+    var interests: [String] // Kullanıcının ilgi alanları
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -28,6 +29,7 @@ struct Post: Identifiable, Codable {
         case tags
         case category
         case mentions
+        case interests
     }
     
     init(from decoder: Decoder) throws {
@@ -44,6 +46,7 @@ struct Post: Identifiable, Codable {
         tags = try container.decode([String].self, forKey: .tags)
         category = try container.decode(String.self, forKey: .category)
         mentions = try container.decode([String].self, forKey: .mentions)
+        interests = try container.decode([String].self, forKey: .interests)
     }
     
     func encode(to encoder: Encoder) throws {
@@ -60,9 +63,10 @@ struct Post: Identifiable, Codable {
         try container.encode(tags, forKey: .tags)
         try container.encode(category, forKey: .category)
         try container.encode(mentions, forKey: .mentions)
+        try container.encode(interests, forKey: .interests)
     }
     
-    init(id: String, userId: String, username: String, content: String, imageUrl: String?, timestamp: Date, likes: Int, comments: [Comment], isViewed: Bool, tags: [String], category: String = "featured", mentions: [String] = []) {
+    init(id: String, userId: String, username: String, content: String, imageUrl: String?, timestamp: Date, likes: Int, comments: [Comment], isViewed: Bool, tags: [String], category: String = "featured", mentions: [String] = [], interests: [String] = []) {
         self.id = id
         self.userId = userId
         self.username = username
@@ -75,5 +79,6 @@ struct Post: Identifiable, Codable {
         self.tags = tags
         self.category = category
         self.mentions = mentions
+        self.interests = interests
     }
 } 

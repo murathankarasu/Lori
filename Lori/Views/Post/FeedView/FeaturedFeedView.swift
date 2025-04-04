@@ -129,7 +129,7 @@ struct FeaturedFeedView: View {
                     print("📝 İlgi alanlarına göre gönderiler yükleniyor...")
                     // İlgi alanlarına göre sorgu yap
                     let query = db.collection("posts")
-                        .whereField("tags", arrayContainsAny: userInterests)
+                        .whereField("interests", arrayContainsAny: userInterests)
                         .order(by: "timestamp", descending: true)
                         .limit(to: 4) // Limit 4'e indirildi
                     
@@ -173,6 +173,7 @@ struct FeaturedFeedView: View {
                 print("- Kullanıcı: \(data["username"] as? String ?? "Bilinmiyor")")
                 print("- İçerik: \(data["content"] as? String ?? "")")
                 print("- Etiketler: \(data["tags"] as? [String] ?? [])")
+                print("- İlgi Alanları: \(data["interests"] as? [String] ?? [])")
                 
                 return Post(
                     id: document.documentID,
@@ -193,7 +194,10 @@ struct FeaturedFeedView: View {
                         return Comment(id: id, userId: userId, username: username, content: content, timestamp: timestamp)
                     } ?? [],
                     isViewed: data["isViewed"] as? Bool ?? false,
-                    tags: data["tags"] as? [String] ?? []
+                    tags: data["tags"] as? [String] ?? [],
+                    category: data["category"] as? String ?? "featured",
+                    mentions: data["mentions"] as? [String] ?? [],
+                    interests: data["interests"] as? [String] ?? []
                 )
             }
             

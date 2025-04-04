@@ -32,6 +32,13 @@ class FirestoreIndexes {
                 "indexed": true
             ])
             
+            // İlgi alanları ve timestamp bileşik indeksi
+            try await db.collection("posts").document().setData([
+                "interests": [],
+                "timestamp": FieldValue.serverTimestamp(),
+                "indexed": true
+            ])
+            
             // Yeni indeksler
             try await db.collection("posts").document().setData([
                 "userId": "",
