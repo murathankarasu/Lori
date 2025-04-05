@@ -5,7 +5,7 @@ class GaladrielViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var debugLogs: [String] = []
     
-    private let apiKey = "api-key"
+    private let apiKey = "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"
     private let apiEndpoint = "https://openrouter.ai/api/v1/chat/completions"
     
     private func addLog(_ message: String) {
@@ -16,23 +16,23 @@ class GaladrielViewModel: ObservableObject {
     }
     
     func sendMessage(_ content: String) async {
-        addLog("🟢 Mesaj gönderiliyor: \(content)")
+        addLog("🟢 Sending message: \(content)")
         
         do {
-            // Önceki mesajları birleştir
+            // Get previous messages
             let previousMessages = messages.suffix(5)
-            var conversationContext = "Önceki mesajlar:\n"
+            var conversationContext = "Previous messages:\n"
             for msg in previousMessages {
-                conversationContext += "\(msg.isUser ? "Kullanıcı" : "Asistan"): \(msg.content)\n"
+                conversationContext += "\(msg.isUser ? "User" : "Assistant"): \(msg.content)\n"
             }
             
-            // OpenAI API için istek formatı
+            // OpenAI API request format
             let parameters: [String: Any] = [
                 "model": "deepseek/deepseek-v3-base:free",
                 "messages": [
                     [
                         "role": "system",
-                        "content": "Sen Galadriel adında bir AI asistansın. Türkçe konuşuyorsun ve kullanıcılara yardımcı oluyorsun. Her zaman Türkçe yanıt vermelisin."
+                        "content": "You are Galadriel, an AI assistant. You must always respond in English. Do not repeat yourself and keep your responses concise and clear."
                     ]
                 ] + previousMessages.map { message in
                     [
@@ -54,11 +54,11 @@ class GaladrielViewModel: ObservableObject {
                 "route": "fallback"
             ]
             
-            addLog("📤 API isteği hazırlanıyor")
+            addLog("📤 Preparing API request")
             addLog("Endpoint: \(apiEndpoint)")
             
             guard let url = URL(string: apiEndpoint) else {
-                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Geçersiz URL"])
+                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
             }
             
             var request = URLRequest(url: url)
@@ -67,29 +67,30 @@ class GaladrielViewModel: ObservableObject {
             request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
             request.setValue("https://lori.app", forHTTPHeaderField: "HTTP-Referer")
             request.setValue("Lori", forHTTPHeaderField: "X-Title")
+            request.setValue("OpenRouter/v1", forHTTPHeaderField: "HTTP-Referer")
             request.timeoutInterval = 30
             
             let jsonData = try JSONSerialization.data(withJSONObject: parameters)
             request.httpBody = jsonData
             
-            addLog("📡 API isteği gönderiliyor")
+            addLog("📡 Sending API request")
             addLog("Request body: \(String(data: jsonData, encoding: .utf8) ?? "")")
             
             let (data, response) = try await URLSession.shared.data(for: request)
             
             if let httpResponse = response as? HTTPURLResponse {
-                addLog("📥 API yanıtı alındı - Status: \(httpResponse.statusCode)")
+                addLog("📥 API response received - Status: \(httpResponse.statusCode)")
                 
                 guard (200...299).contains(httpResponse.statusCode) else {
-                    let responseString = String(data: data, encoding: .utf8) ?? "Yanıt decode edilemedi"
-                    addLog("❌ HTTP Hata \(httpResponse.statusCode): \(responseString)")
+                    let responseString = String(data: data, encoding: .utf8) ?? "Response could not be decoded"
+                    addLog("❌ HTTP Error \(httpResponse.statusCode): \(responseString)")
                     throw NSError(domain: "", code: httpResponse.statusCode, 
-                                userInfo: [NSLocalizedDescriptionKey: "HTTP Hata \(httpResponse.statusCode): \(responseString)"])
+                                userInfo: [NSLocalizedDescriptionKey: "HTTP Error \(httpResponse.statusCode): \(responseString)"])
                 }
             }
             
-            let responseString = String(data: data, encoding: .utf8) ?? "Yanıt decode edilemedi"
-            addLog("API Yanıtı: \(responseString)")
+            let responseString = String(data: data, encoding: .utf8) ?? "Response could not be decoded"
+            addLog("API Response: \(responseString)")
             
             if let jsonResponse = try JSONSerialization.jsonObject(with: data) as? [String: Any],
                let choices = jsonResponse["choices"] as? [[String: Any]],
@@ -97,18 +98,18 @@ class GaladrielViewModel: ObservableObject {
                let message = firstChoice["message"] as? [String: Any],
                let text = message["content"] as? String {
                 
-                addLog("✅ AI yanıtı başarıyla alındı")
+                addLog("✅ AI response received successfully")
                 let aiMessage = Message(id: UUID().uuidString, content: text, isUser: false)
                 messages.append(aiMessage)
             } else {
-                addLog("❌ API yanıtı beklenen formatta değil")
-                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "API yanıtı işlenemedi"])
+                addLog("❌ API response is not in expected format")
+                throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "API response could not be processed"])
             }
         } catch {
-            addLog("❌ Hata oluştu: \(error.localizedDescription)")
+            addLog("❌ Error occurred: \(error.localizedDescription)")
             let errorMessage = Message(
                 id: UUID().uuidString,
-                content: "Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin.\nHata detayı: \(error.localizedDescription)",
+                content: "Sorry, an error occurred. Please try again.\nError details: \(error.localizedDescription)",
                 isUser: false
             )
             messages.append(errorMessage)
@@ -116,13 +117,13 @@ class GaladrielViewModel: ObservableObject {
     }
     
     init() {
-        addLog("🟢 Galadriel başlatılıyor")
+        addLog("🟢 Initializing Galadriel")
         let welcomeMessage = Message(
             id: UUID().uuidString,
-            content: "Merhaba! Ben Galadriel, size nasıl yardımcı olabilirim?",
+            content: "Hello! I'm Galadriel, how can I help you today?",
             isUser: false
         )
         messages.append(welcomeMessage)
-        addLog("✅ Hoş geldin mesajı eklendi")
+        addLog("✅ Welcome message added")
     }
 } 

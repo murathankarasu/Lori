@@ -79,6 +79,13 @@ class CreatePostViewModel: ObservableObject {
         let trimmedContent = postContent.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedContent.isEmpty else { return (false, "", 0.0) }
         
+        // Önce CSV tabanlı kontrol
+        let localCheck = HateSpeechService.shared.checkLocalHateSpeech(trimmedContent)
+        if localCheck.containsHateSpeech {
+            return (true, localCheck.category ?? "Nefret Söylemi", 1.0)
+        }
+        
+        // CSV kontrolü başarısız olursa API kontrolü
         do {
             let response = try await HateSpeechService.shared.checkHateSpeech(text: trimmedContent)
             

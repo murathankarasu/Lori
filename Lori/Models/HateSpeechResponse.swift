@@ -159,4 +159,4 @@ enum WarningLevel: String {
             return "İçerik yüksek risk taşıyor, paylaşılması önerilmez."
         }
     }
-} 
+}

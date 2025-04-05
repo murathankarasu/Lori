@@ -75,7 +75,7 @@ struct FeedView: View {
         .sheet(isPresented: $showCreatePost) {
             CreatePostView()
         }
-        .sheet(isPresented: $showPostDetail) {
+        .fullScreenCover(isPresented: $showPostDetail) {
             if let post = selectedPost {
                 PostDetailView(post: post)
             }
