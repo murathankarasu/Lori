@@ -1,0 +1,695 @@
+[2025-04-08 15:05:45,560] INFO: Model başarıyla yüklendi
+[2025-04-08 15:05:45,646] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://172.20.10.3:8000
+[2025-04-08 15:05:45,646] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-08 15:05:45,647] INFO:  * Restarting with stat
+[2025-04-08 15:05:50,145] INFO: Model başarıyla yüklendi
+[2025-04-08 15:05:50,165] WARNING:  * Debugger is active!
+[2025-04-08 15:05:50,206] INFO:  * Debugger PIN: 557-011-667
+[2025-04-09 14:16:25,228] ERROR: Model yüklenirken hata oluştu: Incorrect path_or_model_id: '../models'. Please provide either the path to a local folder or the repo_id of a model on the Hub.
+[2025-04-09 16:27:56,794] ERROR: Model yüklenirken hata oluştu: Incorrect path_or_model_id: '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/models'. Please provide either the path to a local folder or the repo_id of a model on the Hub.
+[2025-04-09 16:28:45,880] ERROR: Model yüklenirken hata oluştu: Incorrect path_or_model_id: '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/models'. Please provide either the path to a local folder or the repo_id of a model on the Hub.
+[2025-04-09 16:35:45,238] ERROR: Model yüklenirken hata oluştu: model is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+[2025-04-09 16:36:49,028] ERROR: Model yüklenirken hata oluştu: model is not a local folder and is not a valid model identifier listed on 'https://huggingface.co/models'
+If this is a private repository, make sure to pass a token having permission to this repo either by logging in with `huggingface-cli login` or by passing `token=<your_token>`
+2025-04-09 16:38:32,756 - model_handler - INFO - Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+2025-04-09 16:38:32,860 - model_handler - INFO - Model başarıyla yüklendi
+2025-04-09 16:38:32,860 - __main__ - INFO - Model başarıyla yüklendi
+2025-04-09 16:38:32,897 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.139:8000
+2025-04-09 16:38:32,897 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-09 16:38:36,561 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:38:36] "[33mGET / HTTP/1.1[0m" 404 -
+2025-04-09 16:38:40,445 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:38:40] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 400 -
+2025-04-09 16:38:51,325 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:38:51] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+2025-04-09 16:38:51,333 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:38:51] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+2025-04-09 16:38:51,335 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:38:51] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+2025-04-09 16:39:12,336 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:39:12] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+2025-04-09 16:39:12,339 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:39:12] "[33mGET /api/check-hate-speech/categories HTTP/1.1[0m" 404 -
+2025-04-09 16:39:14,582 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:39:14] "[33mPOST /api/check-hate-speech/check-hate-speech HTTP/1.1[0m" 404 -
+2025-04-09 16:42:37,532 - model_handler - INFO - Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+2025-04-09 16:42:37,643 - model_handler - INFO - Model başarıyla yüklendi
+2025-04-09 16:42:37,643 - __main__ - INFO - Model başarıyla yüklendi
+2025-04-09 16:42:37,677 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.139:8000
+2025-04-09 16:42:37,677 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-04-09 16:42:41,886 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:42:41] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+2025-04-09 16:42:41,888 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:42:41] "[33mGET /api/check-hate-speech/categories HTTP/1.1[0m" 404 -
+2025-04-09 16:42:51,666 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:42:51] "[33mPOST /api/check-hate-speech/check-hate-speech HTTP/1.1[0m" 404 -
+2025-04-09 16:43:05,889 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:43:05] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+2025-04-09 16:43:05,890 - werkzeug - INFO - 192.168.1.139 - - [09/Apr/2025 16:43:05] "[33mGET /api/check-hate-speech/categories HTTP/1.1[0m" 404 -
+2025-04-09 16:44:54,963 - model_handler - INFO - Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+2025-04-09 16:44:55,069 - model_handler - INFO - Model başarıyla yüklendi
+2025-04-09 16:44:55,069 - __main__ - INFO - Model başarıyla yüklendi
+2025-04-09 16:44:55,096 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.139:8000
+2025-04-09 16:44:55,096 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+[2025-04-09 16:48:28,101] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:48:28,207] INFO: Model başarıyla yüklendi
+[2025-04-09 16:48:28,207] INFO: Model başarıyla yüklendi
+[2025-04-09 16:48:28,296] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.139:8000
+[2025-04-09 16:48:28,296] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-09 16:48:28,297] INFO:  * Restarting with stat
+[2025-04-09 16:48:30,782] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:48:30,854] INFO: Model başarıyla yüklendi
+[2025-04-09 16:48:30,854] INFO: Model başarıyla yüklendi
+[2025-04-09 16:48:30,872] WARNING:  * Debugger is active!
+[2025-04-09 16:48:30,882] INFO:  * Debugger PIN: 557-011-667
+[2025-04-09 16:48:36,627] INFO: 192.168.1.139 - - [09/Apr/2025 16:48:36] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-04-09 16:48:36,629] INFO: 192.168.1.139 - - [09/Apr/2025 16:48:36] "[33mGET /api/check-hate-speech/categories HTTP/1.1[0m" 404 -
+[2025-04-09 16:50:16,834] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:50:16,936] INFO: Model başarıyla yüklendi
+[2025-04-09 16:50:16,936] INFO: Model başarıyla yüklendi
+[2025-04-09 16:50:17,003] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.139:8000
+[2025-04-09 16:50:17,003] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-09 16:50:17,003] INFO:  * Restarting with stat
+[2025-04-09 16:50:19,518] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:50:19,593] INFO: Model başarıyla yüklendi
+[2025-04-09 16:50:19,593] INFO: Model başarıyla yüklendi
+[2025-04-09 16:50:19,610] WARNING:  * Debugger is active!
+[2025-04-09 16:50:19,619] INFO:  * Debugger PIN: 557-011-667
+[2025-04-09 16:50:22,258] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "GET /api/health HTTP/1.1" 200 -
+[2025-04-09 16:50:22,259] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "GET /api/categories HTTP/1.1" 200 -
+[2025-04-09 16:50:22,321] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8593660593032837, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 39, 'category_details': [], 'severity_score': 85, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 3.44, 'punctuation_count': 1, 'capitalization_ratio': 0.03}}}, 'timestamp': '2025-04-09T16:50:22.321084'}
+[2025-04-09 16:50:22,321] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+[2025-04-09 16:50:22,321] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:50:22,347] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8983555436134338, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 62, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.73, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:50:22.347137'}
+[2025-04-09 16:50:22,347] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+[2025-04-09 16:50:22,347] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:50:22,372] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7332409024238586, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 55, 'category_details': [], 'severity_score': 73, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.09, 'punctuation_count': 1, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-09T16:50:22.372515'}
+[2025-04-09 16:50:22,372] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+[2025-04-09 16:50:22,372] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:50:22,393] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9091120958328247, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 58, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 5.56, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:50:22.393596'}
+[2025-04-09 16:50:22,393] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+[2025-04-09 16:50:22,393] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:50:22,419] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8758189678192139, 'category': np.int64(0), 'details': {'emoji_count': 0, 'text_length': 31, 'category_details': [], 'severity_score': 87, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 5.4, 'punctuation_count': 1, 'capitalization_ratio': 0.03}}}, 'timestamp': '2025-04-09T16:50:22.419173'}
+[2025-04-09 16:50:22,419] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+[2025-04-09 16:50:22,419] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:50:22,441] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6858822107315063, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 60, 'category_details': [], 'severity_score': 68, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.55, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:50:22.441097'}
+[2025-04-09 16:50:22,441] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+[2025-04-09 16:50:22,441] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:50:22,460] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5193848609924316, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 71, 'category_details': [], 'severity_score': 51, 'found_words': [], 'metrics': {'word_count': 14, 'average_word_length': 4.14, 'punctuation_count': 2, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-09T16:50:22.460872'}
+[2025-04-09 16:50:22,461] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+[2025-04-09 16:50:22,461] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:50:22,484] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7455687522888184, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 44, 'category_details': [], 'severity_score': 74, 'found_words': [], 'metrics': {'word_count': 8, 'average_word_length': 4.62, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:50:22.484885'}
+[2025-04-09 16:50:22,485] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+[2025-04-09 16:50:22,485] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:50:22,508] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7662078142166138, 'category': np.int64(0), 'details': {'emoji_count': 0, 'text_length': 50, 'category_details': [], 'severity_score': 76, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 4.67, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:50:22.508125'}
+[2025-04-09 16:50:22,508] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+[2025-04-09 16:50:22,508] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:50:22,534] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.729900062084198, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 53, 'category_details': [], 'severity_score': 72, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 5.0, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:50:22.534471'}
+[2025-04-09 16:50:22,534] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+[2025-04-09 16:50:22,534] INFO: 127.0.0.1 - - [09/Apr/2025 16:50:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:51:28,550] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py', reloading
+[2025-04-09 16:51:29,055] INFO:  * Restarting with stat
+[2025-04-09 16:51:32,616] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:51:32,707] INFO: Model başarıyla yüklendi
+[2025-04-09 16:51:32,707] INFO: Model başarıyla yüklendi
+[2025-04-09 16:51:32,728] WARNING:  * Debugger is active!
+[2025-04-09 16:51:32,740] INFO:  * Debugger PIN: 557-011-667
+[2025-04-09 16:51:44,922] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py', reloading
+[2025-04-09 16:51:45,500] INFO:  * Restarting with stat
+[2025-04-09 16:51:48,641] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:51:48,729] INFO: Model başarıyla yüklendi
+[2025-04-09 16:51:48,729] INFO: Model başarıyla yüklendi
+[2025-04-09 16:51:48,749] WARNING:  * Debugger is active!
+[2025-04-09 16:51:48,759] INFO:  * Debugger PIN: 557-011-667
+[2025-04-09 16:52:10,073] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/model_handler.py', reloading
+[2025-04-09 16:52:10,488] INFO:  * Restarting with stat
+[2025-04-09 16:52:13,094] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:52:13,095] INFO: Model ve tokenizer yükleniyor...
+[2025-04-09 16:52:13,169] INFO: Model ve tokenizer başarıyla yüklendi
+[2025-04-09 16:52:13,169] INFO: Label encoder yükleniyor...
+[2025-04-09 16:52:13,170] INFO: Label encoder başarıyla yüklendi
+[2025-04-09 16:52:13,170] INFO: Model başarıyla yüklendi
+[2025-04-09 16:52:13,189] WARNING:  * Debugger is active!
+[2025-04-09 16:52:13,199] INFO:  * Debugger PIN: 557-011-667
+[2025-04-09 16:52:24,362] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/model_handler.py', reloading
+[2025-04-09 16:52:24,780] INFO:  * Restarting with stat
+[2025-04-09 16:52:27,478] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:52:27,478] INFO: Model ve tokenizer yükleniyor...
+[2025-04-09 16:52:27,563] INFO: Model ve tokenizer başarıyla yüklendi
+[2025-04-09 16:52:27,563] INFO: Label encoder yükleniyor...
+[2025-04-09 16:52:27,564] INFO: Label encoder başarıyla yüklendi
+[2025-04-09 16:52:27,564] INFO: Model başarıyla yüklendi
+[2025-04-09 16:52:27,591] WARNING:  * Debugger is active!
+[2025-04-09 16:52:27,604] INFO:  * Debugger PIN: 557-011-667
+[2025-04-09 16:52:33,735] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:52:33,735] INFO: Model ve tokenizer yükleniyor...
+[2025-04-09 16:52:33,817] INFO: Model ve tokenizer başarıyla yüklendi
+[2025-04-09 16:52:33,817] INFO: Label encoder yükleniyor...
+[2025-04-09 16:52:33,818] INFO: Label encoder başarıyla yüklendi
+[2025-04-09 16:52:33,818] INFO: Model başarıyla yüklendi
+[2025-04-09 16:52:33,881] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.139:8000
+[2025-04-09 16:52:33,881] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-09 16:52:33,881] INFO:  * Restarting with stat
+[2025-04-09 16:52:36,481] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:52:36,481] INFO: Model ve tokenizer yükleniyor...
+[2025-04-09 16:52:36,552] INFO: Model ve tokenizer başarıyla yüklendi
+[2025-04-09 16:52:36,552] INFO: Label encoder yükleniyor...
+[2025-04-09 16:52:36,553] INFO: Label encoder başarıyla yüklendi
+[2025-04-09 16:52:36,553] INFO: Model başarıyla yüklendi
+[2025-04-09 16:52:36,570] WARNING:  * Debugger is active!
+[2025-04-09 16:52:36,579] INFO:  * Debugger PIN: 557-011-667
+[2025-04-09 16:52:48,312] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "GET /api/health HTTP/1.1" 200 -
+[2025-04-09 16:52:48,314] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "GET /api/categories HTTP/1.1" 200 -
+[2025-04-09 16:52:48,315] DEBUG: Analiz edilecek metin: I will kill you and you will regret it!
+[2025-04-09 16:52:48,315] DEBUG: Metin analiz ediliyor: I will kill you and you will regret it!
+[2025-04-09 16:52:48,322] DEBUG: Metin tokenize edildi
+[2025-04-09 16:52:48,377] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:52:48,378] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.8593660593032837
+[2025-04-09 16:52:48,380] DEBUG: Kategori: 1
+[2025-04-09 16:52:48,380] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 39, 'category_details': [], 'severity_score': 85, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 3.44, 'punctuation_count': 1, 'capitalization_ratio': 0.03}}
+[2025-04-09 16:52:48,380] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.8593660593032837, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 39, 'category_details': [], 'severity_score': 85, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 3.44, 'punctuation_count': 1, 'capitalization_ratio': 0.03}}}
+[2025-04-09 16:52:48,380] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8593660593032837, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 39, 'category_details': [], 'severity_score': 85, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 3.44, 'punctuation_count': 1, 'capitalization_ratio': 0.03}}}, 'timestamp': '2025-04-09T16:52:48.380379'}
+[2025-04-09 16:52:48,383] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:52:48,383] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:52:48,386] DEBUG: Analiz edilecek metin: These people are a burden to society and should be eliminated!
+[2025-04-09 16:52:48,386] DEBUG: Metin analiz ediliyor: These people are a burden to society and should be eliminated!
+[2025-04-09 16:52:48,386] DEBUG: Metin tokenize edildi
+[2025-04-09 16:52:48,413] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:52:48,414] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.8983555436134338
+[2025-04-09 16:52:48,414] DEBUG: Kategori: 1
+[2025-04-09 16:52:48,414] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 62, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.73, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}
+[2025-04-09 16:52:48,414] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.8983555436134338, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 62, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.73, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}
+[2025-04-09 16:52:48,414] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8983555436134338, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 62, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.73, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:52:48.414443'}
+[2025-04-09 16:52:48,414] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:52:48,415] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:52:48,416] DEBUG: Analiz edilecek metin: Send me your photos or I'll spread fake news about you!
+[2025-04-09 16:52:48,416] DEBUG: Metin analiz ediliyor: Send me your photos or I'll spread fake news about you!
+[2025-04-09 16:52:48,417] DEBUG: Metin tokenize edildi
+[2025-04-09 16:52:48,436] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:52:48,437] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.7332409024238586
+[2025-04-09 16:52:48,437] DEBUG: Kategori: 1
+[2025-04-09 16:52:48,437] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 55, 'category_details': [], 'severity_score': 73, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.09, 'punctuation_count': 1, 'capitalization_ratio': 0.04}}
+[2025-04-09 16:52:48,437] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.7332409024238586, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 55, 'category_details': [], 'severity_score': 73, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.09, 'punctuation_count': 1, 'capitalization_ratio': 0.04}}}
+[2025-04-09 16:52:48,437] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7332409024238586, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 55, 'category_details': [], 'severity_score': 73, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.09, 'punctuation_count': 1, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-09T16:52:48.437377'}
+[2025-04-09 16:52:48,437] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:52:48,437] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:52:48,439] DEBUG: Analiz edilecek metin: You're worthless and should be banned from this community!
+[2025-04-09 16:52:48,439] DEBUG: Metin analiz ediliyor: You're worthless and should be banned from this community!
+[2025-04-09 16:52:48,439] DEBUG: Metin tokenize edildi
+[2025-04-09 16:52:48,461] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:52:48,461] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.9091120958328247
+[2025-04-09 16:52:48,461] DEBUG: Kategori: 1
+[2025-04-09 16:52:48,461] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 58, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 5.56, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}
+[2025-04-09 16:52:48,461] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.9091120958328247, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 58, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 5.56, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}
+[2025-04-09 16:52:48,461] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9091120958328247, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 58, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 5.56, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:52:48.461597'}
+[2025-04-09 16:52:48,462] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:52:48,462] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:52:48,463] DEBUG: Analiz edilecek metin: The weather is beautiful today!
+[2025-04-09 16:52:48,464] DEBUG: Metin analiz ediliyor: The weather is beautiful today!
+[2025-04-09 16:52:48,464] DEBUG: Metin tokenize edildi
+[2025-04-09 16:52:48,484] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:52:48,484] DEBUG: Tahmin edilen sınıf: 0, Güven: 0.8758189678192139
+[2025-04-09 16:52:48,484] DEBUG: Kategori: 0
+[2025-04-09 16:52:48,485] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 31, 'category_details': [], 'severity_score': 87, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 5.4, 'punctuation_count': 1, 'capitalization_ratio': 0.03}}
+[2025-04-09 16:52:48,485] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.8758189678192139, 'category': np.int64(0), 'details': {'emoji_count': 0, 'text_length': 31, 'category_details': [], 'severity_score': 87, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 5.4, 'punctuation_count': 1, 'capitalization_ratio': 0.03}}}
+[2025-04-09 16:52:48,485] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8758189678192139, 'category': np.int64(0), 'details': {'emoji_count': 0, 'text_length': 31, 'category_details': [], 'severity_score': 87, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 5.4, 'punctuation_count': 1, 'capitalization_ratio': 0.03}}}, 'timestamp': '2025-04-09T16:52:48.485090'}
+[2025-04-09 16:52:48,485] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:52:48,485] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:52:48,487] DEBUG: Analiz edilecek metin: I hate all people from that country, they are all criminals!
+[2025-04-09 16:52:48,487] DEBUG: Metin analiz ediliyor: I hate all people from that country, they are all criminals!
+[2025-04-09 16:52:48,487] DEBUG: Metin tokenize edildi
+[2025-04-09 16:52:48,509] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:52:48,509] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.6858822107315063
+[2025-04-09 16:52:48,510] DEBUG: Kategori: 1
+[2025-04-09 16:52:48,510] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 60, 'category_details': [], 'severity_score': 68, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.55, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}
+[2025-04-09 16:52:48,510] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.6858822107315063, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 60, 'category_details': [], 'severity_score': 68, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.55, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}
+[2025-04-09 16:52:48,510] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6858822107315063, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 60, 'category_details': [], 'severity_score': 68, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.55, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:52:48.510236'}
+[2025-04-09 16:52:48,510] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:52:48,511] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:52:48,513] DEBUG: Analiz edilecek metin: If you don't do what I say, I'll make sure everyone knows your secrets!
+[2025-04-09 16:52:48,513] DEBUG: Metin analiz ediliyor: If you don't do what I say, I'll make sure everyone knows your secrets!
+[2025-04-09 16:52:48,513] DEBUG: Metin tokenize edildi
+[2025-04-09 16:52:48,534] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:52:48,534] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.5193848609924316
+[2025-04-09 16:52:48,535] DEBUG: Kategori: 1
+[2025-04-09 16:52:48,535] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 71, 'category_details': [], 'severity_score': 51, 'found_words': [], 'metrics': {'word_count': 14, 'average_word_length': 4.14, 'punctuation_count': 2, 'capitalization_ratio': 0.04}}
+[2025-04-09 16:52:48,535] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.5193848609924316, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 71, 'category_details': [], 'severity_score': 51, 'found_words': [], 'metrics': {'word_count': 14, 'average_word_length': 4.14, 'punctuation_count': 2, 'capitalization_ratio': 0.04}}}
+[2025-04-09 16:52:48,535] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5193848609924316, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 71, 'category_details': [], 'severity_score': 51, 'found_words': [], 'metrics': {'word_count': 14, 'average_word_length': 4.14, 'punctuation_count': 2, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-09T16:52:48.535377'}
+[2025-04-09 16:52:48,535] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:52:48,536] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:52:48,537] DEBUG: Analiz edilecek metin: You're so stupid, you don't deserve to live!
+[2025-04-09 16:52:48,537] DEBUG: Metin analiz ediliyor: You're so stupid, you don't deserve to live!
+[2025-04-09 16:52:48,538] DEBUG: Metin tokenize edildi
+[2025-04-09 16:52:48,558] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:52:48,558] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.7455687522888184
+[2025-04-09 16:52:48,559] DEBUG: Kategori: 1
+[2025-04-09 16:52:48,559] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 44, 'category_details': [], 'severity_score': 74, 'found_words': [], 'metrics': {'word_count': 8, 'average_word_length': 4.62, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}
+[2025-04-09 16:52:48,559] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.7455687522888184, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 44, 'category_details': [], 'severity_score': 74, 'found_words': [], 'metrics': {'word_count': 8, 'average_word_length': 4.62, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}
+[2025-04-09 16:52:48,559] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7455687522888184, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 44, 'category_details': [], 'severity_score': 74, 'found_words': [], 'metrics': {'word_count': 8, 'average_word_length': 4.62, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:52:48.559284'}
+[2025-04-09 16:52:48,559] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:52:48,560] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:52:48,562] DEBUG: Analiz edilecek metin: I love how diverse and inclusive our community is!
+[2025-04-09 16:52:48,562] DEBUG: Metin analiz ediliyor: I love how diverse and inclusive our community is!
+[2025-04-09 16:52:48,562] DEBUG: Metin tokenize edildi
+[2025-04-09 16:52:48,584] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:52:48,584] DEBUG: Tahmin edilen sınıf: 0, Güven: 0.7662078142166138
+[2025-04-09 16:52:48,584] DEBUG: Kategori: 0
+[2025-04-09 16:52:48,584] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 50, 'category_details': [], 'severity_score': 76, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 4.67, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}
+[2025-04-09 16:52:48,585] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.7662078142166138, 'category': np.int64(0), 'details': {'emoji_count': 0, 'text_length': 50, 'category_details': [], 'severity_score': 76, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 4.67, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}
+[2025-04-09 16:52:48,585] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7662078142166138, 'category': np.int64(0), 'details': {'emoji_count': 0, 'text_length': 50, 'category_details': [], 'severity_score': 76, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 4.67, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:52:48.585075'}
+[2025-04-09 16:52:48,585] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:52:48,585] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:52:48,587] DEBUG: Analiz edilecek metin: You're a disgrace to humanity and should be punished!
+[2025-04-09 16:52:48,587] DEBUG: Metin analiz ediliyor: You're a disgrace to humanity and should be punished!
+[2025-04-09 16:52:48,587] DEBUG: Metin tokenize edildi
+[2025-04-09 16:52:48,610] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:52:48,610] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.729900062084198
+[2025-04-09 16:52:48,611] DEBUG: Kategori: 1
+[2025-04-09 16:52:48,611] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 53, 'category_details': [], 'severity_score': 72, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 5.0, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}
+[2025-04-09 16:52:48,611] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.729900062084198, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 53, 'category_details': [], 'severity_score': 72, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 5.0, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}
+[2025-04-09 16:52:48,611] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.729900062084198, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 53, 'category_details': [], 'severity_score': 72, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 5.0, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-09T16:52:48.611281'}
+[2025-04-09 16:52:48,611] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:52:48,612] INFO: 127.0.0.1 - - [09/Apr/2025 16:52:48] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:54:02,274] DEBUG: Analiz edilecek metin: ı want to kill you
+[2025-04-09 16:54:02,275] DEBUG: Metin analiz ediliyor: ı want to kill you
+[2025-04-09 16:54:02,295] DEBUG: Metin tokenize edildi
+[2025-04-09 16:54:02,351] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:54:02,352] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.8875921964645386
+[2025-04-09 16:54:02,360] DEBUG: Kategori: 1
+[2025-04-09 16:54:02,360] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 18, 'category_details': [], 'severity_score': 88, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 2.8, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}
+[2025-04-09 16:54:02,360] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.8875921964645386, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 18, 'category_details': [], 'severity_score': 88, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 2.8, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}
+[2025-04-09 16:54:02,360] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8875921964645386, 'category': np.int64(1), 'details': {'emoji_count': 0, 'text_length': 18, 'category_details': [], 'severity_score': 88, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 2.8, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-09T16:54:02.360668'}
+[2025-04-09 16:54:02,361] ERROR: Hata oluştu: Object of type int64 is not JSON serializable
+Stack trace: Traceback (most recent call last):
+  File "/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/app.py", line 71, in analyze_text
+    return jsonify(response)
+           ^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/__init__.py", line 170, in jsonify
+    return current_app.json.response(*args, **kwargs)  # type: ignore[return-value]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 214, in response
+    f"{self.dumps(obj, **dump_args)}\n", mimetype=self.mimetype
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 179, in dumps
+    return json.dumps(obj, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/__init__.py", line 238, in dumps
+    **kw).encode(obj)
+          ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 202, in encode
+    chunks = list(chunks)
+             ^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 432, in _iterencode
+    yield from _iterencode_dict(o, _current_indent_level)
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 406, in _iterencode_dict
+    yield from chunks
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/json/encoder.py", line 439, in _iterencode
+    o = _default(o)
+        ^^^^^^^^^^^
+  File "/opt/anaconda3/envs/Lori/lib/python3.12/site-packages/flask/json/provider.py", line 121, in _default
+    raise TypeError(f"Object of type {type(o).__name__} is not JSON serializable")
+TypeError: Object of type int64 is not JSON serializable
+
+[2025-04-09 16:54:02,362] INFO: 127.0.0.1 - - [09/Apr/2025 16:54:02] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-04-09 16:54:59,762] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/model_handler.py', reloading
+[2025-04-09 16:55:00,459] INFO:  * Restarting with stat
+[2025-04-09 16:55:04,045] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:55:04,045] INFO: Model ve tokenizer yükleniyor...
+[2025-04-09 16:55:04,140] INFO: Model ve tokenizer başarıyla yüklendi
+[2025-04-09 16:55:04,140] INFO: Label encoder yükleniyor...
+[2025-04-09 16:55:04,141] INFO: Label encoder başarıyla yüklendi
+[2025-04-09 16:55:04,141] INFO: Model başarıyla yüklendi
+[2025-04-09 16:55:04,159] WARNING:  * Debugger is active!
+[2025-04-09 16:55:04,170] INFO:  * Debugger PIN: 557-011-667
+[2025-04-09 16:55:33,822] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:55:33,822] INFO: Model ve tokenizer yükleniyor...
+[2025-04-09 16:55:33,901] INFO: Model ve tokenizer başarıyla yüklendi
+[2025-04-09 16:55:33,901] INFO: Label encoder yükleniyor...
+[2025-04-09 16:55:33,904] INFO: Label encoder başarıyla yüklendi
+[2025-04-09 16:55:33,904] INFO: Model başarıyla yüklendi
+[2025-04-09 16:55:33,964] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.139:8000
+[2025-04-09 16:55:33,964] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-09 16:55:33,964] INFO:  * Restarting with stat
+[2025-04-09 16:55:36,466] INFO: Model yolu: /Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model
+[2025-04-09 16:55:36,466] INFO: Model ve tokenizer yükleniyor...
+[2025-04-09 16:55:36,537] INFO: Model ve tokenizer başarıyla yüklendi
+[2025-04-09 16:55:36,537] INFO: Label encoder yükleniyor...
+[2025-04-09 16:55:36,538] INFO: Label encoder başarıyla yüklendi
+[2025-04-09 16:55:36,538] INFO: Model başarıyla yüklendi
+[2025-04-09 16:55:36,557] WARNING:  * Debugger is active!
+[2025-04-09 16:55:36,565] INFO:  * Debugger PIN: 557-011-667
+[2025-04-09 16:55:47,106] DEBUG: Analiz edilecek metin: I want to kill you
+[2025-04-09 16:55:47,106] DEBUG: Metin analiz ediliyor: I want to kill you
+[2025-04-09 16:55:47,112] DEBUG: Metin tokenize edildi
+[2025-04-09 16:55:47,184] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:55:47,184] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.7718773484230042
+[2025-04-09 16:55:47,186] DEBUG: Kategori: 1
+[2025-04-09 16:55:47,186] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 18, 'category_details': [], 'severity_score': 77, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 2.8, 'punctuation_count': 0, 'capitalization_ratio': 0.06}}
+[2025-04-09 16:55:47,186] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.7718773484230042, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 18, 'category_details': [], 'severity_score': 77, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 2.8, 'punctuation_count': 0, 'capitalization_ratio': 0.06}}}
+[2025-04-09 16:55:47,186] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7718773484230042, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 18, 'category_details': [], 'severity_score': 77, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 2.8, 'punctuation_count': 0, 'capitalization_ratio': 0.06}}}, 'timestamp': '2025-04-09T16:55:47.186747'}
+[2025-04-09 16:55:47,187] INFO: 127.0.0.1 - - [09/Apr/2025 16:55:47] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-09 16:56:00,880] DEBUG: Analiz edilecek metin: ı want to fuck you
+[2025-04-09 16:56:00,880] DEBUG: Metin analiz ediliyor: ı want to fuck you
+[2025-04-09 16:56:00,882] DEBUG: Metin tokenize edildi
+[2025-04-09 16:56:00,925] DEBUG: Model tahmini yapıldı
+[2025-04-09 16:56:00,925] DEBUG: Tahmin edilen sınıf: 1, Güven: 0.9423321485519409
+[2025-04-09 16:56:00,926] DEBUG: Kategori: 1
+[2025-04-09 16:56:00,926] DEBUG: Detaylı analiz: {'emoji_count': 0, 'text_length': 18, 'category_details': [], 'severity_score': 94, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 2.8, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}
+[2025-04-09 16:56:00,926] DEBUG: Analiz sonucu: {'is_hate_speech': False, 'confidence': 0.9423321485519409, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 18, 'category_details': [], 'severity_score': 94, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 2.8, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}
+[2025-04-09 16:56:00,926] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9423321485519409, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 18, 'category_details': [], 'severity_score': 94, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 2.8, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-09T16:56:00.926810'}
+[2025-04-09 16:56:00,927] INFO: 127.0.0.1 - - [09/Apr/2025 16:56:00] "POST /api/check-hate-speech HTTP/1.1" 200 -

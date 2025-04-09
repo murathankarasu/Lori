@@ -1,0 +1,1064 @@
+[2025-03-25 23:13:44] INFO: Model başarıyla yüklendi
+[2025-03-25 23:13:44] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.131:8000
+[2025-03-25 23:13:44] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-25 23:14:03] ERROR: Hata oluştu: '0'
+[2025-03-25 23:14:03] INFO: 127.0.0.1 - - [25/Mar/2025 23:14:03] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-25 23:14:03] ERROR: Hata oluştu: '0'
+[2025-03-25 23:14:03] INFO: 127.0.0.1 - - [25/Mar/2025 23:14:03] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-25 23:14:03] ERROR: Hata oluştu: '1'
+[2025-03-25 23:14:03] INFO: 127.0.0.1 - - [25/Mar/2025 23:14:03] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-25 23:14:03] ERROR: Hata oluştu: '0'
+[2025-03-25 23:14:03] INFO: 127.0.0.1 - - [25/Mar/2025 23:14:03] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-25 23:14:03] ERROR: Hata oluştu: '1'
+[2025-03-25 23:14:03] INFO: 127.0.0.1 - - [25/Mar/2025 23:14:03] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-25 23:14:25] INFO: 127.0.0.1 - - [25/Mar/2025 23:14:25] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-25 23:14:29] INFO: 127.0.0.1 - - [25/Mar/2025 23:14:29] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-25 23:14:50] INFO: Model başarıyla yüklendi
+[2025-03-25 23:16:56] INFO: Model başarıyla yüklendi
+[2025-03-25 23:16:56] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.131:8000
+[2025-03-25 23:16:56] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-25 23:17:00] INFO: 127.0.0.1 - - [25/Mar/2025 23:17:00] "[33mGET / HTTP/1.1[0m" 404 -
+[2025-03-25 23:17:05] INFO: 127.0.0.1 - - [25/Mar/2025 23:17:05] "[33mGET / HTTP/1.1[0m" 404 -
+[2025-03-25 23:17:11] INFO: 127.0.0.1 - - [25/Mar/2025 23:17:11] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-25 23:17:22] ERROR: Hata oluştu: '0'
+[2025-03-25 23:17:22] INFO: 127.0.0.1 - - [25/Mar/2025 23:17:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-25 23:17:22] ERROR: Hata oluştu: '0'
+[2025-03-25 23:17:22] INFO: 127.0.0.1 - - [25/Mar/2025 23:17:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-25 23:17:22] ERROR: Hata oluştu: '1'
+[2025-03-25 23:17:22] INFO: 127.0.0.1 - - [25/Mar/2025 23:17:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-25 23:17:22] ERROR: Hata oluştu: '0'
+[2025-03-25 23:17:22] INFO: 127.0.0.1 - - [25/Mar/2025 23:17:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-25 23:17:22] ERROR: Hata oluştu: '1'
+[2025-03-25 23:17:22] INFO: 127.0.0.1 - - [25/Mar/2025 23:17:22] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:06:32] INFO: Model başarıyla yüklendi
+[2025-03-26 20:06:32] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-26 20:06:32] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-26 20:06:38] INFO: 127.0.0.1 - - [26/Mar/2025 20:06:38] "[33mGET / HTTP/1.1[0m" 404 -
+[2025-03-26 20:06:38] INFO: 127.0.0.1 - - [26/Mar/2025 20:06:38] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+[2025-03-26 20:06:38] INFO: 127.0.0.1 - - [26/Mar/2025 20:06:38] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+[2025-03-26 20:06:49] INFO: 127.0.0.1 - - [26/Mar/2025 20:06:49] "[33mGET /api/hate-speech HTTP/1.1[0m" 404 -
+[2025-03-26 20:07:05] INFO: 127.0.0.1 - - [26/Mar/2025 20:07:05] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-26 20:07:08] INFO: 127.0.0.1 - - [26/Mar/2025 20:07:08] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-26 20:09:02] INFO: Model başarıyla yüklendi
+[2025-03-26 20:09:02] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-26 20:09:02] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-26 20:09:02] INFO:  * Restarting with stat
+[2025-03-26 20:09:03] INFO: Model başarıyla yüklendi
+[2025-03-26 20:09:03] WARNING:  * Debugger is active!
+[2025-03-26 20:09:03] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:09:34] INFO: 127.0.0.1 - - [26/Mar/2025 20:09:34] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-26 20:09:36] INFO: 127.0.0.1 - - [26/Mar/2025 20:09:36] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-26 20:09:37] INFO: 127.0.0.1 - - [26/Mar/2025 20:09:37] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-26 20:09:39] INFO: 127.0.0.1 - - [26/Mar/2025 20:09:39] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-26 20:09:41] INFO: 127.0.0.1 - - [26/Mar/2025 20:09:41] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+[2025-03-26 20:09:41] INFO: 127.0.0.1 - - [26/Mar/2025 20:09:41] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+[2025-03-26 20:09:41] INFO: 127.0.0.1 - - [26/Mar/2025 20:09:41] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2025-03-26 20:10:26] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app.py', reloading
+[2025-03-26 20:10:27] INFO:  * Restarting with stat
+[2025-03-26 20:10:29] INFO: Model başarıyla yüklendi
+[2025-03-26 20:10:29] WARNING:  * Debugger is active!
+[2025-03-26 20:10:29] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:10:30] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app.py', reloading
+[2025-03-26 20:10:31] INFO:  * Restarting with stat
+[2025-03-26 20:10:33] INFO: Model başarıyla yüklendi
+[2025-03-26 20:10:33] WARNING:  * Debugger is active!
+[2025-03-26 20:10:33] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:10:43] INFO: Model başarıyla yüklendi
+[2025-03-26 20:10:43] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-26 20:10:43] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-26 20:10:43] INFO:  * Restarting with stat
+[2025-03-26 20:10:45] INFO: Model başarıyla yüklendi
+[2025-03-26 20:10:45] WARNING:  * Debugger is active!
+[2025-03-26 20:10:45] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:11:31] INFO: 127.0.0.1 - - [26/Mar/2025 20:11:31] "[33mGET / HTTP/1.1[0m" 404 -
+[2025-03-26 20:11:36] INFO: 127.0.0.1 - - [26/Mar/2025 20:11:36] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:11:45] INFO: 127.0.0.1 - - [26/Mar/2025 20:11:45] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:11:52] INFO: 127.0.0.1 - - [26/Mar/2025 20:11:52] "[33mGET /api/check- HTTP/1.1[0m" 404 -
+[2025-03-26 20:12:31] INFO: 127.0.0.1 - - [26/Mar/2025 20:12:31] "[33mGET / HTTP/1.1[0m" 404 -
+[2025-03-26 20:12:32] INFO: 127.0.0.1 - - [26/Mar/2025 20:12:32] "GET /api/categories HTTP/1.1" 200 -
+[2025-03-26 20:13:01] INFO: 127.0.0.1 - - [26/Mar/2025 20:13:01] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-26 20:22:06] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/test_api.py', reloading
+[2025-03-26 20:22:12] INFO:  * Restarting with stat
+[2025-03-26 20:22:30] INFO: Model başarıyla yüklendi
+[2025-03-26 20:22:31] WARNING:  * Debugger is active!
+[2025-03-26 20:22:31] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:22:46] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/test_api.py', reloading
+[2025-03-26 20:22:47] INFO:  * Restarting with stat
+[2025-03-26 20:22:52] INFO: Model başarıyla yüklendi
+[2025-03-26 20:22:52] WARNING:  * Debugger is active!
+[2025-03-26 20:22:52] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:22:58] ERROR: Hata oluştu: '0'
+[2025-03-26 20:22:58] INFO: 127.0.0.1 - - [26/Mar/2025 20:22:58] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:22:58] ERROR: Hata oluştu: '0'
+[2025-03-26 20:22:58] INFO: 127.0.0.1 - - [26/Mar/2025 20:22:58] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:22:58] ERROR: Hata oluştu: '1'
+[2025-03-26 20:22:58] INFO: 127.0.0.1 - - [26/Mar/2025 20:22:58] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:22:58] ERROR: Hata oluştu: '0'
+[2025-03-26 20:22:58] INFO: 127.0.0.1 - - [26/Mar/2025 20:22:58] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:22:58] ERROR: Hata oluştu: '1'
+[2025-03-26 20:22:58] INFO: 127.0.0.1 - - [26/Mar/2025 20:22:58] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:23:54] INFO: 127.0.0.1 - - [26/Mar/2025 20:23:54] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:24:00] INFO: 127.0.0.1 - - [26/Mar/2025 20:24:00] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:24:00] INFO: 127.0.0.1 - - [26/Mar/2025 20:24:00] "GET /api/categories HTTP/1.1" 200 -
+[2025-03-26 20:24:01] ERROR: Hata oluştu: '0'
+[2025-03-26 20:24:01] INFO: 127.0.0.1 - - [26/Mar/2025 20:24:01] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:24:01] ERROR: Hata oluştu: '0'
+[2025-03-26 20:24:01] INFO: 127.0.0.1 - - [26/Mar/2025 20:24:01] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:24:01] ERROR: Hata oluştu: '1'
+[2025-03-26 20:24:01] INFO: 127.0.0.1 - - [26/Mar/2025 20:24:01] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:24:01] ERROR: Hata oluştu: '0'
+[2025-03-26 20:24:01] INFO: 127.0.0.1 - - [26/Mar/2025 20:24:01] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:24:01] ERROR: Hata oluştu: '1'
+[2025-03-26 20:24:01] INFO: 127.0.0.1 - - [26/Mar/2025 20:24:01] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:24:16] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model_handler.py', reloading
+[2025-03-26 20:24:17] INFO:  * Restarting with stat
+[2025-03-26 20:24:20] INFO: Model yükleniyor: model
+[2025-03-26 20:24:20] INFO: Model başarıyla yüklendi
+[2025-03-26 20:24:20] INFO: Model başarıyla yüklendi
+[2025-03-26 20:24:20] WARNING:  * Debugger is active!
+[2025-03-26 20:24:20] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:24:33] INFO: Model yükleniyor: model
+[2025-03-26 20:24:34] INFO: Model başarıyla yüklendi
+[2025-03-26 20:24:34] INFO: Model başarıyla yüklendi
+[2025-03-26 20:24:34] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-26 20:24:34] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-26 20:24:34] INFO:  * Restarting with stat
+[2025-03-26 20:24:36] INFO: Model yükleniyor: model
+[2025-03-26 20:24:36] INFO: Model başarıyla yüklendi
+[2025-03-26 20:24:36] INFO: Model başarıyla yüklendi
+[2025-03-26 20:24:36] WARNING:  * Debugger is active!
+[2025-03-26 20:24:36] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:25:05] INFO: 127.0.0.1 - - [26/Mar/2025 20:25:05] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:25:05] INFO: 127.0.0.1 - - [26/Mar/2025 20:25:05] "GET /api/categories HTTP/1.1" 200 -
+[2025-03-26 20:25:06] ERROR: Hata oluştu: '0'
+[2025-03-26 20:25:06] INFO: 127.0.0.1 - - [26/Mar/2025 20:25:06] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:25:06] ERROR: Hata oluştu: '0'
+[2025-03-26 20:25:06] INFO: 127.0.0.1 - - [26/Mar/2025 20:25:06] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:25:06] ERROR: Hata oluştu: '1'
+[2025-03-26 20:25:06] INFO: 127.0.0.1 - - [26/Mar/2025 20:25:06] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:25:06] ERROR: Hata oluştu: '0'
+[2025-03-26 20:25:06] INFO: 127.0.0.1 - - [26/Mar/2025 20:25:06] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:25:06] ERROR: Hata oluştu: '1'
+[2025-03-26 20:25:06] INFO: 127.0.0.1 - - [26/Mar/2025 20:25:06] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:25:19] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model_handler.py', reloading
+[2025-03-26 20:25:19] INFO:  * Restarting with stat
+[2025-03-26 20:25:22] INFO: Model yükleniyor: model
+[2025-03-26 20:25:23] INFO: Model başarıyla yüklendi
+[2025-03-26 20:25:23] INFO: Model başarıyla yüklendi
+[2025-03-26 20:25:23] WARNING:  * Debugger is active!
+[2025-03-26 20:25:23] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:25:45] INFO: Model yükleniyor: model
+[2025-03-26 20:25:45] INFO: Model başarıyla yüklendi
+[2025-03-26 20:25:45] INFO: Model başarıyla yüklendi
+[2025-03-26 20:25:45] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-26 20:25:45] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-26 20:25:45] INFO:  * Restarting with stat
+[2025-03-26 20:25:47] INFO: Model yükleniyor: model
+[2025-03-26 20:25:47] INFO: Model başarıyla yüklendi
+[2025-03-26 20:25:47] INFO: Model başarıyla yüklendi
+[2025-03-26 20:25:47] WARNING:  * Debugger is active!
+[2025-03-26 20:25:47] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:26:23] INFO: Model yükleniyor: model
+[2025-03-26 20:26:23] INFO: Model başarıyla yüklendi
+[2025-03-26 20:26:23] INFO: Model başarıyla yüklendi
+[2025-03-26 20:26:23] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-26 20:26:23] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-26 20:26:23] INFO:  * Restarting with stat
+[2025-03-26 20:26:26] INFO: Model yükleniyor: model
+[2025-03-26 20:26:26] INFO: Model başarıyla yüklendi
+[2025-03-26 20:26:26] INFO: Model başarıyla yüklendi
+[2025-03-26 20:26:26] WARNING:  * Debugger is active!
+[2025-03-26 20:26:26] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:26:47] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.9366199374198914, 'category': '0'}
+[2025-03-26 20:26:47] ERROR: Hata oluştu: '0'
+[2025-03-26 20:26:47] INFO: 127.0.0.1 - - [26/Mar/2025 20:26:47] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:26:47] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.5661888122558594, 'category': '0'}
+[2025-03-26 20:26:47] ERROR: Hata oluştu: '0'
+[2025-03-26 20:26:47] INFO: 127.0.0.1 - - [26/Mar/2025 20:26:47] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:26:47] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.6674456000328064, 'category': '1'}
+[2025-03-26 20:26:47] ERROR: Hata oluştu: '1'
+[2025-03-26 20:26:47] INFO: 127.0.0.1 - - [26/Mar/2025 20:26:47] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:26:47] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.8591377139091492, 'category': '0'}
+[2025-03-26 20:26:47] ERROR: Hata oluştu: '0'
+[2025-03-26 20:26:47] INFO: 127.0.0.1 - - [26/Mar/2025 20:26:47] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:26:47] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.77336186170578, 'category': '1'}
+[2025-03-26 20:26:47] ERROR: Hata oluştu: '1'
+[2025-03-26 20:26:47] INFO: 127.0.0.1 - - [26/Mar/2025 20:26:47] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:26:52] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.9366199374198914, 'category': '0'}
+[2025-03-26 20:26:52] ERROR: Hata oluştu: '0'
+[2025-03-26 20:26:52] INFO: 127.0.0.1 - - [26/Mar/2025 20:26:52] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:26:52] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.5661888122558594, 'category': '0'}
+[2025-03-26 20:26:52] ERROR: Hata oluştu: '0'
+[2025-03-26 20:26:52] INFO: 127.0.0.1 - - [26/Mar/2025 20:26:52] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:26:52] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.6674456000328064, 'category': '1'}
+[2025-03-26 20:26:52] ERROR: Hata oluştu: '1'
+[2025-03-26 20:26:52] INFO: 127.0.0.1 - - [26/Mar/2025 20:26:52] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:26:52] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.8591377139091492, 'category': '0'}
+[2025-03-26 20:26:52] ERROR: Hata oluştu: '0'
+[2025-03-26 20:26:52] INFO: 127.0.0.1 - - [26/Mar/2025 20:26:52] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:26:52] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.77336186170578, 'category': '1'}
+[2025-03-26 20:26:52] ERROR: Hata oluştu: '1'
+[2025-03-26 20:26:52] INFO: 127.0.0.1 - - [26/Mar/2025 20:26:52] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:27:27] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/teststage/test_api.py', reloading
+[2025-03-26 20:27:27] INFO:  * Restarting with stat
+[2025-03-26 20:27:31] INFO: Model yükleniyor: model
+[2025-03-26 20:27:31] INFO: Model başarıyla yüklendi
+[2025-03-26 20:27:31] INFO: Model başarıyla yüklendi
+[2025-03-26 20:27:31] WARNING:  * Debugger is active!
+[2025-03-26 20:27:31] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:27:35] INFO: 127.0.0.1 - - [26/Mar/2025 20:27:35] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:27:36] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.9366199374198914, 'category': '0'}
+[2025-03-26 20:27:36] ERROR: Hata oluştu: '0'
+[2025-03-26 20:27:36] INFO: 127.0.0.1 - - [26/Mar/2025 20:27:36] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:27:36] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.5661888122558594, 'category': '0'}
+[2025-03-26 20:27:36] ERROR: Hata oluştu: '0'
+[2025-03-26 20:27:36] INFO: 127.0.0.1 - - [26/Mar/2025 20:27:36] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:27:36] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.6674456000328064, 'category': '1'}
+[2025-03-26 20:27:36] ERROR: Hata oluştu: '1'
+[2025-03-26 20:27:36] INFO: 127.0.0.1 - - [26/Mar/2025 20:27:36] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:27:36] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.8591377139091492, 'category': '0'}
+[2025-03-26 20:27:36] ERROR: Hata oluştu: '0'
+[2025-03-26 20:27:36] INFO: 127.0.0.1 - - [26/Mar/2025 20:27:36] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:27:36] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.77336186170578, 'category': '1'}
+[2025-03-26 20:27:36] ERROR: Hata oluştu: '1'
+[2025-03-26 20:27:36] INFO: 127.0.0.1 - - [26/Mar/2025 20:27:36] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:28:05] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:05] "[33mGET /api HTTP/1.1[0m" 404 -
+[2025-03-26 20:28:14] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:14] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:28:33] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:33] "[31m[1mGET /api/check-hate-speech HTTP/1.1[0m" 405 -
+[2025-03-26 20:28:37] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:37] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+[2025-03-26 20:28:37] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:37] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+[2025-03-26 20:28:37] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:37] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2025-03-26 20:28:47] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:47] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-03-26 20:28:48] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/teststage/test_api.py', reloading
+[2025-03-26 20:28:49] INFO:  * Restarting with stat
+[2025-03-26 20:28:52] INFO: Model yükleniyor: model
+[2025-03-26 20:28:52] INFO: Model başarıyla yüklendi
+[2025-03-26 20:28:52] INFO: Model başarıyla yüklendi
+[2025-03-26 20:28:52] WARNING:  * Debugger is active!
+[2025-03-26 20:28:52] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:28:52] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:52] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-03-26 20:28:54] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:54] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-03-26 20:28:56] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:56] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-03-26 20:28:58] INFO: 127.0.0.1 - - [26/Mar/2025 20:28:58] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-03-26 20:29:07] INFO: Model yükleniyor: model
+[2025-03-26 20:29:07] INFO: Model başarıyla yüklendi
+[2025-03-26 20:29:07] INFO: Model başarıyla yüklendi
+[2025-03-26 20:29:08] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-26 20:29:08] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-26 20:29:08] INFO:  * Restarting with stat
+[2025-03-26 20:29:12] INFO: Model yükleniyor: model
+[2025-03-26 20:29:12] INFO: Model başarıyla yüklendi
+[2025-03-26 20:29:12] INFO: Model başarıyla yüklendi
+[2025-03-26 20:29:12] WARNING:  * Debugger is active!
+[2025-03-26 20:29:13] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:29:13] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:13] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-03-26 20:29:15] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:15] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-03-26 20:29:17] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:17] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-03-26 20:29:19] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:19] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-03-26 20:29:21] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:21] "[33mGET /api/check-hate-speech/health HTTP/1.1[0m" 404 -
+[2025-03-26 20:29:45] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/teststage/test_api.py', reloading
+[2025-03-26 20:29:47] INFO:  * Restarting with stat
+[2025-03-26 20:29:57] INFO: Model yükleniyor: model
+[2025-03-26 20:29:58] INFO: Model başarıyla yüklendi
+[2025-03-26 20:29:58] INFO: Model başarıyla yüklendi
+[2025-03-26 20:29:58] WARNING:  * Debugger is active!
+[2025-03-26 20:29:58] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:29:58] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:58] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:29:59] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.9366199374198914, 'category': '0'}
+[2025-03-26 20:29:59] ERROR: Hata oluştu: '0'
+[2025-03-26 20:29:59] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:59] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:29:59] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.5661888122558594, 'category': '0'}
+[2025-03-26 20:29:59] ERROR: Hata oluştu: '0'
+[2025-03-26 20:29:59] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:59] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:29:59] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.6674456000328064, 'category': '1'}
+[2025-03-26 20:29:59] ERROR: Hata oluştu: '1'
+[2025-03-26 20:29:59] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:59] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:29:59] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.8591377139091492, 'category': '0'}
+[2025-03-26 20:29:59] ERROR: Hata oluştu: '0'
+[2025-03-26 20:29:59] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:59] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:29:59] INFO: Tahmin sonucu: {'is_hate_speech': False, 'confidence': 0.77336186170578, 'category': '1'}
+[2025-03-26 20:29:59] ERROR: Hata oluştu: '1'
+[2025-03-26 20:29:59] INFO: 127.0.0.1 - - [26/Mar/2025 20:29:59] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:31:53] INFO: Model başarıyla yüklendi
+[2025-03-26 20:31:53] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-26 20:31:53] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-26 20:31:53] INFO:  * Restarting with stat
+[2025-03-26 20:31:56] INFO: Model başarıyla yüklendi
+[2025-03-26 20:31:56] WARNING:  * Debugger is active!
+[2025-03-26 20:31:56] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:32:37] INFO: 127.0.0.1 - - [26/Mar/2025 20:32:37] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:32:37] INFO: 127.0.0.1 - - [26/Mar/2025 20:32:37] "GET /api/categories HTTP/1.1" 200 -
+[2025-03-26 20:32:39] ERROR: Hata oluştu: '0'
+[2025-03-26 20:32:39] INFO: 127.0.0.1 - - [26/Mar/2025 20:32:39] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:32:39] ERROR: Hata oluştu: '0'
+[2025-03-26 20:32:39] INFO: 127.0.0.1 - - [26/Mar/2025 20:32:39] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:32:39] ERROR: Hata oluştu: '1'
+[2025-03-26 20:32:39] INFO: 127.0.0.1 - - [26/Mar/2025 20:32:39] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:32:39] ERROR: Hata oluştu: '0'
+[2025-03-26 20:32:39] INFO: 127.0.0.1 - - [26/Mar/2025 20:32:39] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:32:39] ERROR: Hata oluştu: '1'
+[2025-03-26 20:32:39] INFO: 127.0.0.1 - - [26/Mar/2025 20:32:39] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:33:18] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/test_api.py', reloading
+[2025-03-26 20:33:20] INFO:  * Restarting with stat
+[2025-03-26 20:33:27] INFO: Model başarıyla yüklendi
+[2025-03-26 20:33:27] WARNING:  * Debugger is active!
+[2025-03-26 20:33:27] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:33:50] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/test_api.py', reloading
+[2025-03-26 20:33:50] INFO:  * Restarting with stat
+[2025-03-26 20:33:54] INFO: Model başarıyla yüklendi
+[2025-03-26 20:33:54] WARNING:  * Debugger is active!
+[2025-03-26 20:33:54] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:33:54] ERROR: Hata oluştu: '1'
+[2025-03-26 20:33:54] INFO: 127.0.0.1 - - [26/Mar/2025 20:33:54] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:33:54] ERROR: Hata oluştu: '1'
+[2025-03-26 20:33:54] INFO: 127.0.0.1 - - [26/Mar/2025 20:33:54] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:33:54] ERROR: Hata oluştu: '1'
+[2025-03-26 20:33:54] INFO: 127.0.0.1 - - [26/Mar/2025 20:33:54] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:33:54] ERROR: Hata oluştu: '1'
+[2025-03-26 20:33:54] INFO: 127.0.0.1 - - [26/Mar/2025 20:33:54] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:33:54] ERROR: Hata oluştu: '1'
+[2025-03-26 20:33:54] INFO: 127.0.0.1 - - [26/Mar/2025 20:33:54] "[35m[1mPOST /api/check-hate-speech HTTP/1.1[0m" 500 -
+[2025-03-26 20:38:26,669] INFO: Model başarıyla yüklendi
+[2025-03-26 20:38:26,700] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-26 20:38:26,700] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-26 20:38:26,701] INFO:  * Restarting with stat
+[2025-03-26 20:38:29,674] INFO: Model başarıyla yüklendi
+[2025-03-26 20:38:29,695] WARNING:  * Debugger is active!
+[2025-03-26 20:38:29,819] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:38:37,048] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8399490118026733, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 21, 'category_details': [], 'severity_score': 83, 'found_words': []}}, 'timestamp': '2025-03-26T20:38:37.048226'}
+[2025-03-26 20:38:37,050] INFO: 127.0.0.1 - - [26/Mar/2025 20:38:37] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:38:37,085] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9139907360076904, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 15, 'category_details': [], 'severity_score': 91, 'found_words': []}}, 'timestamp': '2025-03-26T20:38:37.085221'}
+[2025-03-26 20:38:37,085] INFO: 127.0.0.1 - - [26/Mar/2025 20:38:37] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:38:37,109] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8013590574264526, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 35, 'category_details': [], 'severity_score': 80, 'found_words': []}}, 'timestamp': '2025-03-26T20:38:37.109526'}
+[2025-03-26 20:38:37,109] INFO: 127.0.0.1 - - [26/Mar/2025 20:38:37] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:38:37,130] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8451251983642578, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 25, 'category_details': [], 'severity_score': 84, 'found_words': []}}, 'timestamp': '2025-03-26T20:38:37.130517'}
+[2025-03-26 20:38:37,130] INFO: 127.0.0.1 - - [26/Mar/2025 20:38:37] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:38:37,151] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8505464792251587, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 29, 'category_details': [], 'severity_score': 85, 'found_words': []}}, 'timestamp': '2025-03-26T20:38:37.151262'}
+[2025-03-26 20:38:37,151] INFO: 127.0.0.1 - - [26/Mar/2025 20:38:37] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:39:49,942] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/model_handler.py', reloading
+[2025-03-26 20:39:51,588] INFO:  * Restarting with stat
+[2025-03-26 20:39:56,822] INFO: Model başarıyla yüklendi
+[2025-03-26 20:39:56,844] WARNING:  * Debugger is active!
+[2025-03-26 20:39:56,855] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:40:15,102] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/test_api.py', reloading
+[2025-03-26 20:40:15,503] INFO:  * Restarting with stat
+[2025-03-26 20:40:18,037] INFO: Model başarıyla yüklendi
+[2025-03-26 20:40:18,054] WARNING:  * Debugger is active!
+[2025-03-26 20:40:18,063] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:40:26,620] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:26] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:40:26,622] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:26] "GET /api/categories HTTP/1.1" 200 -
+[2025-03-26 20:40:27,194] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8682351112365723, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 64, 'category_details': [], 'severity_score': 86, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.91, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-03-26T20:40:27.194095'}
+[2025-03-26 20:40:27,194] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,220] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8192742466926575, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 71, 'category_details': [], 'severity_score': 81, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 5.55, 'punctuation_count': 1, 'capitalization_ratio': 0.01}}}, 'timestamp': '2025-03-26T20:40:27.220642'}
+[2025-03-26 20:40:27,220] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,248] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7942808866500854, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 63, 'category_details': [], 'severity_score': 79, 'found_words': [], 'metrics': {'word_count': 10, 'average_word_length': 5.4, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-03-26T20:40:27.248157'}
+[2025-03-26 20:40:27,248] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,273] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.708337664604187, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 52, 'category_details': [], 'severity_score': 70, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 3.82, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-03-26T20:40:27.273664'}
+[2025-03-26 20:40:27,273] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,297] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9699050784111023, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 60, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 5.78, 'punctuation_count': 2, 'capitalization_ratio': 0.03}}}, 'timestamp': '2025-03-26T20:40:27.297192'}
+[2025-03-26 20:40:27,297] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,318] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9306671023368835, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 49, 'category_details': [], 'severity_score': 93, 'found_words': [], 'metrics': {'word_count': 9, 'average_word_length': 4.56, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-03-26T20:40:27.318957'}
+[2025-03-26 20:40:27,319] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,342] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7118952870368958, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 51, 'category_details': [], 'severity_score': 71, 'found_words': [], 'metrics': {'word_count': 10, 'average_word_length': 4.2, 'punctuation_count': 1, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-03-26T20:40:27.342510'}
+[2025-03-26 20:40:27,342] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,363] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8307286500930786, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 58, 'category_details': [], 'severity_score': 83, 'found_words': [], 'metrics': {'word_count': 12, 'average_word_length': 3.92, 'punctuation_count': 1, 'capitalization_ratio': 0.03}}}, 'timestamp': '2025-03-26T20:40:27.363794'}
+[2025-03-26 20:40:27,364] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,384] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6278780698776245, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 48, 'category_details': [], 'severity_score': 62, 'found_words': [], 'metrics': {'word_count': 8, 'average_word_length': 5.12, 'punctuation_count': 1, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-03-26T20:40:27.384180'}
+[2025-03-26 20:40:27,384] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,404] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6831791996955872, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 48, 'category_details': [], 'severity_score': 68, 'found_words': [], 'metrics': {'word_count': 7, 'average_word_length': 6.0, 'punctuation_count': 2, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-03-26T20:40:27.404554'}
+[2025-03-26 20:40:27,404] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,427] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9233105778694153, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 40, 'category_details': [], 'severity_score': 92, 'found_words': [], 'metrics': {'word_count': 7, 'average_word_length': 4.86, 'punctuation_count': 2, 'capitalization_ratio': 0.05}}}, 'timestamp': '2025-03-26T20:40:27.427182'}
+[2025-03-26 20:40:27,427] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:40:27,448] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8720557689666748, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 26, 'category_details': [], 'severity_score': 87, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 4.4, 'punctuation_count': 1, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-03-26T20:40:27.448013'}
+[2025-03-26 20:40:27,448] INFO: 127.0.0.1 - - [26/Mar/2025 20:40:27] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:42:55,141] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/teststage/test_model.py', reloading
+[2025-03-26 20:42:55,624] INFO:  * Restarting with stat
+[2025-03-26 20:42:58,714] INFO: Model başarıyla yüklendi
+[2025-03-26 20:42:58,729] WARNING:  * Debugger is active!
+[2025-03-26 20:42:58,737] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:43:59,556] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/test_api.py', reloading
+[2025-03-26 20:43:59,871] INFO:  * Restarting with stat
+[2025-03-26 20:44:01,577] INFO: Model başarıyla yüklendi
+[2025-03-26 20:44:01,590] WARNING:  * Debugger is active!
+[2025-03-26 20:44:01,597] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:45:25,877] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/test_api.py', reloading
+[2025-03-26 20:45:26,201] INFO:  * Restarting with stat
+[2025-03-26 20:45:28,146] INFO: Model başarıyla yüklendi
+[2025-03-26 20:45:28,158] WARNING:  * Debugger is active!
+[2025-03-26 20:45:28,165] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:46:19,919] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/test_api.py', reloading
+[2025-03-26 20:46:20,231] INFO:  * Restarting with stat
+[2025-03-26 20:46:22,116] INFO: Model başarıyla yüklendi
+[2025-03-26 20:46:22,130] WARNING:  * Debugger is active!
+[2025-03-26 20:46:22,137] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 20:46:31,983] INFO: 127.0.0.1 - - [26/Mar/2025 20:46:31] "GET /api/health HTTP/1.1" 200 -
+[2025-03-26 20:46:31,984] INFO: 127.0.0.1 - - [26/Mar/2025 20:46:31] "GET /api/categories HTTP/1.1" 200 -
+[2025-03-26 20:47:12,694] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9015159010887146, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 35, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 7, 'average_word_length': 4.14, 'punctuation_count': 1, 'capitalization_ratio': 0.06}}}, 'timestamp': '2025-03-26T20:47:12.694335'}
+[2025-03-26 20:47:12,694] INFO: 127.0.0.1 - - [26/Mar/2025 20:47:12] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:47:37,158] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9162271022796631, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 27, 'category_details': [], 'severity_score': 91, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 4.6, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:47:37.158506'}
+[2025-03-26 20:47:37,158] INFO: 127.0.0.1 - - [26/Mar/2025 20:47:37] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:48:06,540] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9323679804801941, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 15, 'category_details': [], 'severity_score': 93, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 4.33, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:48:06.540599'}
+[2025-03-26 20:48:06,540] INFO: 127.0.0.1 - - [26/Mar/2025 20:48:06] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:48:18,737] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7602452635765076, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 21, 'category_details': [], 'severity_score': 76, 'found_words': [], 'metrics': {'word_count': 4, 'average_word_length': 4.5, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:48:18.737782'}
+[2025-03-26 20:48:18,738] INFO: 127.0.0.1 - - [26/Mar/2025 20:48:18] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:48:50,776] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7705356478691101, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 17, 'category_details': [], 'severity_score': 77, 'found_words': [], 'metrics': {'word_count': 4, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:48:50.776296'}
+[2025-03-26 20:48:50,776] INFO: 127.0.0.1 - - [26/Mar/2025 20:48:50] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:49:04,901] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8301638960838318, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 30, 'category_details': [], 'severity_score': 83, 'found_words': [], 'metrics': {'word_count': 6, 'average_word_length': 4.17, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:49:04.901182'}
+[2025-03-26 20:49:04,901] INFO: 127.0.0.1 - - [26/Mar/2025 20:49:04] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:49:17,199] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9359692931175232, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 17, 'category_details': [], 'severity_score': 93, 'found_words': [], 'metrics': {'word_count': 4, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:49:17.199485'}
+[2025-03-26 20:49:17,199] INFO: 127.0.0.1 - - [26/Mar/2025 20:49:17] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:49:38,344] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6711542010307312, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 21, 'category_details': [], 'severity_score': 67, 'found_words': [], 'metrics': {'word_count': 4, 'average_word_length': 4.5, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:49:38.344884'}
+[2025-03-26 20:49:38,345] INFO: 127.0.0.1 - - [26/Mar/2025 20:49:38] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:50:06,255] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6914555430412292, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 34, 'category_details': [], 'severity_score': 69, 'found_words': [], 'metrics': {'word_count': 6, 'average_word_length': 4.83, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:50:06.255930'}
+[2025-03-26 20:50:06,256] INFO: 127.0.0.1 - - [26/Mar/2025 20:50:06] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:50:17,588] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5193185210227966, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 15, 'category_details': [], 'severity_score': 51, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 4.33, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:50:17.588732'}
+[2025-03-26 20:50:17,589] INFO: 127.0.0.1 - - [26/Mar/2025 20:50:17] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:50:43,965] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5204648375511169, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 16, 'category_details': [], 'severity_score': 52, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 4.67, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:50:43.964964'}
+[2025-03-26 20:50:43,965] INFO: 127.0.0.1 - - [26/Mar/2025 20:50:43] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:50:52,279] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7097373008728027, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 70, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:50:52.279247'}
+[2025-03-26 20:50:52,279] INFO: 127.0.0.1 - - [26/Mar/2025 20:50:52] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:50:57,433] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8948186635971069, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 4, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-26T20:50:57.433181'}
+[2025-03-26 20:50:57,433] INFO: 127.0.0.1 - - [26/Mar/2025 20:50:57] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 20:58:57,471] INFO: Model başarıyla yüklendi
+[2025-03-26 20:58:57,507] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.45:8000
+[2025-03-26 20:58:57,507] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-26 20:58:57,508] INFO:  * Restarting with stat
+[2025-03-26 20:59:00,065] INFO: Model başarıyla yüklendi
+[2025-03-26 20:59:00,084] WARNING:  * Debugger is active!
+[2025-03-26 20:59:00,102] INFO:  * Debugger PIN: 557-011-667
+[2025-03-26 21:25:02,241] INFO: 127.0.0.1 - - [26/Mar/2025 21:25:02] "GET /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 21:45:14,289] INFO: 127.0.0.1 - - [26/Mar/2025 21:45:14] "GET /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-26 21:45:17,242] INFO: 127.0.0.1 - - [26/Mar/2025 21:45:17] "GET /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 11:09:17,551] INFO: Model başarıyla yüklendi
+[2025-03-27 11:09:17,603] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.46:8000
+[2025-03-27 11:09:17,603] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-27 11:09:17,604] INFO:  * Restarting with stat
+[2025-03-27 11:09:19,980] INFO: Model başarıyla yüklendi
+[2025-03-27 11:09:19,999] WARNING:  * Debugger is active!
+[2025-03-27 11:09:20,013] INFO:  * Debugger PIN: 557-011-667
+[2025-03-27 11:10:05,909] INFO: Model başarıyla yüklendi
+[2025-03-27 11:10:05,930] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.46:8000
+[2025-03-27 11:10:05,930] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-27 11:10:05,931] INFO:  * Restarting with stat
+[2025-03-27 11:10:08,266] INFO: Model başarıyla yüklendi
+[2025-03-27 11:10:08,280] WARNING:  * Debugger is active!
+[2025-03-27 11:10:08,288] INFO:  * Debugger PIN: 557-011-667
+[2025-03-27 11:10:14,262] INFO: 127.0.0.1 - - [27/Mar/2025 11:10:14] "[33mGET / HTTP/1.1[0m" 404 -
+[2025-03-27 11:10:21,528] INFO: 127.0.0.1 - - [27/Mar/2025 11:10:21] "GET /api/health HTTP/1.1" 200 -
+[2025-03-27 11:10:33,633] INFO: 127.0.0.1 - - [27/Mar/2025 11:10:33] "GET /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 11:10:37,056] INFO: 127.0.0.1 - - [27/Mar/2025 11:10:37] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+[2025-03-27 11:10:37,058] INFO: 127.0.0.1 - - [27/Mar/2025 11:10:37] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+[2025-03-27 11:10:37,060] INFO: 127.0.0.1 - - [27/Mar/2025 11:10:37] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2025-03-27 11:14:24,098] INFO: 127.0.0.1 - - [27/Mar/2025 11:14:24] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+[2025-03-27 11:14:24,101] INFO: 127.0.0.1 - - [27/Mar/2025 11:14:24] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+[2025-03-27 11:14:24,102] INFO: 127.0.0.1 - - [27/Mar/2025 11:14:24] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2025-03-27 11:19:06,239] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8670876026153564, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 4, 'category_details': [], 'severity_score': 86, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-27T11:19:06.239266'}
+[2025-03-27 11:19:06,241] INFO: 127.0.0.1 - - [27/Mar/2025 11:19:06] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 11:20:20,059] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8670876026153564, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 4, 'category_details': [], 'severity_score': 86, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-27T11:20:20.058836'}
+[2025-03-27 11:20:20,061] INFO: 192.168.1.46 - - [27/Mar/2025 11:20:20] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 11:23:43,256] INFO: Model başarıyla yüklendi
+[2025-03-27 11:23:43,284] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.45:8000
+[2025-03-27 11:23:43,284] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-27 11:23:43,285] INFO:  * Restarting with stat
+[2025-03-27 11:23:45,647] INFO: Model başarıyla yüklendi
+[2025-03-27 11:23:45,663] WARNING:  * Debugger is active!
+[2025-03-27 11:23:45,672] INFO:  * Debugger PIN: 557-011-667
+[2025-03-27 12:09:12,647] INFO: 127.0.0.1 - - [27/Mar/2025 12:09:12] "[33mGET / HTTP/1.1[0m" 404 -
+[2025-03-27 12:09:18,882] INFO: 127.0.0.1 - - [27/Mar/2025 12:09:18] "GET /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:14:49,734] INFO: Model başarıyla yüklendi
+[2025-03-27 15:14:49,793] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.45:8000
+[2025-03-27 15:14:49,793] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-27 15:14:49,794] INFO:  * Restarting with stat
+[2025-03-27 15:14:52,542] INFO: Model başarıyla yüklendi
+[2025-03-27 15:14:52,558] WARNING:  * Debugger is active!
+[2025-03-27 15:14:52,566] INFO:  * Debugger PIN: 557-011-667
+[2025-03-27 15:20:16,822] INFO: 127.0.0.1 - - [27/Mar/2025 15:20:16] "GET /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:21:00,480] INFO: 192.168.1.45 - - [27/Mar/2025 15:21:00] "GET /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:21:00,568] INFO: 192.168.1.45 - - [27/Mar/2025 15:21:00] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2025-03-27 15:27:28,620] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7090473175048828, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 70, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:27:28.619885'}
+[2025-03-27 15:27:28,624] INFO: 192.168.1.43 - - [27/Mar/2025 15:27:28] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:27:28,809] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8119574785232544, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 2, 'category_details': [], 'severity_score': 81, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 2.0, 'punctuation_count': 0, 'capitalization_ratio': 0.5}}}, 'timestamp': '2025-03-27T15:27:28.809486'}
+[2025-03-27 15:27:28,809] INFO: 192.168.1.43 - - [27/Mar/2025 15:27:28] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:27:28,841] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.821040689945221, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 3, 'category_details': [], 'severity_score': 82, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 3.0, 'punctuation_count': 0, 'capitalization_ratio': 0.33}}}, 'timestamp': '2025-03-27T15:27:28.841516'}
+[2025-03-27 15:27:28,841] INFO: 192.168.1.43 - - [27/Mar/2025 15:27:28] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:27:28,895] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8184828758239746, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 4, 'category_details': [], 'severity_score': 81, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.25}}}, 'timestamp': '2025-03-27T15:27:28.895009'}
+[2025-03-27 15:27:28,895] INFO: 192.168.1.43 - - [27/Mar/2025 15:27:28] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:27:28,936] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9269176125526428, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 92, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-03-27T15:27:28.936404'}
+[2025-03-27 15:27:28,936] INFO: 192.168.1.43 - - [27/Mar/2025 15:27:28] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:27:29,111] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9090980887413025, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 6, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 6.0, 'punctuation_count': 0, 'capitalization_ratio': 0.17}}}, 'timestamp': '2025-03-27T15:27:29.111711'}
+[2025-03-27 15:27:29,111] INFO: 192.168.1.43 - - [27/Mar/2025 15:27:29] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:27:29,297] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.961280107498169, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 7, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 7.0, 'punctuation_count': 0, 'capitalization_ratio': 0.14}}}, 'timestamp': '2025-03-27T15:27:29.297152'}
+[2025-03-27 15:27:29,297] INFO: 192.168.1.43 - - [27/Mar/2025 15:27:29] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:27:38,021] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9644793272018433, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 8.0, 'punctuation_count': 0, 'capitalization_ratio': 0.12}}}, 'timestamp': '2025-03-27T15:27:38.021688'}
+[2025-03-27 15:27:38,022] INFO: 192.168.1.43 - - [27/Mar/2025 15:27:38] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:27:46,110] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9644793272018433, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 8.0, 'punctuation_count': 0, 'capitalization_ratio': 0.12}}}, 'timestamp': '2025-03-27T15:27:46.110013'}
+[2025-03-27 15:27:46,110] INFO: 192.168.1.43 - - [27/Mar/2025 15:27:46] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:28:20,728] INFO: 127.0.0.1 - - [27/Mar/2025 15:28:20] "GET /api/health HTTP/1.1" 200 -
+[2025-03-27 15:28:20,731] INFO: 127.0.0.1 - - [27/Mar/2025 15:28:20] "GET /api/categories HTTP/1.1" 200 -
+[2025-03-27 15:28:30,093] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8531227111816406, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 17, 'category_details': [], 'severity_score': 85, 'found_words': [], 'metrics': {'word_count': 4, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.06}}}, 'timestamp': '2025-03-27T15:28:30.093699'}
+[2025-03-27 15:28:30,094] INFO: 127.0.0.1 - - [27/Mar/2025 15:28:30] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:30:14,407] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6694249510765076, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 66, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:30:14.407644'}
+[2025-03-27 15:30:14,409] INFO: 192.168.1.43 - - [27/Mar/2025 15:30:14] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:31:57,362] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7090473175048828, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 70, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:31:57.362010'}
+[2025-03-27 15:31:57,363] INFO: 192.168.1.43 - - [27/Mar/2025 15:31:57] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:32:05,582] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9057736396789551, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 2, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 2.0, 'punctuation_count': 0, 'capitalization_ratio': 0.5}}}, 'timestamp': '2025-03-27T15:32:05.582679'}
+[2025-03-27 15:32:05,583] INFO: 192.168.1.43 - - [27/Mar/2025 15:32:05] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:33:08,170] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5021542906761169, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 50, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:33:08.170090'}
+[2025-03-27 15:33:08,171] INFO: 192.168.1.43 - - [27/Mar/2025 15:33:08] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:34:31,254] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7090473175048828, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 70, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:34:31.254229'}
+[2025-03-27 15:34:31,255] INFO: 192.168.1.43 - - [27/Mar/2025 15:34:31] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:34:37,079] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9057736396789551, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 2, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 2.0, 'punctuation_count': 0, 'capitalization_ratio': 0.5}}}, 'timestamp': '2025-03-27T15:34:37.079761'}
+[2025-03-27 15:34:37,080] INFO: 192.168.1.43 - - [27/Mar/2025 15:34:37] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:34:37,558] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.819907546043396, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 3, 'category_details': [], 'severity_score': 81, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 3.0, 'punctuation_count': 0, 'capitalization_ratio': 0.33}}}, 'timestamp': '2025-03-27T15:34:37.558731'}
+[2025-03-27 15:34:37,559] INFO: 192.168.1.43 - - [27/Mar/2025 15:34:37] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:35:54,905] INFO: Model başarıyla yüklendi
+[2025-03-27 15:35:54,940] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.45:8000
+[2025-03-27 15:35:54,940] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-27 15:35:54,941] INFO:  * Restarting with stat
+[2025-03-27 15:35:57,365] INFO: Model başarıyla yüklendi
+[2025-03-27 15:35:57,380] WARNING:  * Debugger is active!
+[2025-03-27 15:35:57,390] INFO:  * Debugger PIN: 557-011-667
+[2025-03-27 15:36:13,621] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.852525532245636, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 11, 'category_details': [], 'severity_score': 85, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-27T15:36:13.620971'}
+[2025-03-27 15:36:13,622] INFO: 192.168.1.45 - - [27/Mar/2025 15:36:13] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:36:58,094] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7461144924163818, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 74, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:36:58.093719'}
+[2025-03-27 15:36:58,095] INFO: 192.168.1.43 - - [27/Mar/2025 15:36:58] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:36:58,239] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8052942752838135, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 2, 'category_details': [], 'severity_score': 80, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 2.0, 'punctuation_count': 0, 'capitalization_ratio': 0.5}}}, 'timestamp': '2025-03-27T15:36:58.239052'}
+[2025-03-27 15:36:58,239] INFO: 192.168.1.43 - - [27/Mar/2025 15:36:58] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:36:58,292] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9311748743057251, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 3, 'category_details': [], 'severity_score': 93, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 3.0, 'punctuation_count': 0, 'capitalization_ratio': 0.33}}}, 'timestamp': '2025-03-27T15:36:58.292661'}
+[2025-03-27 15:36:58,292] INFO: 192.168.1.43 - - [27/Mar/2025 15:36:58] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:37:52,205] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5364924669265747, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 53, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:37:52.205675'}
+[2025-03-27 15:37:52,206] INFO: 192.168.1.43 - - [27/Mar/2025 15:37:52] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:37:52,324] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5573824048042297, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 2, 'category_details': [], 'severity_score': 55, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 2.0, 'punctuation_count': 0, 'capitalization_ratio': 0.5}}}, 'timestamp': '2025-03-27T15:37:52.324730'}
+[2025-03-27 15:37:52,325] INFO: 192.168.1.43 - - [27/Mar/2025 15:37:52] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:38:23,928] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.852525532245636, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 11, 'category_details': [], 'severity_score': 85, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-27T15:38:23.928472'}
+[2025-03-27 15:38:23,929] INFO: 192.168.1.45 - - [27/Mar/2025 15:38:23] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:10,262] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6938852667808533, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 69, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:39:10.262511'}
+[2025-03-27 15:39:10,264] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:10] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:15,891] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6431297659873962, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 2, 'category_details': [], 'severity_score': 64, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 2.0, 'punctuation_count': 0, 'capitalization_ratio': 0.5}}}, 'timestamp': '2025-03-27T15:39:15.891540'}
+[2025-03-27 15:39:15,891] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:15] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:17,901] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7042326331138611, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 3, 'category_details': [], 'severity_score': 70, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 3.0, 'punctuation_count': 0, 'capitalization_ratio': 0.33}}}, 'timestamp': '2025-03-27T15:39:17.901657'}
+[2025-03-27 15:39:17,902] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:17] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:18,490] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.607155442237854, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 4, 'category_details': [], 'severity_score': 60, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.25}}}, 'timestamp': '2025-03-27T15:39:18.490713'}
+[2025-03-27 15:39:18,491] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:18] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:19,643] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7042326331138611, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 3, 'category_details': [], 'severity_score': 70, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 3.0, 'punctuation_count': 0, 'capitalization_ratio': 0.33}}}, 'timestamp': '2025-03-27T15:39:19.643432'}
+[2025-03-27 15:39:19,643] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:19] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:20,118] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6431297659873962, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 2, 'category_details': [], 'severity_score': 64, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 2.0, 'punctuation_count': 0, 'capitalization_ratio': 0.5}}}, 'timestamp': '2025-03-27T15:39:20.118672'}
+[2025-03-27 15:39:20,119] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:20] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:20,205] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6938852667808533, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 69, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:39:20.205955'}
+[2025-03-27 15:39:20,206] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:20] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:21,909] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6694249510765076, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 66, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:39:21.909038'}
+[2025-03-27 15:39:21,909] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:21] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:22,421] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6665230393409729, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 2, 'category_details': [], 'severity_score': 66, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 2.0, 'punctuation_count': 0, 'capitalization_ratio': 0.5}}}, 'timestamp': '2025-03-27T15:39:22.421958'}
+[2025-03-27 15:39:22,422] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:22] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:28,774] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5222687721252441, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 3, 'category_details': [], 'severity_score': 52, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 3.0, 'punctuation_count': 0, 'capitalization_ratio': 0.33}}}, 'timestamp': '2025-03-27T15:39:28.774800'}
+[2025-03-27 15:39:28,775] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:28] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:28,901] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5677329897880554, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 4, 'category_details': [], 'severity_score': 56, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.25}}}, 'timestamp': '2025-03-27T15:39:28.901888'}
+[2025-03-27 15:39:28,902] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:28] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:50,235] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9625179767608643, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-03-27T15:39:50.235890'}
+[2025-03-27 15:39:50,237] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:50] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:39:56,095] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9625179767608643, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-03-27T15:39:56.095520'}
+[2025-03-27 15:39:56,096] INFO: 192.168.1.43 - - [27/Mar/2025 15:39:56] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:40:22,811] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6694249510765076, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 1, 'category_details': [], 'severity_score': 66, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 1.0, 'punctuation_count': 0, 'capitalization_ratio': 1.0}}}, 'timestamp': '2025-03-27T15:40:22.811150'}
+[2025-03-27 15:40:22,811] INFO: 192.168.1.43 - - [27/Mar/2025 15:40:22] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:40:25,871] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6665230393409729, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 2, 'category_details': [], 'severity_score': 66, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 2.0, 'punctuation_count': 0, 'capitalization_ratio': 0.5}}}, 'timestamp': '2025-03-27T15:40:25.871038'}
+[2025-03-27 15:40:25,871] INFO: 192.168.1.43 - - [27/Mar/2025 15:40:25] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:42:43,962] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9625179767608643, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-03-27T15:42:43.962287'}
+[2025-03-27 15:42:43,964] INFO: 192.168.1.43 - - [27/Mar/2025 15:42:43] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:45:39,300] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9625179767608643, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-03-27T15:45:39.299483'}
+[2025-03-27 15:45:39,302] INFO: 192.168.1.43 - - [27/Mar/2025 15:45:39] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:48:42,530] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9625179767608643, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-03-27T15:48:42.529660'}
+[2025-03-27 15:48:42,531] INFO: 192.168.1.43 - - [27/Mar/2025 15:48:42] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:48:59,724] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8982376456260681, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.12}}}, 'timestamp': '2025-03-27T15:48:59.724090'}
+[2025-03-27 15:48:59,724] INFO: 192.168.1.43 - - [27/Mar/2025 15:48:59] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:49:28,496] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6786441802978516, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 18, 'category_details': [], 'severity_score': 67, 'found_words': [], 'metrics': {'word_count': 4, 'average_word_length': 3.75, 'punctuation_count': 0, 'capitalization_ratio': 0.06}}}, 'timestamp': '2025-03-27T15:49:28.496131'}
+[2025-03-27 15:49:28,497] INFO: 192.168.1.43 - - [27/Mar/2025 15:49:28] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 15:49:41,914] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.584968626499176, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 25, 'category_details': [], 'severity_score': 58, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 4.2, 'punctuation_count': 0, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-03-27T15:49:41.914875'}
+[2025-03-27 15:49:41,915] INFO: 192.168.1.43 - - [27/Mar/2025 15:49:41] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-27 17:43:08,274] INFO: Model başarıyla yüklendi
+[2025-03-27 17:43:08,309] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-27 17:43:08,309] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-27 17:43:08,310] INFO:  * Restarting with stat
+[2025-03-27 17:43:10,689] INFO: Model başarıyla yüklendi
+[2025-03-27 17:43:10,703] WARNING:  * Debugger is active!
+[2025-03-27 17:43:10,716] INFO:  * Debugger PIN: 557-011-667
+[2025-03-27 19:13:36,063] INFO: Model başarıyla yüklendi
+[2025-03-27 19:13:36,150] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-03-27 19:13:36,150] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-27 19:13:36,151] INFO:  * Restarting with stat
+[2025-03-27 19:13:42,765] INFO: Model başarıyla yüklendi
+[2025-03-27 19:13:42,817] WARNING:  * Debugger is active!
+[2025-03-27 19:13:43,025] INFO:  * Debugger PIN: 557-011-667
+[2025-03-27 19:14:07,462] INFO: 127.0.0.1 - - [27/Mar/2025 19:14:07] "GET /api/health HTTP/1.1" 200 -
+[2025-03-27 19:14:07,467] INFO: 127.0.0.1 - - [27/Mar/2025 19:14:07] "GET /api/categories HTTP/1.1" 200 -
+[2025-03-27 19:14:26,256] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8947325348854065, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-03-27T19:14:26.256578'}
+[2025-03-27 19:14:26,258] INFO: 127.0.0.1 - - [27/Mar/2025 19:14:26] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 10:17:18,107] INFO: Model başarıyla yüklendi
+[2025-03-31 10:17:18,147] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.45:8000
+[2025-03-31 10:17:18,147] INFO: [33mPress CTRL+C to quit[0m
+[2025-03-31 10:17:18,148] INFO:  * Restarting with stat
+[2025-03-31 10:17:20,606] INFO: Model başarıyla yüklendi
+[2025-03-31 10:17:20,630] WARNING:  * Debugger is active!
+[2025-03-31 10:17:20,639] INFO:  * Debugger PIN: 557-011-667
+[2025-03-31 10:20:19,311] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9286926984786987, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 2, 'category_details': [], 'severity_score': 92, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 2.0, 'punctuation_count': 0, 'capitalization_ratio': 0.5}}}, 'timestamp': '2025-03-31T10:20:19.311081'}
+[2025-03-31 10:20:19,316] INFO: 192.168.1.50 - - [31/Mar/2025 10:20:19] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 10:20:41,387] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6206257939338684, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 7, 'category_details': [], 'severity_score': 62, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.0, 'punctuation_count': 0, 'capitalization_ratio': 0.14}}}, 'timestamp': '2025-03-31T10:20:41.386969'}
+[2025-03-31 10:20:41,388] INFO: 192.168.1.50 - - [31/Mar/2025 10:20:41] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 10:28:55,176] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8351221084594727, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 17, 'category_details': [], 'severity_score': 83, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.06}}}, 'timestamp': '2025-03-31T10:28:55.176898'}
+[2025-03-31 10:28:55,178] INFO: 192.168.1.50 - - [31/Mar/2025 10:28:55] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 10:28:55,278] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8351221084594727, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 17, 'category_details': [], 'severity_score': 83, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.06}}}, 'timestamp': '2025-03-31T10:28:55.278814'}
+[2025-03-31 10:28:55,279] INFO: 192.168.1.50 - - [31/Mar/2025 10:28:55] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 10:29:04,634] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9265058636665344, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 14, 'category_details': [], 'severity_score': 92, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.07}}}, 'timestamp': '2025-03-31T10:29:04.634682'}
+[2025-03-31 10:29:04,635] INFO: 192.168.1.50 - - [31/Mar/2025 10:29:04] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 10:44:24,395] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8982376456260681, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.12}}}, 'timestamp': '2025-03-31T10:44:24.394900'}
+[2025-03-31 10:44:24,396] INFO: 192.168.1.50 - - [31/Mar/2025 10:44:24] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 10:44:30,823] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9625179767608643, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-03-31T10:44:30.823259'}
+[2025-03-31 10:44:30,823] INFO: 192.168.1.50 - - [31/Mar/2025 10:44:30] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 10:44:30,904] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9625179767608643, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-03-31T10:44:30.904953'}
+[2025-03-31 10:44:30,905] INFO: 192.168.1.50 - - [31/Mar/2025 10:44:30] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 13:14:38,515] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8861674070358276, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 15, 'category_details': [], 'severity_score': 88, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 4.33, 'punctuation_count': 0, 'capitalization_ratio': 0.07}}}, 'timestamp': '2025-03-31T13:14:38.515139'}
+[2025-03-31 13:14:38,519] INFO: 192.168.1.50 - - [31/Mar/2025 13:14:38] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 13:14:38,730] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8861674070358276, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 15, 'category_details': [], 'severity_score': 88, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 4.33, 'punctuation_count': 0, 'capitalization_ratio': 0.07}}}, 'timestamp': '2025-03-31T13:14:38.730214'}
+[2025-03-31 13:14:38,730] INFO: 192.168.1.50 - - [31/Mar/2025 13:14:38] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 13:15:36,964] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7891647815704346, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 13, 'category_details': [], 'severity_score': 78, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 3.67, 'punctuation_count': 0, 'capitalization_ratio': 0.08}}}, 'timestamp': '2025-03-31T13:15:36.963842'}
+[2025-03-31 13:15:36,965] INFO: 192.168.1.50 - - [31/Mar/2025 13:15:36] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 13:15:47,325] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8671854138374329, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 7, 'category_details': [], 'severity_score': 86, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.0, 'punctuation_count': 0, 'capitalization_ratio': 0.14}}}, 'timestamp': '2025-03-31T13:15:47.325310'}
+[2025-03-31 13:15:47,325] INFO: 192.168.1.50 - - [31/Mar/2025 13:15:47] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 13:15:49,626] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8671854138374329, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 7, 'category_details': [], 'severity_score': 86, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.0, 'punctuation_count': 0, 'capitalization_ratio': 0.14}}}, 'timestamp': '2025-03-31T13:15:49.625963'}
+[2025-03-31 13:15:49,626] INFO: 192.168.1.50 - - [31/Mar/2025 13:15:49] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-03-31 13:15:54,997] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9262011051177979, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 92, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-03-31T13:15:54.997604'}
+[2025-03-31 13:15:54,998] INFO: 192.168.1.50 - - [31/Mar/2025 13:15:54] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-01 12:29:27,008] INFO: Model başarıyla yüklendi
+[2025-04-01 12:29:27,062] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-04-01 12:29:27,062] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-01 12:29:27,063] INFO:  * Restarting with stat
+[2025-04-01 12:29:29,468] INFO: Model başarıyla yüklendi
+[2025-04-01 12:29:29,481] WARNING:  * Debugger is active!
+[2025-04-01 12:29:29,491] INFO:  * Debugger PIN: 557-011-667
+[2025-04-04 21:31:28,724] INFO: Model başarıyla yüklendi
+[2025-04-04 21:31:28,757] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.45:8000
+[2025-04-04 21:31:28,757] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-04 21:31:28,758] INFO:  * Restarting with stat
+[2025-04-04 21:31:31,451] INFO: Model başarıyla yüklendi
+[2025-04-04 21:31:31,474] WARNING:  * Debugger is active!
+[2025-04-04 21:31:31,486] INFO:  * Debugger PIN: 557-011-667
+[2025-04-04 21:32:17,632] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8942322731018066, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 3, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 3.0, 'punctuation_count': 1, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-04T21:32:17.632384'}
+[2025-04-04 21:32:17,634] INFO: 192.168.1.50 - - [04/Apr/2025 21:32:17] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-04 21:32:18,232] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6342953443527222, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 63, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 1, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-04T21:32:18.232320'}
+[2025-04-04 21:32:18,232] INFO: 192.168.1.50 - - [04/Apr/2025 21:32:18] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-04 21:32:18,503] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6342953443527222, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 63, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 1, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-04T21:32:18.503659'}
+[2025-04-04 21:32:18,504] INFO: 192.168.1.50 - - [04/Apr/2025 21:32:18] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-04 21:38:20,794] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8942322731018066, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 3, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 3.0, 'punctuation_count': 1, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-04T21:38:20.793757'}
+[2025-04-04 21:38:20,796] INFO: 192.168.1.50 - - [04/Apr/2025 21:38:20] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-04 21:38:25,836] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5153822302818298, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 51, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 1, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-04T21:38:25.836676'}
+[2025-04-04 21:38:25,837] INFO: 192.168.1.50 - - [04/Apr/2025 21:38:25] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-04 21:38:26,014] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5153822302818298, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 51, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 1, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-04T21:38:26.014904'}
+[2025-04-04 21:38:26,015] INFO: 192.168.1.50 - - [04/Apr/2025 21:38:26] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-04 22:29:13,264] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7230898141860962, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 72, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.12}}}, 'timestamp': '2025-04-04T22:29:13.261900'}
+[2025-04-04 22:29:13,271] INFO: 192.168.1.50 - - [04/Apr/2025 22:29:13] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-04 22:29:13,539] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7230898141860962, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 72, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.12}}}, 'timestamp': '2025-04-04T22:29:13.539547'}
+[2025-04-04 22:29:13,540] INFO: 192.168.1.50 - - [04/Apr/2025 22:29:13] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-04 22:29:29,938] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8137026429176331, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 25, 'category_details': [], 'severity_score': 81, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 4.2, 'punctuation_count': 0, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-04T22:29:29.938344'}
+[2025-04-04 22:29:29,938] INFO: 192.168.1.50 - - [04/Apr/2025 22:29:29] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-04 22:29:32,799] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8137026429176331, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 25, 'category_details': [], 'severity_score': 81, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 4.2, 'punctuation_count': 0, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-04T22:29:32.799654'}
+[2025-04-04 22:29:32,800] INFO: 192.168.1.50 - - [04/Apr/2025 22:29:32] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-04 22:32:27,506] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/chatbot.py', reloading
+[2025-04-04 22:32:28,536] INFO:  * Restarting with stat
+[2025-04-04 22:32:31,652] INFO: Model başarıyla yüklendi
+[2025-04-04 22:32:31,679] WARNING:  * Debugger is active!
+[2025-04-04 22:32:31,688] INFO:  * Debugger PIN: 557-011-667
+[2025-04-05 00:00:13,241] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8982376456260681, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.12}}}, 'timestamp': '2025-04-05T00:00:13.240876'}
+[2025-04-05 00:00:13,245] INFO: 192.168.1.50 - - [05/Apr/2025 00:00:13] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 00:00:58,202] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9722030162811279, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 10, 'category_details': [], 'severity_score': 97, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 4.5, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-04-05T00:00:58.202323'}
+[2025-04-05 00:00:58,203] INFO: 192.168.1.50 - - [05/Apr/2025 00:00:58] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 00:00:58,303] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9722030162811279, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 10, 'category_details': [], 'severity_score': 97, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 4.5, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-04-05T00:00:58.303098'}
+[2025-04-05 00:00:58,303] INFO: 192.168.1.50 - - [05/Apr/2025 00:00:58] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 00:01:11,025] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8490964770317078, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 13, 'category_details': [], 'severity_score': 84, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 3.67, 'punctuation_count': 0, 'capitalization_ratio': 0.08}}}, 'timestamp': '2025-04-05T00:01:11.025247'}
+[2025-04-05 00:01:11,025] INFO: 192.168.1.50 - - [05/Apr/2025 00:01:11] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 00:01:13,041] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8490964770317078, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 13, 'category_details': [], 'severity_score': 84, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 3.67, 'punctuation_count': 0, 'capitalization_ratio': 0.08}}}, 'timestamp': '2025-04-05T00:01:13.041885'}
+[2025-04-05 00:01:13,042] INFO: 192.168.1.50 - - [05/Apr/2025 00:01:13] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 00:02:31,391] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8463309407234192, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 14, 'category_details': [], 'severity_score': 84, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.07}}}, 'timestamp': '2025-04-05T00:02:31.391230'}
+[2025-04-05 00:02:31,393] INFO: 192.168.1.50 - - [05/Apr/2025 00:02:31] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 00:02:31,448] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8463309407234192, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 14, 'category_details': [], 'severity_score': 84, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.07}}}, 'timestamp': '2025-04-05T00:02:31.448711'}
+[2025-04-05 00:02:31,448] INFO: 192.168.1.50 - - [05/Apr/2025 00:02:31] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 00:03:18,692] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9478436708450317, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 27, 'category_details': [], 'severity_score': 94, 'found_words': [], 'metrics': {'word_count': 6, 'average_word_length': 3.67, 'punctuation_count': 0, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-05T00:03:18.692698'}
+[2025-04-05 00:03:18,696] INFO: 192.168.1.50 - - [05/Apr/2025 00:03:18] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 00:03:20,150] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9248249530792236, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 92, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.12}}}, 'timestamp': '2025-04-05T00:03:20.150821'}
+[2025-04-05 00:03:20,151] INFO: 192.168.1.50 - - [05/Apr/2025 00:03:20] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 00:03:28,802] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9248249530792236, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 92, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.12}}}, 'timestamp': '2025-04-05T00:03:28.802401'}
+[2025-04-05 00:03:28,804] INFO: 192.168.1.50 - - [05/Apr/2025 00:03:28] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 00:04:20,450] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9248249530792236, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 8, 'category_details': [], 'severity_score': 92, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 3.5, 'punctuation_count': 0, 'capitalization_ratio': 0.12}}}, 'timestamp': '2025-04-05T00:04:20.450192'}
+[2025-04-05 00:04:20,453] INFO: 192.168.1.50 - - [05/Apr/2025 00:04:20] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 12:29:38,583] INFO: Model başarıyla yüklendi
+[2025-04-05 12:29:38,674] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.44:8000
+[2025-04-05 12:29:38,675] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-05 12:29:38,677] INFO:  * Restarting with stat
+[2025-04-05 12:29:44,102] INFO: Model başarıyla yüklendi
+[2025-04-05 12:29:44,150] WARNING:  * Debugger is active!
+[2025-04-05 12:29:44,171] INFO:  * Debugger PIN: 557-011-667
+[2025-04-05 12:29:44,185] INFO: 127.0.0.1 - - [05/Apr/2025 12:29:44] "GET /api/health HTTP/1.1" 200 -
+[2025-04-05 12:29:44,192] INFO: 127.0.0.1 - - [05/Apr/2025 12:29:44] "GET /api/categories HTTP/1.1" 200 -
+[2025-04-05 12:30:20,921] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8567384481430054, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 15, 'category_details': [], 'severity_score': 85, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 4.33, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-05T12:30:20.921103'}
+[2025-04-05 12:30:20,923] INFO: 127.0.0.1 - - [05/Apr/2025 12:30:20] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 12:42:16,057] INFO: Model başarıyla yüklendi
+[2025-04-05 12:42:16,088] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.45:8000
+[2025-04-05 12:42:16,088] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-05 12:42:16,089] INFO:  * Restarting with stat
+[2025-04-05 12:42:18,739] INFO: Model başarıyla yüklendi
+[2025-04-05 12:42:18,775] WARNING:  * Debugger is active!
+[2025-04-05 12:42:18,790] INFO:  * Debugger PIN: 557-011-667
+[2025-04-05 12:59:55,480] INFO: 127.0.0.1 - - [05/Apr/2025 12:59:55] "GET /api/health HTTP/1.1" 200 -
+[2025-04-05 12:59:55,486] INFO: 127.0.0.1 - - [05/Apr/2025 12:59:55] "GET /api/categories HTTP/1.1" 200 -
+[2025-04-05 13:00:59,048] INFO: Model başarıyla yüklendi
+[2025-04-05 13:00:59,078] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://172.20.10.3:8000
+[2025-04-05 13:00:59,078] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-05 13:00:59,079] INFO:  * Restarting with stat
+[2025-04-05 13:01:01,810] INFO: Model başarıyla yüklendi
+[2025-04-05 13:01:01,825] WARNING:  * Debugger is active!
+[2025-04-05 13:01:01,838] INFO:  * Debugger PIN: 557-011-667
+[2025-04-05 13:01:06,144] INFO: 127.0.0.1 - - [05/Apr/2025 13:01:06] "GET /api/health HTTP/1.1" 200 -
+[2025-04-05 13:01:06,146] INFO: 127.0.0.1 - - [05/Apr/2025 13:01:06] "GET /api/categories HTTP/1.1" 200 -
+[2025-04-05 13:01:10,410] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5026249289512634, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 24, 'category_details': [], 'severity_score': 50, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-05T13:01:10.410512'}
+[2025-04-05 13:01:10,410] INFO: 127.0.0.1 - - [05/Apr/2025 13:01:10] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:03:06,918] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7362200617790222, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 31, 'category_details': [], 'severity_score': 73, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 5.4, 'punctuation_count': 0, 'capitalization_ratio': 0.1}}}, 'timestamp': '2025-04-05T13:03:06.918141'}
+[2025-04-05 13:03:06,919] INFO: 127.0.0.1 - - [05/Apr/2025 13:03:06] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:03:06,945] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6136334538459778, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 40, 'category_details': [], 'severity_score': 61, 'found_words': [], 'metrics': {'word_count': 8, 'average_word_length': 4.12, 'punctuation_count': 1, 'capitalization_ratio': 0.05}}}, 'timestamp': '2025-04-05T13:03:06.945469'}
+[2025-04-05 13:03:06,945] INFO: 127.0.0.1 - - [05/Apr/2025 13:03:06] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:03:06,968] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9858654737472534, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 35, 'category_details': [], 'severity_score': 98, 'found_words': [], 'metrics': {'word_count': 4, 'average_word_length': 8.0, 'punctuation_count': 3, 'capitalization_ratio': 0.03}}}, 'timestamp': '2025-04-05T13:03:06.968850'}
+[2025-04-05 13:03:06,969] INFO: 127.0.0.1 - - [05/Apr/2025 13:03:06] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:03:06,991] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9559595584869385, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 127, 'category_details': [], 'severity_score': 95, 'found_words': [], 'metrics': {'word_count': 13, 'average_word_length': 8.85, 'punctuation_count': 1, 'capitalization_ratio': 0.13}}}, 'timestamp': '2025-04-05T13:03:06.991274'}
+[2025-04-05 13:03:06,991] INFO: 127.0.0.1 - - [05/Apr/2025 13:03:06] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:03:07,012] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8830370306968689, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 15, 'category_details': [], 'severity_score': 88, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 7.0, 'punctuation_count': 1, 'capitalization_ratio': 0.07}}}, 'timestamp': '2025-04-05T13:03:07.012330'}
+[2025-04-05 13:03:07,012] INFO: 127.0.0.1 - - [05/Apr/2025 13:03:07] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:03:07,033] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8991983532905579, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 31, 'category_details': [], 'severity_score': 89, 'found_words': [], 'metrics': {'word_count': 6, 'average_word_length': 4.33, 'punctuation_count': 2, 'capitalization_ratio': 0.03}}}, 'timestamp': '2025-04-05T13:03:07.033156'}
+[2025-04-05 13:03:07,033] INFO: 127.0.0.1 - - [05/Apr/2025 13:03:07] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:03:07,053] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.845415472984314, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 19, 'category_details': [], 'severity_score': 84, 'found_words': [], 'metrics': {'word_count': 3, 'average_word_length': 5.67, 'punctuation_count': 1, 'capitalization_ratio': 0.11}}}, 'timestamp': '2025-04-05T13:03:07.053940'}
+[2025-04-05 13:03:07,054] INFO: 127.0.0.1 - - [05/Apr/2025 13:03:07] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:03:07,073] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.915035605430603, 'category': '1', 'details': {'emoji_count': 1, 'text_length': 32, 'category_details': [], 'severity_score': 91, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 5.6, 'punctuation_count': 0, 'capitalization_ratio': 0.03}}}, 'timestamp': '2025-04-05T13:03:07.073383'}
+[2025-04-05 13:03:07,073] INFO: 127.0.0.1 - - [05/Apr/2025 13:03:07] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:03:07,093] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9873025417327881, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 23, 'category_details': [], 'severity_score': 98, 'found_words': [], 'metrics': {'word_count': 2, 'average_word_length': 11.0, 'punctuation_count': 3, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-05T13:03:07.093181'}
+[2025-04-05 13:03:07,093] INFO: 127.0.0.1 - - [05/Apr/2025 13:03:07] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:03:07,115] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9559595584869385, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 127, 'category_details': [], 'severity_score': 95, 'found_words': [], 'metrics': {'word_count': 13, 'average_word_length': 8.85, 'punctuation_count': 1, 'capitalization_ratio': 0.13}}}, 'timestamp': '2025-04-05T13:03:07.115499'}
+[2025-04-05 13:03:07,115] INFO: 127.0.0.1 - - [05/Apr/2025 13:03:07] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:18:25,522] INFO: Model başarıyla yüklendi
+[2025-04-05 13:18:25,560] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.45:8000
+[2025-04-05 13:18:25,560] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-05 13:18:25,561] INFO:  * Restarting with stat
+[2025-04-05 13:18:28,182] INFO: Model başarıyla yüklendi
+[2025-04-05 13:18:28,202] WARNING:  * Debugger is active!
+[2025-04-05 13:18:28,212] INFO:  * Debugger PIN: 557-011-667
+[2025-04-05 13:19:38,356] INFO: Model başarıyla yüklendi
+[2025-04-05 13:19:38,386] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.45:8000
+[2025-04-05 13:19:38,386] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-05 13:19:38,386] INFO:  * Restarting with stat
+[2025-04-05 13:19:40,688] INFO: Model başarıyla yüklendi
+[2025-04-05 13:19:40,701] WARNING:  * Debugger is active!
+[2025-04-05 13:19:40,711] INFO:  * Debugger PIN: 557-011-667
+[2025-04-05 13:21:30,268] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.6862366199493408, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 26, 'category_details': [], 'severity_score': 68, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 4.4, 'punctuation_count': 0, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-05T13:21:30.268573'}
+[2025-04-05 13:21:30,270] INFO: 192.168.1.47 - - [05/Apr/2025 13:21:30] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:22:00,165] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8040165901184082, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 7, 'category_details': [], 'severity_score': 80, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 7.0, 'punctuation_count': 0, 'capitalization_ratio': 0.14}}}, 'timestamp': '2025-04-05T13:22:00.165562'}
+[2025-04-05 13:22:00,166] INFO: 192.168.1.47 - - [05/Apr/2025 13:22:00] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:22:04,659] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8040165901184082, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 7, 'category_details': [], 'severity_score': 80, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 7.0, 'punctuation_count': 0, 'capitalization_ratio': 0.14}}}, 'timestamp': '2025-04-05T13:22:04.659269'}
+[2025-04-05 13:22:04,660] INFO: 192.168.1.47 - - [05/Apr/2025 13:22:04] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:22:11,563] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8040165901184082, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 7, 'category_details': [], 'severity_score': 80, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 7.0, 'punctuation_count': 0, 'capitalization_ratio': 0.14}}}, 'timestamp': '2025-04-05T13:22:11.563541'}
+[2025-04-05 13:22:11,564] INFO: 192.168.1.47 - - [05/Apr/2025 13:22:11] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:22:30,351] INFO: 127.0.0.1 - - [05/Apr/2025 13:22:30] "GET /api/health HTTP/1.1" 200 -
+[2025-04-05 13:22:30,354] INFO: 127.0.0.1 - - [05/Apr/2025 13:22:30] "GET /api/categories HTTP/1.1" 200 -
+[2025-04-05 13:22:34,816] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8040165901184082, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 7, 'category_details': [], 'severity_score': 80, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 7.0, 'punctuation_count': 0, 'capitalization_ratio': 0.14}}}, 'timestamp': '2025-04-05T13:22:34.816522'}
+[2025-04-05 13:22:34,817] INFO: 127.0.0.1 - - [05/Apr/2025 13:22:34] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:22:44,322] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9625179767608643, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-04-05T13:22:44.321999'}
+[2025-04-05 13:22:44,322] INFO: 127.0.0.1 - - [05/Apr/2025 13:22:44] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:22:57,080] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9625179767608643, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-04-05T13:22:57.080328'}
+[2025-04-05 13:22:57,080] INFO: 192.168.1.47 - - [05/Apr/2025 13:22:57] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-05 13:22:57,185] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9625179767608643, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 5, 'category_details': [], 'severity_score': 96, 'found_words': [], 'metrics': {'word_count': 1, 'average_word_length': 5.0, 'punctuation_count': 0, 'capitalization_ratio': 0.2}}}, 'timestamp': '2025-04-05T13:22:57.185250'}
+[2025-04-05 13:22:57,185] INFO: 192.168.1.47 - - [05/Apr/2025 13:22:57] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 11:15:29,758] INFO: Fake news modeli bulunamadı, eğitiliyor...
+[2025-04-07 11:15:35,896] INFO: Fake news modeli eğitildi. Doğruluk: 0.99
+[2025-04-07 11:15:35,990] INFO: Modeller başarıyla yüklendi
+[2025-04-07 11:15:36,059] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.139:8000
+[2025-04-07 11:15:36,059] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-07 11:15:36,060] INFO:  * Restarting with stat
+[2025-04-07 11:15:38,619] INFO: Fake news modeli başarıyla yüklendi
+[2025-04-07 11:15:38,619] INFO: Modeller başarıyla yüklendi
+[2025-04-07 11:15:38,638] WARNING:  * Debugger is active!
+[2025-04-07 11:15:38,646] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 20:24:40,385] INFO: Model başarıyla yüklendi
+[2025-04-07 20:24:40,444] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:8000
+ * Running on http://192.168.1.139:8000
+[2025-04-07 20:24:40,444] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-07 20:24:40,445] INFO:  * Restarting with stat
+[2025-04-07 20:24:42,975] INFO: Model başarıyla yüklendi
+[2025-04-07 20:24:42,992] WARNING:  * Debugger is active!
+[2025-04-07 20:24:43,004] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:12:03,591] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:12:03,644] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://192.168.1.139:8000
+[2025-04-07 21:12:03,644] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-07 21:12:03,645] INFO:  * Restarting with stat
+[2025-04-07 21:12:06,317] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:12:06,334] WARNING:  * Debugger is active!
+[2025-04-07 21:12:06,344] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:12:17,274] INFO: 192.168.1.139 - - [07/Apr/2025 21:12:17] "[31m[1mPOST /api/predict HTTP/1.1[0m" 400 -
+[2025-04-07 21:12:17,279] INFO: 192.168.1.139 - - [07/Apr/2025 21:12:17] "[35m[1mPOST /api/predict HTTP/1.1[0m" 500 -
+[2025-04-07 21:12:17,285] INFO: 192.168.1.139 - - [07/Apr/2025 21:12:17] "[35m[1mPOST /api/train HTTP/1.1[0m" 500 -
+[2025-04-07 21:12:55,166] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:12:55,224] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://192.168.1.139:8000
+[2025-04-07 21:12:55,224] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-07 21:12:55,225] INFO:  * Restarting with stat
+[2025-04-07 21:12:58,189] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:12:58,213] WARNING:  * Debugger is active!
+[2025-04-07 21:12:58,223] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:13:09,101] INFO: 192.168.1.139 - - [07/Apr/2025 21:13:09] "[31m[1mPOST /api/predict HTTP/1.1[0m" 400 -
+[2025-04-07 21:13:09,105] INFO: 192.168.1.139 - - [07/Apr/2025 21:13:09] "[35m[1mPOST /api/predict HTTP/1.1[0m" 500 -
+[2025-04-07 21:13:09,112] INFO: 192.168.1.139 - - [07/Apr/2025 21:13:09] "[35m[1mPOST /api/train HTTP/1.1[0m" 500 -
+[2025-04-07 21:13:30,143] INFO: 192.168.1.139 - - [07/Apr/2025 21:13:30] "[31m[1mGET /api/predict HTTP/1.1[0m" 405 -
+[2025-04-07 21:13:30,746] INFO: 192.168.1.139 - - [07/Apr/2025 21:13:30] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+[2025-04-07 21:16:08,460] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/test_api.py', reloading
+[2025-04-07 21:16:09,107] INFO:  * Restarting with stat
+[2025-04-07 21:16:12,655] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:16:12,673] WARNING:  * Debugger is active!
+[2025-04-07 21:16:12,683] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:16:21,448] INFO: 192.168.1.139 - - [07/Apr/2025 21:16:21] "GET /api/health HTTP/1.1" 200 -
+[2025-04-07 21:16:21,451] INFO: 192.168.1.139 - - [07/Apr/2025 21:16:21] "GET /api/categories HTTP/1.1" 200 -
+[2025-04-07 21:16:39,257] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8787375688552856, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 19, 'category_details': [], 'severity_score': 87, 'found_words': [], 'metrics': {'word_count': 4, 'average_word_length': 4.0, 'punctuation_count': 0, 'capitalization_ratio': 0.05}}}, 'timestamp': '2025-04-07T21:16:39.257069'}
+[2025-04-07 21:16:39,257] INFO: 192.168.1.139 - - [07/Apr/2025 21:16:39] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:17:11,201] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8763736486434937, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 28, 'category_details': [], 'severity_score': 87, 'found_words': [], 'metrics': {'word_count': 4, 'average_word_length': 6.25, 'punctuation_count': 0, 'capitalization_ratio': 0.07}}}, 'timestamp': '2025-04-07T21:17:11.201765'}
+[2025-04-07 21:17:11,202] INFO: 192.168.1.139 - - [07/Apr/2025 21:17:11] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:18:01,325] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/test_api.py', reloading
+[2025-04-07 21:18:01,936] INFO:  * Restarting with stat
+[2025-04-07 21:18:05,472] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:18:05,493] WARNING:  * Debugger is active!
+[2025-04-07 21:18:05,505] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:18:10,701] INFO: 192.168.1.139 - - [07/Apr/2025 21:18:10] "GET /api/health HTTP/1.1" 200 -
+[2025-04-07 21:18:10,704] INFO: 192.168.1.139 - - [07/Apr/2025 21:18:10] "GET /api/categories HTTP/1.1" 200 -
+[2025-04-07 21:18:19,208] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8450774550437927, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 29, 'category_details': [], 'severity_score': 84, 'found_words': [], 'metrics': {'word_count': 4, 'average_word_length': 6.5, 'punctuation_count': 0, 'capitalization_ratio': 0.03}}}, 'timestamp': '2025-04-07T21:18:19.208295'}
+[2025-04-07 21:18:19,208] INFO: 192.168.1.139 - - [07/Apr/2025 21:18:19] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:18:41,734] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8651764988899231, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 31, 'category_details': [], 'severity_score': 86, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 5.4, 'punctuation_count': 0, 'capitalization_ratio': 0.0}}}, 'timestamp': '2025-04-07T21:18:41.734431'}
+[2025-04-07 21:18:41,734] INFO: 192.168.1.139 - - [07/Apr/2025 21:18:41] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:19:18,587] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:19:18.587087'}
+[2025-04-07 21:19:18,589] INFO: 192.168.1.139 - - [07/Apr/2025 21:19:18] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:19:54,166] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/test_api.py', reloading
+[2025-04-07 21:19:54,589] INFO:  * Restarting with stat
+[2025-04-07 21:19:57,878] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:19:57,893] WARNING:  * Debugger is active!
+[2025-04-07 21:19:57,900] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:21:00,927] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/test_api.py', reloading
+[2025-04-07 21:21:01,333] INFO:  * Restarting with stat
+[2025-04-07 21:21:04,488] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:21:04,507] WARNING:  * Debugger is active!
+[2025-04-07 21:21:04,518] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:21:06,556] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:06] "GET /api/health HTTP/1.1" 200 -
+[2025-04-07 21:21:06,559] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:06] "GET /api/categories HTTP/1.1" 200 -
+[2025-04-07 21:21:06,627] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8682351112365723, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 64, 'category_details': [], 'severity_score': 86, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.91, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:21:06.627797'}
+[2025-04-07 21:21:06,628] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:06] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:06,630] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:06.630159'}
+[2025-04-07 21:21:06,630] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:06] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:21:07,678] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8192742466926575, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 71, 'category_details': [], 'severity_score': 81, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 5.55, 'punctuation_count': 1, 'capitalization_ratio': 0.01}}}, 'timestamp': '2025-04-07T21:21:07.678346'}
+[2025-04-07 21:21:07,678] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:07] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:07,680] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:07.680809'}
+[2025-04-07 21:21:07,681] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:07] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:21:08,730] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7942808866500854, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 63, 'category_details': [], 'severity_score': 79, 'found_words': [], 'metrics': {'word_count': 10, 'average_word_length': 5.4, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:21:08.730428'}
+[2025-04-07 21:21:08,730] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:08] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:08,732] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:08.732924'}
+[2025-04-07 21:21:08,733] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:08] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:21:09,773] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9021164774894714, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 59, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 12, 'average_word_length': 4.0, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:21:09.773829'}
+[2025-04-07 21:21:09,774] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:09] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:09,776] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:09.776430'}
+[2025-04-07 21:21:09,776] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:09] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:21:10,824] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8112121224403381, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 46, 'category_details': [], 'severity_score': 81, 'found_words': [], 'metrics': {'word_count': 8, 'average_word_length': 4.88, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:21:10.824149'}
+[2025-04-07 21:21:10,824] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:10] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:10,826] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:10.826886'}
+[2025-04-07 21:21:10,827] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:10] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:21:11,876] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9020323753356934, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 194, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 29, 'average_word_length': 5.72, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:21:11.876578'}
+[2025-04-07 21:21:11,876] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:11] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:11,878] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:11.878933'}
+[2025-04-07 21:21:11,879] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:11] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:21:12,926] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5051633715629578, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 138, 'category_details': [], 'severity_score': 50, 'found_words': [], 'metrics': {'word_count': 21, 'average_word_length': 5.62, 'punctuation_count': 2, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-07T21:21:12.926188'}
+[2025-04-07 21:21:12,926] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:12] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:12,928] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:12.928747'}
+[2025-04-07 21:21:12,928] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:12] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:21:13,976] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8828744888305664, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 165, 'category_details': [], 'severity_score': 88, 'found_words': [], 'metrics': {'word_count': 24, 'average_word_length': 5.92, 'punctuation_count': 3, 'capitalization_ratio': 0.01}}}, 'timestamp': '2025-04-07T21:21:13.976153'}
+[2025-04-07 21:21:13,976] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:13] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:13,978] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:13.978589'}
+[2025-04-07 21:21:13,978] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:13] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:21:15,028] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7342188954353333, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 162, 'category_details': [], 'severity_score': 73, 'found_words': [], 'metrics': {'word_count': 28, 'average_word_length': 4.82, 'punctuation_count': 2, 'capitalization_ratio': 0.01}}}, 'timestamp': '2025-04-07T21:21:15.028764'}
+[2025-04-07 21:21:15,029] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:15] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:15,030] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:15.030825'}
+[2025-04-07 21:21:15,030] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:15] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:21:16,097] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7831083536148071, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 115, 'category_details': [], 'severity_score': 78, 'found_words': [], 'metrics': {'word_count': 16, 'average_word_length': 6.25, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:21:16.097238'}
+[2025-04-07 21:21:16,097] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:16] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:16,099] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:16.099901'}
+[2025-04-07 21:21:16,100] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:16] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:21:17,144] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7228556871414185, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 93, 'category_details': [], 'severity_score': 72, 'found_words': [], 'metrics': {'word_count': 13, 'average_word_length': 6.23, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:21:17.144704'}
+[2025-04-07 21:21:17,145] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:17] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:21:17,147] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': False, 'confidence': 0.0, 'prediction': 'Analiz Hatası', 'details': {'error': 'Model dosyaları bulunamadı. Lütfen önce modeli eğitin.'}}, 'timestamp': '2025-04-07T21:21:17.147349'}
+[2025-04-07 21:21:17,147] INFO: 192.168.1.139 - - [07/Apr/2025 21:21:17] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:24:13,361] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/models/fake_news_model.py', reloading
+[2025-04-07 21:24:13,942] INFO:  * Restarting with stat
+[2025-04-07 21:24:19,511] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:24:19,532] WARNING:  * Debugger is active!
+[2025-04-07 21:24:19,539] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:24:42,942] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/models/fake_news_model.py', reloading
+[2025-04-07 21:24:43,352] INFO:  * Restarting with stat
+[2025-04-07 21:24:46,020] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:24:46,038] WARNING:  * Debugger is active!
+[2025-04-07 21:24:46,047] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:25:00,291] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/models/fake_news_model.py', reloading
+[2025-04-07 21:25:00,691] INFO:  * Restarting with stat
+[2025-04-07 21:25:03,613] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:25:03,632] WARNING:  * Debugger is active!
+[2025-04-07 21:25:03,640] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:25:35,789] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:35] "GET /api/health HTTP/1.1" 200 -
+[2025-04-07 21:25:35,791] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:35] "GET /api/categories HTTP/1.1" 200 -
+[2025-04-07 21:25:36,323] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8682351112365723, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 64, 'category_details': [], 'severity_score': 86, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 4.91, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:25:36.323759'}
+[2025-04-07 21:25:36,324] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:36] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:36,327] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.6123751215269249, 'prediction': 'Sahte Haber', 'details': {'is_true': False, 'confidence_score': 0.6123751215269249}}, 'timestamp': '2025-04-07T21:25:36.327965'}
+[2025-04-07 21:25:36,328] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:36] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:25:37,372] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8192742466926575, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 71, 'category_details': [], 'severity_score': 81, 'found_words': [], 'metrics': {'word_count': 11, 'average_word_length': 5.55, 'punctuation_count': 1, 'capitalization_ratio': 0.01}}}, 'timestamp': '2025-04-07T21:25:37.371984'}
+[2025-04-07 21:25:37,372] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:37] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:37,375] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.7248720263416948, 'prediction': 'Sahte Haber', 'details': {'is_true': False, 'confidence_score': 0.7248720263416948}}, 'timestamp': '2025-04-07T21:25:37.375283'}
+[2025-04-07 21:25:37,375] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:37] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:25:38,426] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7942808866500854, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 63, 'category_details': [], 'severity_score': 79, 'found_words': [], 'metrics': {'word_count': 10, 'average_word_length': 5.4, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:25:38.426547'}
+[2025-04-07 21:25:38,426] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:38] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:38,429] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.6600886915098432, 'prediction': 'Sahte Haber', 'details': {'is_true': False, 'confidence_score': 0.6600886915098432}}, 'timestamp': '2025-04-07T21:25:38.429952'}
+[2025-04-07 21:25:38,430] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:38] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:25:39,471] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9021164774894714, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 59, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 12, 'average_word_length': 4.0, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:25:39.471171'}
+[2025-04-07 21:25:39,471] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:39] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:39,474] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.5334796672431565, 'prediction': 'Sahte Haber', 'details': {'is_true': False, 'confidence_score': 0.5334796672431565}}, 'timestamp': '2025-04-07T21:25:39.474098'}
+[2025-04-07 21:25:39,474] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:39] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:25:40,520] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8112121224403381, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 46, 'category_details': [], 'severity_score': 81, 'found_words': [], 'metrics': {'word_count': 8, 'average_word_length': 4.88, 'punctuation_count': 1, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:25:40.520194'}
+[2025-04-07 21:25:40,520] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:40] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:40,523] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.6892329269781516, 'prediction': 'Sahte Haber', 'details': {'is_true': False, 'confidence_score': 0.6892329269781516}}, 'timestamp': '2025-04-07T21:25:40.523264'}
+[2025-04-07 21:25:40,523] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:40] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:25:41,571] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.9020323753356934, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 194, 'category_details': [], 'severity_score': 90, 'found_words': [], 'metrics': {'word_count': 29, 'average_word_length': 5.72, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:25:41.571455'}
+[2025-04-07 21:25:41,571] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:41] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:41,574] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.5600480284927644, 'prediction': 'Sahte Haber', 'details': {'is_true': False, 'confidence_score': 0.5600480284927644}}, 'timestamp': '2025-04-07T21:25:41.574726'}
+[2025-04-07 21:25:41,574] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:41] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:25:42,618] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5051633715629578, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 138, 'category_details': [], 'severity_score': 50, 'found_words': [], 'metrics': {'word_count': 21, 'average_word_length': 5.62, 'punctuation_count': 2, 'capitalization_ratio': 0.04}}}, 'timestamp': '2025-04-07T21:25:42.618031'}
+[2025-04-07 21:25:42,618] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:42] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:42,621] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.6145890156468379, 'prediction': 'Gerçek Haber', 'details': {'is_true': True, 'confidence_score': 0.6145890156468379}}, 'timestamp': '2025-04-07T21:25:42.621206'}
+[2025-04-07 21:25:42,621] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:42] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:25:43,668] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.8828744888305664, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 165, 'category_details': [], 'severity_score': 88, 'found_words': [], 'metrics': {'word_count': 24, 'average_word_length': 5.92, 'punctuation_count': 3, 'capitalization_ratio': 0.01}}}, 'timestamp': '2025-04-07T21:25:43.668738'}
+[2025-04-07 21:25:43,669] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:43] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:43,672] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.5777934245643689, 'prediction': 'Sahte Haber', 'details': {'is_true': False, 'confidence_score': 0.5777934245643689}}, 'timestamp': '2025-04-07T21:25:43.672085'}
+[2025-04-07 21:25:43,672] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:43] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:25:44,719] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7342188954353333, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 162, 'category_details': [], 'severity_score': 73, 'found_words': [], 'metrics': {'word_count': 28, 'average_word_length': 4.82, 'punctuation_count': 2, 'capitalization_ratio': 0.01}}}, 'timestamp': '2025-04-07T21:25:44.719018'}
+[2025-04-07 21:25:44,719] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:44] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:44,722] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.7845958334876694, 'prediction': 'Sahte Haber', 'details': {'is_true': False, 'confidence_score': 0.7845958334876694}}, 'timestamp': '2025-04-07T21:25:44.722610'}
+[2025-04-07 21:25:44,722] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:44] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:25:45,771] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7831083536148071, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 115, 'category_details': [], 'severity_score': 78, 'found_words': [], 'metrics': {'word_count': 16, 'average_word_length': 6.25, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:25:45.771484'}
+[2025-04-07 21:25:45,771] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:45] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:45,774] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.5887822532468727, 'prediction': 'Sahte Haber', 'details': {'is_true': False, 'confidence_score': 0.5887822532468727}}, 'timestamp': '2025-04-07T21:25:45.774530'}
+[2025-04-07 21:25:45,774] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:45] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:25:46,821] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.7228556871414185, 'category': '1', 'details': {'emoji_count': 0, 'text_length': 93, 'category_details': [], 'severity_score': 72, 'found_words': [], 'metrics': {'word_count': 13, 'average_word_length': 6.23, 'punctuation_count': 2, 'capitalization_ratio': 0.02}}}, 'timestamp': '2025-04-07T21:25:46.821933'}
+[2025-04-07 21:25:46,822] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:46] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:25:46,825] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_news': True, 'confidence': 0.6033221725380699, 'prediction': 'Gerçek Haber', 'details': {'is_true': True, 'confidence_score': 0.6033221725380699}}, 'timestamp': '2025-04-07T21:25:46.825657'}
+[2025-04-07 21:25:46,825] INFO: 192.168.1.139 - - [07/Apr/2025 21:25:46] "POST /api/check-news HTTP/1.1" 200 -
+[2025-04-07 21:27:42,047] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:27:42,094] INFO: [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://192.168.1.139:8000
+[2025-04-07 21:27:42,094] INFO: [33mPress CTRL+C to quit[0m
+[2025-04-07 21:27:42,095] INFO:  * Restarting with stat
+[2025-04-07 21:27:44,906] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:27:44,926] WARNING:  * Debugger is active!
+[2025-04-07 21:27:44,934] INFO:  * Debugger PIN: 557-011-667
+[2025-04-07 21:38:42,775] INFO: 192.168.1.139 - - [07/Apr/2025 21:38:42] "[33mGET /api HTTP/1.1[0m" 404 -
+[2025-04-07 21:38:42,845] INFO: 192.168.1.139 - - [07/Apr/2025 21:38:42] "[33mGET /apple-touch-icon-precomposed.png HTTP/1.1[0m" 404 -
+[2025-04-07 21:38:42,862] INFO: 192.168.1.139 - - [07/Apr/2025 21:38:42] "[33mGET /apple-touch-icon.png HTTP/1.1[0m" 404 -
+[2025-04-07 21:40:16,279] INFO: 192.168.1.139 - - [07/Apr/2025 21:40:16] "GET /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:40:23,483] INFO: 192.168.1.139 - - [07/Apr/2025 21:40:23] "GET /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:41:23,274] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5782638192176819, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 22, 'category_details': [], 'severity_score': 57, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 3.6, 'punctuation_count': 0, 'capitalization_ratio': 0.05}}}, 'timestamp': '2025-04-07T21:41:23.274245'}
+[2025-04-07 21:41:23,276] INFO: 192.168.1.138 - - [07/Apr/2025 21:41:23] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:41:23,393] INFO: Metin analizi başarılı: {'status': 'success', 'data': {'is_hate_speech': False, 'confidence': 0.5782638192176819, 'category': '0', 'details': {'emoji_count': 0, 'text_length': 22, 'category_details': [], 'severity_score': 57, 'found_words': [], 'metrics': {'word_count': 5, 'average_word_length': 3.6, 'punctuation_count': 0, 'capitalization_ratio': 0.05}}}, 'timestamp': '2025-04-07T21:41:23.393749'}
+[2025-04-07 21:41:23,394] INFO: 192.168.1.138 - - [07/Apr/2025 21:41:23] "POST /api/check-hate-speech HTTP/1.1" 200 -
+[2025-04-07 21:42:22,741] INFO:  * Detected change in '/Users/murathankarasu/Lori/LoriBackend/hate_speech_api/app/model_handler.py', reloading
+[2025-04-07 21:42:27,328] INFO:  * Restarting with stat
+[2025-04-07 21:42:35,992] INFO: Modeller başarıyla yüklendi
+[2025-04-07 21:42:36,019] WARNING:  * Debugger is active!
+[2025-04-07 21:42:36,084] INFO:  * Debugger PIN: 557-011-667
