@@ -9,6 +9,9 @@ struct PostView: View {
     @State private var showComments = false
     @State private var isLiked = false
     @State private var likeCount: Int
+    @State private var disinformationCheck: DisinformationResponse?
+    @State private var isCheckingDisinformation = false
+    @State private var showDisinformationDetail = false
     
     init(post: Post, isFollowing: Bool, onFollowTapped: @escaping (String) -> Void) {
         self.post = post
@@ -108,10 +111,36 @@ struct PostView: View {
                 }
                 .padding(.top, 8)
             }
+            
+            if let check = disinformationCheck {
+                Button(action: { showDisinformationDetail = true }) {
+                    DisinformationCheckSummaryView(response: check)
+                }
+                .sheet(isPresented: $showDisinformationDetail) {
+                    DisinformationCheckDetailView(response: check)
+                }
+            }
+            
+            if isCheckingDisinformation {
+                ProgressView("Dezenformasyon kontrolü yapılıyor...")
+                    .padding()
+            }
         }
         .padding()
         .background(Color(.systemGray6))
         .cornerRadius(15)
+        .onAppear {
+            Task {
+                do {
+                    isCheckingDisinformation = true
+                    disinformationCheck = try await DisinformationService().getDisinformationCheck(for: post.id)
+                    isCheckingDisinformation = false
+                } catch {
+                    print("Dezenformasyon kontrolü yüklenirken hata oluştu: \(error)")
+                    isCheckingDisinformation = false
+                }
+            }
+        }
     }
     
     private func toggleLike() {
@@ -127,6 +156,46 @@ struct PostView: View {
                 print("Beğeni güncellenirken hata oluştu: \(error.localizedDescription)")
             }
         }
+    }
+}
+
+struct DisinformationCheckView: View {
+    let response: DisinformationResponse
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Image(systemName: response.isVerified ? "checkmark.seal.fill" : "exclamationmark.triangle.fill")
+                    .foregroundColor(response.isVerified ? .green : .orange)
+                
+                Text(response.isVerified ? "Bu içerik doğrulanmıştır" : "Bu içerik için doğrulama yapılamadı")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+            }
+            
+            if let sources = response.sources, !sources.isEmpty {
+                Text("Kaynaklar:")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                
+                ForEach(sources, id: \.self) { source in
+                    Link(destination: URL(string: source)!) {
+                        Text(source)
+                            .font(.caption)
+                            .foregroundColor(.blue)
+                            .lineLimit(1)
+                    }
+                }
+            }
+            
+            Text(response.explanation)
+                .font(.caption)
+                .foregroundColor(.gray)
+        }
+        .padding()
+        .background(Color(.systemBackground))
+        .cornerRadius(12)
+        .shadow(radius: 2)
     }
 }
 

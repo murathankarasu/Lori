@@ -87,14 +87,13 @@ struct AddCommentView: View {
                     )
                     
                     let db = Firestore.firestore()
+                    let commentData: [String: Any] = [
+                        "content": comment.content,
+                        "userId": comment.userId,
+                        "createdAt": FieldValue.serverTimestamp()
+                    ]
                     try await db.collection("posts").document(post.id).updateData([
-                        "comments": FieldValue.arrayUnion([[
-                            "id": comment.id,
-                            "userId": comment.userId,
-                            "username": comment.username,
-                            "content": comment.content,
-                            "timestamp": comment.timestamp
-                        ]])
+                        "comments": FieldValue.arrayUnion([commentData])
                     ])
                     
                     dismiss()
