@@ -16,6 +16,7 @@ struct PostDetailView: View {
                 
                 ScrollView {
                     VStack(spacing: 16) {
+                        // Header ve içerik bölümleri
                         PostHeaderView(post: post)
                             .padding(.horizontal)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -24,142 +25,22 @@ struct PostDetailView: View {
                             .padding(.horizontal)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        // Dezenformasyon kontrolü sonucu (ViewModel'dan al)
-                        if let check = viewModel.disinformationCheck, check.explanation != "This content does not require verification." {
-                            VStack(alignment: .leading, spacing: 8) {
-                                HStack {
-                                    Image(systemName: check.isVerified ? "checkmark.seal.fill" : "exclamationmark.triangle.fill")
-                                        .foregroundColor(check.isVerified ? .green : .yellow)
-                                    Text(check.isVerified ? "Verified Content" : "Unverified Content")
-                                        .font(.subheadline)
-                                        .foregroundColor(.white)
-                                
-                                    Spacer() // Butonu sağa yaslamak için
-
-                                    // Manuel Doğrulama Butonu
-                                    Button(action: {
-                                        viewModel.verifyPostManually()
-                                    }) {
-                                        if viewModel.isCheckingDisinformation {
-                                            ProgressView()
-                                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                                .scaleEffect(0.7)
-                                        } else {
-                                            Image(systemName: "arrow.clockwise.circle")
-                                                .foregroundColor(.blue)
-                                        }
-                                    }
-                                    .disabled(viewModel.isCheckingDisinformation)
-                                }
-                                
-                                Text(check.explanation)
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                                
-                                if let sources = check.sources, !sources.isEmpty {
-                                    Text("Sources:")
-                                        .font(.caption)
-                                        .foregroundColor(.gray)
-                                    ForEach(sources, id: \.self) { source in
-                                        // URL kontrolü ekleyelim
-                                        if let url = URL(string: source) {
-                                            Link(destination: url) {
-                                                Text(source)
-                                                    .font(.caption)
-                                                    .foregroundColor(.blue)
-                                            }
-                                        } else {
-                                            Text("Invalid source URL: \(source)")
-                                                .font(.caption)
-                                                .foregroundColor(.red)
-                                        }
-                                    }
-                                }
-                            }
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(12)
-                            .padding(.horizontal)
-                        } else if viewModel.isCheckingDisinformation {
-                             // Henüz sonuç yoksa ve kontrol ediliyorsa yükleme göstergesi
-                             ProgressView("Checking information...")
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                .foregroundColor(.white)
-                                .padding()
-                        } else if let check = viewModel.disinformationCheck, check.claims.isEmpty {
-                            // Fact Check API'den boş yanıt geldiğinde
-                            VStack(alignment: .leading, spacing: 8) {
-                                HStack {
-                                    Image(systemName: "exclamationmark.triangle.fill")
-                                        .foregroundColor(.yellow)
-                                    Text("Doğrulama Bilgisi Bulunamadı")
-                                        .font(.subheadline)
-                                        .foregroundColor(.white)
-                                    
-                                    Spacer()
-                                    
-                                    Button(action: {
-                                        viewModel.verifyPostManually()
-                                    }) {
-                                        if viewModel.isCheckingDisinformation {
-                                            ProgressView()
-                                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                                .scaleEffect(0.7)
-                                        } else {
-                                            Image(systemName: "arrow.clockwise.circle")
-                                                .foregroundColor(.blue)
-                                        }
-                                    }
-                                    .disabled(viewModel.isCheckingDisinformation)
-                                }
-                                
-                                Text("Bu içerik için henüz doğrulama bilgisi bulunamadı. Lütfen daha sonra tekrar kontrol edin.")
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(12)
-                            .padding(.horizontal)
-                        } else {
-                            // Doğrulama kontrolü yapılmamışsa buton göster
-                            HStack {
-                                Button(action: {
-                                    viewModel.verifyPostManually()
-                                }) {
-                                    HStack {
-                                        Image(systemName: "checkmark.shield")
-                                            .foregroundColor(.blue)
-                                        Text("Doğrulama Kontrolü")
-                                            .foregroundColor(.white)
-                                    }
-                                    .padding(.vertical, 8)
-                                    .padding(.horizontal, 12)
-                                    .background(Color.gray.opacity(0.2))
-                                    .cornerRadius(8)
-                                }
-                                .disabled(viewModel.isCheckingDisinformation)
-                                
-                                if viewModel.isCheckingDisinformation {
-                                    ProgressView()
-                                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                        .scaleEffect(0.7)
-                                }
-                            }
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal)
+                        // Dezenformasyon kontrolü görünümü - sadece gerekli durumlarda göster
+                        if viewModel.shouldShowDisinformationCheck {
+                            disinformationView
+                            
+                            Divider()
+                                .background(Color.gray.opacity(0.3))
+                                .padding(.horizontal)
                         }
                         
-                        Divider()
-                            .background(Color.gray.opacity(0.3))
-                            .padding(.horizontal)
-                        
+                        // Post aksiyonları
                         PostActionsView(
                             post: post,
                             isLiked: viewModel.isLiked,
                             likesCount: viewModel.likesCount,
                             commentsCount: viewModel.comments.count,
-                            onLikeTapped: { viewModel.toggleLike() }, // Doğrudan ViewModel fonksiyonunu çağır
+                            onLikeTapped: { viewModel.toggleLike() },
                             onCommentTapped: { showCommentSheet = true }
                         )
                         .padding(.horizontal)
@@ -168,6 +49,7 @@ struct PostDetailView: View {
                             .background(Color.gray.opacity(0.3))
                             .padding(.horizontal)
                         
+                        // Yorumlar listesi
                         CommentsListView(comments: viewModel.comments)
                             .padding(.horizontal)
                             .frame(maxWidth: .infinity, alignment: .leading)
@@ -184,17 +66,11 @@ struct PostDetailView: View {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.white)
                 },
-                trailing: post.userId == Auth.auth().currentUser?.uid ? Button(action: {
-                    showDeleteAlert = true
-                }) {
-                    Image(systemName: "trash")
-                        .foregroundColor(.red)
-                } : nil
+                trailing: deleteButton
             )
         }
         .alert("Gönderiyi Sil", isPresented: $showDeleteAlert) {
             Button("İptal", role: .cancel) { }
-                .foregroundColor(.white) // Alert buton renkleri sistem tarafından belirlenir, bu işe yaramayabilir
             Button("Sil", role: .destructive) {
                 viewModel.deletePost(post) {
                     dismiss()
@@ -202,16 +78,115 @@ struct PostDetailView: View {
             }
         } message: {
             Text("Bu gönderiyi silmek istediğinizden emin misiniz?")
-              // .foregroundColor(.white) // Alert mesaj renkleri sistem tarafından belirlenir
         }
         .sheet(isPresented: $showCommentSheet) {
             AddCommentView(post: post)
         }
         .onAppear {
-            // ViewModel'ı post ile yükle
             viewModel.loadPostDetails(post)
-            // View içindeki checkDisinformation çağrısı kaldırıldı, ViewModel hallediyor
-            // checkDisinformation()
+        }
+    }
+    
+    // MARK: - Yardımcı görünümler
+    
+    @ViewBuilder
+    private var deleteButton: some View {
+        if post.userId == Auth.auth().currentUser?.uid {
+            Button(action: {
+                showDeleteAlert = true
+            }) {
+                Image(systemName: "trash")
+                    .foregroundColor(.red)
+            }
+        } else {
+            EmptyView()
+        }
+    }
+    
+    @ViewBuilder
+    private var disinformationView: some View {
+        Group {
+            if let check = viewModel.disinformationCheck {
+                disinformationResultView(check)
+            } else if viewModel.isCheckingDisinformation {
+                disinformationLoadingView
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func disinformationResultView(_ check: DisinformationResponse) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                if check.isVerified {
+                    Image(systemName: "checkmark.seal.fill")
+                        .foregroundColor(.blue)
+                        .font(.system(size: 22))
+                    Text("Verified Content")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                } else {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundColor(.yellow)
+                        .font(.system(size: 22))
+                    Text("Unverified Content")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                }
+            }
+            
+            if check.isVerified {
+                Text("This content has been verified by Lori's AI-powered fact-checking system in collaboration with trusted sources.")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(.top, 4)
+            }
+            
+            Text(check.explanation)
+                .font(.subheadline)
+                .foregroundColor(.gray)
+                .padding(.top, 4)
+            
+            if let sources = check.sources, !sources.isEmpty {
+                sourcesView(sources)
+            }
+        }
+        .padding()
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(12)
+        .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    private var disinformationLoadingView: some View {
+        ProgressView("Checking information...")
+           .progressViewStyle(CircularProgressViewStyle(tint: .white))
+           .foregroundColor(.white)
+           .padding()
+    }
+    
+    @ViewBuilder
+    private func sourcesView(_ sources: [String]) -> some View {
+        VStack(alignment: .leading) {
+            Text("Sources:")
+                .font(.subheadline)
+                .foregroundColor(.gray)
+            
+            ForEach(sources, id: \.self) { source in
+                if let url = URL(string: source) {
+                    Link(destination: url) {
+                        Text(source)
+                            .font(.subheadline)
+                            .foregroundColor(.blue)
+                    }
+                } else {
+                    Text("Invalid source URL: \(source)")
+                        .font(.subheadline)
+                        .foregroundColor(.red)
+                }
+            }
         }
     }
 } 

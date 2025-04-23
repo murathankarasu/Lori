@@ -114,7 +114,7 @@ struct PostView: View {
             
             if let check = disinformationCheck {
                 Button(action: { showDisinformationDetail = true }) {
-                    DisinformationCheckSummaryView(response: check)
+                    DisinformationCheckView(response: check)
                 }
                 .sheet(isPresented: $showDisinformationDetail) {
                     DisinformationCheckDetailView(response: check)
@@ -133,7 +133,7 @@ struct PostView: View {
             Task {
                 do {
                     isCheckingDisinformation = true
-                    disinformationCheck = try await DisinformationService().getDisinformationCheck(for: post.id)
+                    disinformationCheck = try await DisinformationService().checkDisinformation(for: post)
                     isCheckingDisinformation = false
                 } catch {
                     print("Dezenformasyon kontrolü yüklenirken hata oluştu: \(error)")
@@ -163,39 +163,63 @@ struct DisinformationCheckView: View {
     let response: DisinformationResponse
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Image(systemName: response.isVerified ? "checkmark.seal.fill" : "exclamationmark.triangle.fill")
-                    .foregroundColor(response.isVerified ? .green : .orange)
-                
-                Text(response.isVerified ? "Bu içerik doğrulanmıştır" : "Bu içerik için doğrulama yapılamadı")
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-            }
-            
-            if let sources = response.sources, !sources.isEmpty {
-                Text("Kaynaklar:")
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                
-                ForEach(sources, id: \.self) { source in
-                    Link(destination: URL(string: source)!) {
-                        Text(source)
-                            .font(.caption)
-                            .foregroundColor(.blue)
-                            .lineLimit(1)
-                    }
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(spacing: 8) {
+                if response.isVerified {
+                    Image(systemName: "checkmark.seal.fill")
+                        .foregroundColor(.blue)
+                        .font(.system(size: 22))
+                    Text("Verified Content")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        
+                    Spacer()
+                } else {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundColor(.yellow)
+                        .font(.system(size: 22))
+                    Text("Unverified Content")
+                        .font(.headline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        
+                    Spacer()
                 }
             }
             
+            if response.isVerified {
+                Text("This content has been verified by Lori's AI-powered fact-checking system in collaboration with trusted sources.")
+                    .font(.subheadline)
+                    .foregroundColor(.gray)
+                    .padding(.top, 4)
+            }
+            
             Text(response.explanation)
-                .font(.caption)
+                .font(.subheadline)
                 .foregroundColor(.gray)
+                .padding(.top, 4)
+            
+            if let sources = response.sources, !sources.isEmpty {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Sources:")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
+                    
+                    ForEach(sources, id: \.self) { source in
+                        Link(destination: URL(string: source)!) {
+                            Text(source)
+                                .font(.subheadline)
+                                .foregroundColor(.blue)
+                                .lineLimit(1)
+                        }
+                    }
+                }
+            }
         }
         .padding()
-        .background(Color(.systemBackground))
+        .background(Color.gray.opacity(0.2))
         .cornerRadius(12)
-        .shadow(radius: 2)
     }
 }
 

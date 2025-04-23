@@ -1,32 +1,24 @@
 import Foundation
-import FirebaseFirestore
+import SwiftUI
 
 @MainActor
 class DisinformationViewModel: ObservableObject {
-    @Published var isVerifying = false
-    @Published var verificationResult: DisinformationResponse?
-    @Published var error: Error?
-    
     private let disinformationService = DisinformationService()
     
-    func verifyPost(_ post: Post) async {
-        isVerifying = true
+    @Published var isChecking = false
+    @Published var checkResult: DisinformationResponse?
+    @Published var error: Error?
+    
+    func checkDisinformation(for post: Post) async {
+        isChecking = true
         error = nil
         
         do {
-            verificationResult = try await disinformationService.checkDisinformation(for: post)
+            checkResult = try await disinformationService.checkDisinformation(for: post)
         } catch {
             self.error = error
         }
         
-        isVerifying = false
-    }
-    
-    func getVerificationStatus(for postId: String) async {
-        do {
-            verificationResult = try await disinformationService.getDisinformationCheck(for: postId)
-        } catch {
-            self.error = error
-        }
+        isChecking = false
     }
 } 

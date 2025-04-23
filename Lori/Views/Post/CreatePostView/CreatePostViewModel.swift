@@ -42,11 +42,15 @@ class CreatePostViewModel: ObservableObject {
     @Published var isCheckingHateSpeech = false
     @Published var isHateSpeechDetected = false
     @Published var isLoading = false
+    @Published var isCheckingDisinformation = false
+    @Published var disinformationCheckResult: DisinformationResponse?
     
     let maxImages = 4
     let maxContentLength = 500
     
     private var debounceTimer: Timer?
+    
+    private let disinformationService = DisinformationService()
     
     var canPost: Bool {
         !postContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
@@ -228,6 +232,8 @@ class CreatePostViewModel: ObservableObject {
         showHateSpeechWarning = false
         isPosting = false
         isCheckingHateSpeech = false
+        isCheckingDisinformation = false
+        disinformationCheckResult = nil
     }
 }
 

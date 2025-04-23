@@ -1,263 +1,225 @@
 import Foundation
 import FirebaseFirestore
 
+enum DisinformationServiceError: Error {
+    case invalidResponse
+}
+
 class DisinformationService {
     private let db = Firestore.firestore()
-    private let googleService: GoogleFactCheckService
-    private let wikipediaService: WikipediaService
-    private let newsAPIService: NewsAPIService
     
-    private let newsKeywords = [
-        // Genel Haber & Bilgi
-        "news", "announcement", "statement", "declaration", "announced", "said", "claimed",
-        "report", "research", "study", "result", "finding", "discovery", "development", "event",
-        "latest", "breaking", "urgent", "important", "critical", "attention", "warning",
-
-        // Hukuk & Yönetim
-        "lawsuit", "decision", "law", "regulation", "amendment", "change", "update",
-        "government", "minister", "president", "leader", "party", "election", "vote", "referendum",
-        "constitution", "legislative", "executive", "judiciary", "court", "prosecutor", "judge",
-        "lawyer", "case", "crime", "penalty", "prison", "arrest", "detention", "investigation",
-        "indictment", "verdict", "execution",
-
-        // Güvenlik & Kriz
-        "danger", "risk", "threat", "attack", "war", "conflict", "crisis", "disaster",
-        "earthquake", "flood", "fire", "accident", "death", "injured",
-
-        // Sağlık
-        "patient", "pandemic", "virus", "bacteria", "disease", "treatment", "medicine", "vaccine", "health",
-
-        // Ekonomi & İş Dünyası
-        "economy", "stock", "dollar", "euro", "inflation", "interest", "credit", "bank",
-        "company", "firm", "institution", "organization", "market", "business",
-
-        // Bilim & Astronomi
-        "science", "planet", "sun", "moon", "star", "galaxy", "earth", "mars", "jupiter", "saturn",
-        "mercury", "venus", "neptune", "uranus", "pluto", "solar system", "astronomy", "space",
-
-        // Coğrafya
-        "country", "nation", "state", "city", "capital", "continent", "england", "turkey", "usa",
-        "germany", "france", "china", "japan", "russia", "border", "geography", "map",
-
-        // Spor
-        "team", "club", "match", "game", "score", "goal", "league", "champion", "player", "athlete",
-        "football", "basketball", "tennis", "manchester", "liverpool", "barcelona", "real madrid",
-        "lakers", "bulls", "olympics", "sport"
-    ]
+    private class FactCheckService {
+        private let baseURL = "https://factchecktools.googleapis.com/v1alpha1/claims:search"
+        private let apiKey = "AIzaSyA0apdZD1C3mnYzNS9po-q16N9Y4JHW2Nw"
+        
+        func check(_ content: String) async throws -> FactCheckResponse? {
+            let query = content.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+            let urlString = "\(baseURL)?query=\(query)&key=\(apiKey)"
+            
+            print("Fact Check API URL: \(urlString)")
+            
+            guard let url = URL(string: urlString) else {
+                throw DisinformationServiceError.invalidResponse
+            }
+            
+            let (data, response) = try await URLSession.shared.data(from: url)
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                print("Fact Check API Status Code: \(httpResponse.statusCode)")
+            }
+            
+            // API yanıtını string olarak yazdır
+            if let responseString = String(data: data, encoding: .utf8) {
+                print("Fact Check API Raw Response: \(responseString)")
+            }
+            
+            let decoder = JSONDecoder()
+            do {
+                let decodedResponse = try decoder.decode(FactCheckResponse.self, from: data)
+                print("Fact Check API Decoded Response: \(decodedResponse)")
+                return decodedResponse
+            } catch {
+                print("Fact Check API Decoding Error: \(error)")
+                throw error
+            }
+        }
+        
+        func processResult(_ response: FactCheckResponse) -> DisinformationResponse? {
+            // API'den yanıt gelmediğinde veya boş yanıt geldiğinde
+            guard let claims = response.claims, !claims.isEmpty else {
+                return DisinformationResponse(
+                    isVerified: false,
+                    sources: nil,
+                    confidence: 0.0,
+                    explanation: "🔍 İçerik kontrolü yapılamadı\n\nLori'nin doğrulama sistemi şu anda bu içeriği değerlendiremiyor. Bu durum genellikle içeriğin çok yeni olmasından veya yeterli kaynak bulunamamasından kaynaklanır. Lütfen daha sonra tekrar deneyin."
+                )
+            }
+            
+            guard let claim = claims.first else {
+                return nil
+            }
+            
+            let rating = claim.claimReview?.first?.textualRating?.lowercased() ?? ""
+            let publisher = claim.claimReview?.first?.publisher?.name ?? "Güvenilir Kaynak"
+            
+            switch rating {
+            case "true", "mostly true":
+                return DisinformationResponse(
+                    isVerified: true,
+                    sources: [claim.claimReview?.first?.url ?? ""],
+                    confidence: 0.9,
+                    explanation: "✅ İçerik Doğrulandı\n\nBu bilgi \(publisher) tarafından doğrulanmıştır. İçerik güvenilir kaynaklarca desteklenmektedir ve doğru bilgi içermektedir."
+                )
+            case "false", "mostly false", "pants on fire":
+                return DisinformationResponse(
+                    isVerified: false,
+                    sources: [claim.claimReview?.first?.url ?? ""],
+                    confidence: 0.9,
+                    explanation: "❌ Yanlış Bilgi\n\n\(publisher) tarafından yapılan inceleme sonucunda, bu içerikte yanlış veya yanıltıcı bilgiler tespit edilmiştir. Lütfen güvenilir kaynaklardan bilgi almayı tercih edin."
+                )
+            case "half true", "mixture":
+                return DisinformationResponse(
+                    isVerified: false,
+                    sources: [claim.claimReview?.first?.url ?? ""],
+                    confidence: 0.7,
+                    explanation: "⚠️ Kısmen Doğru\n\n\(publisher) tarafından yapılan inceleme sonucunda, bu içerikte bazı doğru bilgiler olsa da, eksik veya yanıltıcı yönler bulunmaktadır. Daha detaylı bilgi için kaynakları incelemenizi öneririz."
+                )
+            default:
+                return DisinformationResponse(
+                    isVerified: false,
+                    sources: nil,
+                    confidence: 0.0,
+                    explanation: "🔍 Değerlendirme Yapılamadı\n\nBu içerik henüz Lori'nin doğrulama sisteminde değerlendirilemedi. Bu durum genellikle içeriğin çok yeni olmasından kaynaklanır. Lütfen daha sonra tekrar kontrol edin."
+                )
+            }
+        }
+    }
     
-    init() {
-        self.googleService = GoogleFactCheckService()
-        self.wikipediaService = WikipediaService(newsKeywords: newsKeywords)
-        self.newsAPIService = NewsAPIService(newsKeywords: newsKeywords)
+    private let factCheckService = FactCheckService()
+    
+    func checkDisinformation(for post: Post) async throws -> DisinformationResponse? {
+        if !isNewsOrInformation(post.content) {
+            return nil
+        }
+        
+        print("\n=== Starting Fact Check ===")
+        print("Content: \(post.content)")
+        
+        do {
+            if let factCheckResponse = try await factCheckService.check(post.content),
+               let result = factCheckService.processResult(factCheckResponse) {
+                try await saveDisinformationCheck(postId: post.id, response: result)
+                return result
+            }
+        } catch {
+            print("Fact Check API error: \(error)")
+        }
+        
+        return nil
     }
     
     private func isNewsOrInformation(_ content: String) -> Bool {
+        let newsKeywords = [
+            // General News & Information
+            "news", "announcement", "statement", "declaration", "announced", "said", "claimed",
+            "report", "research", "study", "result", "finding", "discovery", "development", "event",
+            "latest", "breaking", "urgent", "important", "critical", "attention", "warning",
+            
+            // Science & Technology
+            "science", "technology", "research", "study", "experiment", "discovery", "invention",
+            "scientist", "researcher", "laboratory", "data", "analysis", "theory", "hypothesis",
+            "quantum", "genetic", "molecular", "atomic", "particle", "evolution", "climate",
+            
+            // Health & Medicine
+            "health", "medical", "disease", "virus", "bacteria", "vaccine", "treatment",
+            "doctor", "hospital", "patient", "symptom", "diagnosis", "prescription", "medicine",
+            "pandemic", "epidemic", "infection", "immune", "vaccination", "clinical", "trial",
+            
+            // Politics & Government
+            "government", "president", "minister", "parliament", "election", "vote", "law",
+            "policy", "regulation", "decision", "announcement", "statement", "official",
+            "administration", "ministry", "department", "agency", "commission", "committee",
+            
+            // Economy & Business
+            "economy", "business", "market", "stock", "investment", "company", "industry",
+            "financial", "economic", "trade", "commerce", "bank", "currency", "inflation",
+            "recession", "growth", "development", "enterprise", "corporation", "organization",
+            
+            // Environment & Nature
+            "environment", "climate", "nature", "earth", "planet", "global", "warming",
+            "pollution", "conservation", "sustainability", "ecosystem", "biodiversity",
+            "wildlife", "forest", "ocean", "atmosphere", "weather", "disaster", "natural",
+            
+            // Education & Academia
+            "education", "university", "school", "student", "teacher", "professor", "academic",
+            "research", "study", "learning", "teaching", "knowledge", "science", "discipline",
+            "degree", "course", "program", "institution", "faculty", "department"
+        ]
+        
         let lowercasedContent = content.lowercased()
-        return newsKeywords.contains { keyword in
-            lowercasedContent.contains(keyword)
-        }
+        return newsKeywords.contains { lowercasedContent.contains($0) }
     }
     
-    func checkDisinformation(for post: Post) async throws -> DisinformationResponse {
-        if !isNewsOrInformation(post.content) {
-            return DisinformationResponse(
-                isVerified: true,
-                sources: nil,
-                confidence: 1.0,
-                explanation: "This content does not require verification."
-            )
-        }
-        
-        print("\n=== Starting Comprehensive Fact Check ===")
-        print("Content: \(post.content)")
-        
-        var allResults: [VerificationResult] = []
-        
-        // 1. Google Fact Check API
-        do {
-            let googleResponse = try await googleService.check(post.content)
-            if let result = googleService.processResult(googleResponse) {
-                allResults.append(result)
-            }
-        } catch {
-            print("Google Fact Check error: \(error)")
-        }
-        
-        // 2. Wikipedia API
-        do {
-            let wikiResponse = try await wikipediaService.check(post.content)
-            if let result = wikipediaService.processResult(wikiResponse) {
-                allResults.append(result)
-            }
-        } catch {
-            print("Wikipedia API error: \(error)")
-        }
-        
-        // 3. News API
-        do {
-            let newsResponse = try await newsAPIService.check(post.content)
-            if let result = newsAPIService.processResult(newsResponse) {
-                allResults.append(result)
-            }
-        } catch {
-            print("News API error: \(error)")
-        }
-        
-        let finalResult = evaluateResults(allResults)
-        try await saveDisinformationCheck(postId: post.id, response: finalResult)
-        return finalResult
-    }
-    
-    private func evaluateResults(_ results: [VerificationResult]) -> DisinformationResponse {
-        if results.isEmpty {
-            return DisinformationResponse(
-                isVerified: false,
-                sources: nil,
-                confidence: 0.0,
-                explanation: "No verification information found from any source."
-            )
-        }
-        
-        let sortedResults = results.sorted { first, second in
-            let priority: [String: Int] = [
-                "Google Fact Check": 1,
-                "Wikipedia": 2,
-                "News API": 3
-            ]
-            return (priority[first.source] ?? 0) < (priority[second.source] ?? 0)
-        }
-        
-        let primaryResult = sortedResults.first!
-        let allSources = sortedResults.compactMap { $0.sources }.flatMap { $0 }
-        
-        return DisinformationResponse(
-            isVerified: primaryResult.isVerified,
-            sources: allSources.isEmpty ? nil : allSources,
-            confidence: primaryResult.confidence,
-            explanation: primaryResult.explanation
-        )
-    }
-    
-    func saveDisinformationCheck(postId: String, response: DisinformationResponse) async throws {
+    private func saveDisinformationCheck(postId: String, response: DisinformationResponse) async throws {
         let checkData: [String: Any] = [
             "isVerified": response.isVerified,
             "sources": response.sources ?? [],
             "confidence": response.confidence,
             "explanation": response.explanation,
-            "checkedAt": FieldValue.serverTimestamp()
+            "timestamp": FieldValue.serverTimestamp()
         ]
         
-        try await db.collection("posts").document(postId)
-            .collection("disinformationChecks")
-            .addDocument(data: checkData)
-    }
-    
-    func getDisinformationCheck(for postId: String) async throws -> DisinformationResponse? {
-        let snapshot = try await db.collection("posts")
-            .document(postId)
-            .collection("disinformationChecks")
-            .order(by: "checkedAt", descending: true)
-            .limit(to: 1)
-            .getDocuments()
-        
-        guard let document = snapshot.documents.first else {
-            return nil
-        }
-        
-        do {
-            return try document.data(as: DisinformationResponse.self)
-        } catch {
-            print("Error decoding DisinformationResponse: \(error)")
-            return nil
-        }
-    }
-    
-    func checkNewPost(_ post: Post) async {
-        do {
-            _ = try await checkDisinformation(for: post)
-        } catch {
-            print("Dezenformasyon kontrolü yapılırken hata oluştu: \(error.localizedDescription)")
-        }
+        try await db.collection("posts").document(postId).collection("disinformationChecks").addDocument(data: checkData)
     }
 }
 
-// Özel Hata Enum'ı
-enum DisinformationServiceError: Error {
-    case rateLimitExceeded
-    case invalidResponse
-    case decodingError(Error)
-    case networkError(Error)
-}
-
-// Google Fact Check API yanıt modeli
-struct FactCheckAPIResponse: Codable {
+// Google Fact Check API response models
+struct FactCheckResponse: Codable {
     let claims: [Claim]?
+    let nextPageToken: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case claims
+        case nextPageToken = "nextPageToken"
+    }
 }
 
 struct Claim: Codable {
     let text: String?
+    let claimReview: [ClaimReview]?
     let claimant: String?
     let claimDate: String?
-    let claimReview: [ClaimReview]?
+    
+    enum CodingKeys: String, CodingKey {
+        case text
+        case claimReview
+        case claimant
+        case claimDate
+    }
 }
 
 struct ClaimReview: Codable {
     let publisher: Publisher?
     let url: String?
-    let title: String?
-    let reviewDate: String?
-    let textualRating: String? // Bu alan doğrulama için kritik
+    let textualRating: String?
     let languageCode: String?
+    let reviewDate: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case publisher
+        case url
+        case textualRating
+        case languageCode
+        case reviewDate
+    }
 }
 
 struct Publisher: Codable {
     let name: String?
     let site: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case name
+        case site
+    }
 }
-
-// Google API Hata modeli
-struct GoogleAPIError: Codable {
-    let error: GoogleErrorDetail
-}
-
-struct GoogleErrorDetail: Codable {
-    let code: Int
-    let message: String
-    let status: String
-}
-
-// News API yanıt modeli
-struct NewsAPIResponse: Codable {
-    let articles: [NewsArticle]
-}
-
-struct NewsArticle: Codable {
-    let title: String
-    let description: String?
-    let url: String
-    let publishedAt: String
-}
-
-// Wikipedia API yanıt modeli
-struct WikipediaResponse: Codable {
-    let query: WikipediaQuery
-}
-
-struct WikipediaQuery: Codable {
-    let search: [WikipediaArticle]
-}
-
-struct WikipediaArticle: Codable {
-    let pageid: Int
-    let title: String
-    let snippet: String
-}
-
-// Doğrulama sonucu modeli
-struct VerificationResult: Codable {
-    let source: String
-    let isVerified: Bool
-    let confidence: Double
-    let explanation: String
-    let sources: [String]?
-} 

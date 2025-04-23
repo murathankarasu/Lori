@@ -1,6 +1,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth
+import SwiftUI
 
 @MainActor
 class PostDetailViewModel: ObservableObject {
@@ -10,6 +11,52 @@ class PostDetailViewModel: ObservableObject {
     @Published var likesCount: Int = 0
     @Published var disinformationCheck: DisinformationResponse?
     @Published var isCheckingDisinformation = false
+    
+    // Dezenformasyon kontrolünün gösterilip gösterilmeyeceğini belirleyen özellik
+    var shouldShowDisinformationCheck: Bool {
+        guard let post = post else { return false }
+        
+        // Anahtar kelimeleri kontrol et
+        let newsKeywords = [
+            // General News & Information
+            "news", "announcement", "statement", "declaration", "announced", "said", "claimed",
+            "report", "research", "study", "result", "finding", "discovery", "development", "event",
+            "latest", "breaking", "urgent", "important", "critical", "attention", "warning",
+            
+            // Science & Technology
+            "science", "technology", "research", "study", "experiment", "discovery", "invention",
+            "scientist", "researcher", "laboratory", "data", "analysis", "theory", "hypothesis",
+            "quantum", "genetic", "molecular", "atomic", "particle", "evolution", "climate",
+            
+            // Health & Medicine
+            "health", "medical", "disease", "virus", "bacteria", "vaccine", "treatment",
+            "doctor", "hospital", "patient", "symptom", "diagnosis", "prescription", "medicine",
+            "pandemic", "epidemic", "infection", "immune", "vaccination", "clinical", "trial",
+            
+            // Politics & Government
+            "government", "president", "minister", "parliament", "election", "vote", "law",
+            "policy", "regulation", "decision", "announcement", "statement", "official",
+            "administration", "ministry", "department", "agency", "commission", "committee",
+            
+            // Economy & Business
+            "economy", "business", "market", "stock", "investment", "company", "industry",
+            "financial", "economic", "trade", "commerce", "bank", "currency", "inflation",
+            "recession", "growth", "development", "enterprise", "corporation", "organization",
+            
+            // Environment & Nature
+            "environment", "climate", "nature", "earth", "planet", "global", "warming",
+            "pollution", "conservation", "sustainability", "ecosystem", "biodiversity",
+            "wildlife", "forest", "ocean", "atmosphere", "weather", "disaster", "natural",
+            
+            // Education & Academia
+            "education", "university", "school", "student", "teacher", "professor", "academic",
+            "research", "study", "learning", "teaching", "knowledge", "science", "discipline",
+            "degree", "course", "program", "institution", "faculty", "department"
+        ]
+        
+        let lowercasedContent = post.content.lowercased()
+        return newsKeywords.contains { lowercasedContent.contains($0) }
+    }
     
     private let db = Firestore.firestore()
     private var commentsListener: ListenerRegistration?
@@ -22,7 +69,11 @@ class PostDetailViewModel: ObservableObject {
         fetchComments(for: post.id)
         checkIfLiked(postId: post.id)
         fetchLikesCount(postId: post.id)
-        checkInitialDisinformation(for: post)
+        
+        // Sadece gerekli durumlarda dezenformasyon kontrolü yap
+        if shouldShowDisinformationCheck {
+            checkInitialDisinformation(for: post)
+        }
     }
     
     private func setupListeners(_ post: Post) {
@@ -95,6 +146,12 @@ class PostDetailViewModel: ObservableObject {
     }
     
     func checkDisinformation(for postToCheck: Post) {
+        // Sadece gerekli durumlarda dezenformasyon kontrolü yap
+        guard shouldShowDisinformationCheck else {
+            self.disinformationCheck = nil
+            return
+        }
+        
         isCheckingDisinformation = true
         Task {
             do {
@@ -106,15 +163,6 @@ class PostDetailViewModel: ObservableObject {
             }
             self.isCheckingDisinformation = false
         }
-    }
-    
-    func verifyPostManually() {
-        guard let currentPost = self.post else {
-            print("Hata: Manuel doğrulama için gönderi yüklenemedi.")
-            return
-        }
-        print("Manuel doğrulama başlatıldı: \(currentPost.id)")
-        checkDisinformation(for: currentPost)
     }
     
     private func checkInitialDisinformation(for postToCheck: Post) {

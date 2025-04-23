@@ -28,15 +28,18 @@ struct FollowingFeedView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 40, height: 40)
+                            .padding(.top, 10)
                         
                         Spacer()
                         
                         Button(action: { showCreatePost = true }) {
                             Image(systemName: "plus")
                                 .foregroundColor(.white)
+                                .padding(.top, 10)
                         }
                     }
-                    .padding()
+                    .padding(.horizontal)
+                    .padding(.bottom, 5)
                     
                     if isLoading {
                         ProgressView()

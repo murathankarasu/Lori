@@ -8,7 +8,6 @@ struct CreatePostView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject private var viewModel = CreatePostViewModel()
     
-    @State private var selectedImage: UIImage?
     @State private var isImagePickerPresented = false
     @State private var isPublishing = false
     @State private var showHateSpeechAlert = false
@@ -98,7 +97,7 @@ struct CreatePostView: View {
                             .padding()
                             .background(Color.gray.opacity(0.2))
                             .cornerRadius(12)
-                            .onChange(of: viewModel.postContent) { newValue in
+                            .onChange(of: viewModel.postContent) { oldValue, newValue in
                                 // Sadece nokta veya ünlem işareti ile biten cümlelerde kontrol yap
                                 if newValue.hasSuffix(".") || newValue.hasSuffix("!") {
                                     Task {
@@ -125,6 +124,22 @@ struct CreatePostView: View {
                                 .padding(.horizontal)
                         }
                         
+                        if viewModel.isCheckingDisinformation {
+                            HStack {
+                                ProgressView()
+                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                Text("Dezenformasyon kontrolü yapılıyor...")
+                                    .foregroundColor(.white)
+                                    .font(.subheadline)
+                            }
+                            .padding()
+                        }
+                        
+                        if let checkResult = viewModel.disinformationCheckResult {
+                            DisinformationCheckSummaryView(response: checkResult)
+                                .padding(.horizontal)
+                        }
+                        
                         // Toolbar
                         HStack(spacing: 20) {
                             Button(action: { showEmojiPicker = true }) {
@@ -141,7 +156,7 @@ struct CreatePostView: View {
                             
                             Spacer()
                             
-                            Button(action: { isImagePickerPresented = true }) {
+                            PhotosPicker(selection: $viewModel.selectedImages, matching: .images) {
                                 Image(systemName: "photo")
                                     .font(.system(size: 20))
                                     .foregroundColor(.white)
@@ -150,30 +165,35 @@ struct CreatePostView: View {
                         .padding(.horizontal)
                         
                         // Image Preview
-                        if let image = selectedImage {
-                            VStack {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(maxHeight: 200)
-                                    .cornerRadius(12)
-                                
-                                Button(action: { selectedImage = nil }) {
-                                    Text("Fotoğrafı Kaldır")
-                                        .font(.subheadline)
-                                        .foregroundColor(.red)
+                        if !viewModel.processedImages.isEmpty {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 10) {
+                                    ForEach(viewModel.processedImages.indices, id: \.self) { index in
+                                        VStack {
+                                            Image(uiImage: viewModel.processedImages[index])
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(maxHeight: 200)
+                                                .cornerRadius(12)
+                                            
+                                            Button(action: {
+                                                viewModel.processedImages.remove(at: index)
+                                            }) {
+                                                Text("Fotoğrafı Kaldır")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.red)
+                                            }
+                                            .padding(.top, 8)
+                                        }
+                                    }
                                 }
-                                .padding(.top, 8)
+                                .padding(.horizontal)
                             }
-                            .padding(.horizontal)
                         }
                     }
                     .padding()
                 }
             }
-        }
-        .sheet(isPresented: $isImagePickerPresented) {
-            ImagePicker(image: $selectedImage)
         }
         .sheet(isPresented: $showEmojiPicker) {
             EmojiPickerView(selectedEmoji: $selectedEmoji)
@@ -186,6 +206,11 @@ struct CreatePostView: View {
         } message: {
             Text(viewModel.errorMessage)
                 .foregroundColor(.red)
+        }
+        .onChange(of: viewModel.selectedImages) { _ in
+            Task {
+                await viewModel.processSelectedImages()
+            }
         }
     }
 }

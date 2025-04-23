@@ -2,7 +2,7 @@ import Foundation
 
 public class HateSpeechService {
     static let shared = HateSpeechService()
-    private let baseURL = "http://192.168.1.45:8000/api"
+    private let baseURL = "https://hate-speech-service.onrender.com//api"
     private let session: URLSession
     private var bannedWords: [String: String] = [:]
     

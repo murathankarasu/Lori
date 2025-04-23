@@ -94,41 +94,11 @@ struct ContentView: View {
     }
     
     private func setupAuthListener() {
-        Auth.auth().addStateDidChangeListener { _, user in
-            if let user = user {
-                print("Auth Listener - Kullanıcı durumu:")
-                print("UID: \(user.uid)")
-                print("E-posta: \(user.email ?? "Yok")")
-                print("E-posta doğrulandı: \(user.isEmailVerified)")
-                
-                currentUser = user
-                
-                Task {
-                    do {
-                        try await user.reload()
-                        let isVerified = user.isEmailVerified
-                        
-                        await MainActor.run {
-                            withAnimation {
-                                isLoggedIn = isVerified
-                            }
-                        }
-                    } catch {
-                        print("Kullanıcı bilgileri yenilenemedi: \(error.localizedDescription)")
-                        await MainActor.run {
-                            withAnimation {
-                                isLoggedIn = false
-                                authError = "Oturum durumu kontrol edilirken bir hata oluştu."
-                            }
-                        }
-                    }
-                }
+        _ = Auth.auth().addStateDidChangeListener { _, user in
+            if user != nil {
+                isLoggedIn = true
             } else {
-                print("Auth Listener - Kullanıcı oturumu yok")
-                currentUser = nil
-                withAnimation {
-                    isLoggedIn = false
-                }
+                isLoggedIn = false
             }
         }
     }
