@@ -1,7 +1,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct Comment: Identifiable, Codable {
+struct Comment: Identifiable, Codable, Hashable {
     @DocumentID var id: String?
     let postId: String
     let userId: String

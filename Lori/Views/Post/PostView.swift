@@ -144,12 +144,18 @@ struct PostView: View {
     }
     
     private func toggleLike() {
+        // Unwrap post.id
+        guard let postId = post.id else {
+            print("❌ Post ID is nil in toggleLike.")
+            return
+        }
+        
         isLiked.toggle()
         likeCount += isLiked ? 1 : -1
         
         // Firebase'de beğeni sayısını güncelle
         let db = Firestore.firestore()
-        db.collection("posts").document(post.id).updateData([
+        db.collection("posts").document(postId).updateData([ // Use unwrapped postId
             "likes": likeCount
         ]) { error in
             if let error = error {

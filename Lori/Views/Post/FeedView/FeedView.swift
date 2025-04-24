@@ -49,7 +49,7 @@ struct FeedView: View {
                     }
                     .tag(1)
                 
-                ProfileView()
+                ProfileView(userId: Auth.auth().currentUser?.uid ?? "")
                     .tabItem {
                         Image(systemName: selectedTab == 2 ? "person.fill" : "person")
                         Text("Profil")

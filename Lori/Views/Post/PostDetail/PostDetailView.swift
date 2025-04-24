@@ -147,6 +147,7 @@ struct PostDetailView: View {
             Text(check.explanation)
                 .font(.subheadline)
                 .foregroundColor(.gray)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 4)
             
             if let sources = check.sources, !sources.isEmpty {
@@ -180,11 +181,13 @@ struct PostDetailView: View {
                         Text(source)
                             .font(.subheadline)
                             .foregroundColor(.blue)
+                            .fixedSize(horizontal: false, vertical: true)
                     }
                 } else {
                     Text("Invalid source URL: \(source)")
                         .font(.subheadline)
                         .foregroundColor(.red)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
             }
         }

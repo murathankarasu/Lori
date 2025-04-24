@@ -1,8 +1,8 @@
 import Foundation
 import FirebaseFirestore
 
-struct Post: Identifiable, Codable {
-    let id: String
+struct Post: Identifiable, Codable, Hashable {
+    @DocumentID var id: String?
     let userId: String
     let username: String
     let content: String
@@ -34,7 +34,7 @@ struct Post: Identifiable, Codable {
     
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        id = try container.decode(String.self, forKey: .id)
+        id = try container.decode(String?.self, forKey: .id)
         userId = try container.decode(String.self, forKey: .userId)
         username = try container.decode(String.self, forKey: .username)
         content = try container.decode(String.self, forKey: .content)

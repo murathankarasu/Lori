@@ -10,7 +10,7 @@ class DisinformationService {
     
     private class FactCheckService {
         private let baseURL = "https://factchecktools.googleapis.com/v1alpha1/claims:search"
-        private let apiKey = "*********"
+        private let apiKey = "AIzaSyA0apdZD1C3mnYzNS9po-q16N9Y4JHW2Nw"
         
         func check(_ content: String) async throws -> FactCheckResponse? {
             let query = content.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
@@ -108,7 +108,12 @@ class DisinformationService {
         do {
             if let factCheckResponse = try await factCheckService.check(post.content),
                let result = factCheckService.processResult(factCheckResponse) {
-                try await saveDisinformationCheck(postId: post.id, response: result)
+                // Unwrap post.id before using it
+                guard let postId = post.id else {
+                    print("❌ Post ID is nil, cannot save disinformation check.")
+                    return nil // or throw an error
+                }
+                try await saveDisinformationCheck(postId: postId, response: result)
                 return result
             }
         } catch {

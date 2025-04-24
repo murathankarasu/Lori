@@ -21,9 +21,13 @@ class ProfileViewModel: ObservableObject {
     
     let userId: String
     private let db = Firestore.firestore()
+    private var userListener: ListenerRegistration?
+    private var followersListener: ListenerRegistration?
+    private var followingListener: ListenerRegistration?
     
     init(userId: String? = nil) {
-        self.userId = userId ?? Auth.auth().currentUser?.uid ?? ""
+        let effectiveUserId = userId ?? Auth.auth().currentUser?.uid ?? ""
+        self.userId = effectiveUserId
         self.isCurrentUser = userId == nil || userId == Auth.auth().currentUser?.uid
         
         Task {
@@ -33,6 +37,13 @@ class ProfileViewModel: ObservableObject {
                 await checkIfFollowing()
             }
         }
+    }
+    
+    deinit {
+        userListener?.remove()
+        followersListener?.remove()
+        followingListener?.remove()
+        print("[ProfileViewModel] Listeners removed for user: \(userId)")
     }
     
     func fetchUserProfile() async {
@@ -62,15 +73,8 @@ class ProfileViewModel: ObservableObject {
             print("- İlgi alanları: \(interests)")
             print("- Profil resmi URL: \(profileImageUrl ?? "Yok")")
             
-            // Takipçi ve takip edilen sayılarını al
-            let followersDoc = try await db.collection("followers").document(userId).getDocument()
-            let followingDoc = try await db.collection("following").document(userId).getDocument()
-            
-            followersCount = (followersDoc.data()?["users"] as? [String])?.count ?? 0
-            followingCount = (followingDoc.data()?["users"] as? [String])?.count ?? 0
-            
-            print("- Takipçi sayısı: \(followersCount)")
-            print("- Takip edilen sayısı: \(followingCount)")
+            // Listener'ları kur (veya mevcutları kaldırıp yeniden kur)
+            setupCountListeners()
             
         } catch {
             print("❌ Profil yükleme hatası: \(error.localizedDescription)")
@@ -163,5 +167,39 @@ class ProfileViewModel: ObservableObject {
         } catch {
             print("Takip durumu kontrol edilemedi: \(error.localizedDescription)")
         }
+    }
+    
+    private func setupCountListeners() {
+        followersListener?.remove()
+        followingListener?.remove()
+        
+        // Listener for followers count
+        followersListener = db.collection("followers").document(userId)
+            .addSnapshotListener { [weak self] documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching followers count snapshot: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                let count = (document.data()?["users"] as? [String])?.count ?? 0
+                // Sadece değiştiyse güncelleme (gereksiz UI güncellemelerini önlemek için)
+                if self?.followersCount != count {
+                    self?.followersCount = count
+                    print("[ProfileViewModel] Followers count updated: \(count)")
+                }
+            }
+        
+        // Listener for following count
+        followingListener = db.collection("following").document(userId)
+            .addSnapshotListener { [weak self] documentSnapshot, error in
+                guard let document = documentSnapshot else {
+                    print("Error fetching following count snapshot: \(error?.localizedDescription ?? "Unknown error")")
+                    return
+                }
+                let count = (document.data()?["users"] as? [String])?.count ?? 0
+                if self?.followingCount != count {
+                    self?.followingCount = count
+                     print("[ProfileViewModel] Following count updated: \(count)")
+                }
+            }
     }
 } 

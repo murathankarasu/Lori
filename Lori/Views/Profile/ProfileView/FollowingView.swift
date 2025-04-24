@@ -1,102 +1,113 @@
 import SwiftUI
 import FirebaseFirestore
+import Kingfisher
+import FirebaseAuth
 
 struct FollowingView: View {
-    let userId: String
+    @StateObject private var viewModel: FollowingViewModel
     @Environment(\.dismiss) private var dismiss
-    @State private var following: [User] = []
-    @State private var isLoading = true
     
-    var body: some View {
-        NavigationView {
-            ZStack {
-                Color.black.edgesIgnoringSafeArea(.all)
-                
-                if isLoading {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                } else {
-                    List(following) { user in
-                        HStack {
-                            AsyncImage(url: URL(string: user.profileImageUrl ?? "")) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            } placeholder: {
-                                Image(systemName: "person.circle.fill")
-                                    .foregroundColor(.white)
-                            }
-                            .frame(width: 50, height: 50)
-                            .clipShape(Circle())
-                            
-                            VStack(alignment: .leading) {
-                                Text(user.username)
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                Text(user.bio ?? "")
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                    }
-                    .listStyle(PlainListStyle())
-                }
-            }
-            .navigationTitle("Takip Edilenler")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Kapat") {
-                        dismiss()
-                    }
-                }
-            }
-        }
-        .preferredColorScheme(.dark)
-        .onAppear {
-            loadFollowing()
-        }
+    init(userId: String) {
+        _viewModel = StateObject(wrappedValue: FollowingViewModel(userId: userId))
     }
     
-    private func loadFollowing() {
-        let db = Firestore.firestore()
-        
-        db.collection("users").document(userId).getDocument { document, error in
-            if let document = document,
-               let followingIds = document.data()?["following"] as? [String] {
-                
-                let group = DispatchGroup()
-                var loadedFollowing: [User] = []
-                
-                for followingId in followingIds {
-                    group.enter()
-                    
-                    db.collection("users").document(followingId).getDocument(completion: { document, error in
-                        defer { group.leave() }
-                        
-                        if let document = document,
-                           let data = document.data() {
-                            let user = User(
-                                id: document.documentID,
-                                username: data["username"] as? String ?? "",
-                                email: data["email"] as? String ?? "",
-                                profileImageUrl: data["profileImageUrl"] as? String,
-                                bio: data["bio"] as? String,
-                                followers: (data["followers"] as? [String])?.count ?? 0,
-                                following: (data["following"] as? [String])?.count ?? 0,
-                                createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
-                                isVerified: data["isVerified"] as? Bool ?? false
-                            )
-                            loadedFollowing.append(user)
-                        }
-                    })
+    var body: some View {
+        ZStack {
+            Color.black.edgesIgnoringSafeArea(.all)
+            
+            if viewModel.isLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
+            } else if viewModel.following.isEmpty {
+                 Text("Henüz kimseyi takip etmiyor.")
+                    .foregroundColor(.gray)
+            } else {
+                List {
+                    // Takip edilen kullanıcılar için ForEach
+                    ForEach(viewModel.following) { user in
+                        FollowingRow(user: user, viewModel: viewModel) // FollowingRow kullan
+                    }
+                    .listRowBackground(Color.black)
                 }
-                
-                group.notify(queue: .main) {
-                    following = loadedFollowing
-                    isLoading = false
+                .listStyle(PlainListStyle())
+            }
+        }
+        .navigationTitle("Takip Edilenler")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .foregroundColor(.white)
                 }
             }
         }
+    }
+}
+
+// Takip edilen kullanıcı satırı için ayrı view
+struct FollowingRow: View {
+    let user: User
+    @ObservedObject var viewModel: FollowingViewModel // FollowingViewModel kullan
+    private var currentUserId: String? = Auth.auth().currentUser?.uid
+    
+    // Explicit initializer to ensure accessibility
+    init(user: User, viewModel: FollowingViewModel) {
+        self.user = user
+        self.viewModel = viewModel
+    }
+    
+    var body: some View {
+        HStack {
+            NavigationLink(destination: ProfileView(userId: user.id)) {
+                HStack {
+                    KFImage(URL(string: user.profileImageUrl ?? ""))
+                        .placeholder {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 45, height: 45)
+                                .foregroundColor(.gray)
+                        }
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 45, height: 45)
+                        .clipShape(Circle())
+                        .overlay(Circle().stroke(Color.white.opacity(0.5), lineWidth: 1))
+                    
+                    VStack(alignment: .leading) {
+                        Text(user.username)
+                            .font(.headline)
+                            .foregroundColor(.white)
+                        if let bio = user.bio, !bio.isEmpty {
+                            Text(bio)
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                                .lineLimit(1)
+                        }
+                    }
+                }
+            }
+            .buttonStyle(PlainButtonStyle())
+
+            Spacer()
+            
+            if user.id != currentUserId {
+                let isFollowing = viewModel.followStatus[user.id] ?? false
+                Button(action: { Task { await viewModel.toggleFollow(userToToggle: user) } }) {
+                    Text(isFollowing ? "Takibi Bırak" : "Takip Et")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(isFollowing ? .white : .black)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 6)
+                        .background(isFollowing ? Color.gray.opacity(0.7) : Color.white)
+                        .clipShape(Capsule())
+                }
+                .buttonStyle(BorderlessButtonStyle())
+            }
+        }
+        .padding(.vertical, 4)
     }
 } 

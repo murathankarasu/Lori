@@ -64,11 +64,16 @@ class PostDetailViewModel: ObservableObject {
     private let disinformationService = DisinformationService()
     
     func loadPostDetails(_ post: Post) {
+        // Unwrap post.id early
+        guard let postId = post.id else {
+            print("❌ Post ID is nil in loadPostDetails.")
+            return
+        }
         self.post = post
         setupListeners(post)
-        fetchComments(for: post.id)
-        checkIfLiked(postId: post.id)
-        fetchLikesCount(postId: post.id)
+        fetchComments(for: postId)
+        checkIfLiked(postId: postId)
+        fetchLikesCount(postId: postId)
         
         // Sadece gerekli durumlarda dezenformasyon kontrolü yap
         if shouldShowDisinformationCheck {
@@ -77,10 +82,15 @@ class PostDetailViewModel: ObservableObject {
     }
     
     private func setupListeners(_ post: Post) {
+        // Unwrap post.id
+        guard let postId = post.id else {
+            print("❌ Post ID is nil in setupListeners.")
+            return
+        }
         // Yorumları dinle
         commentsListener?.remove()
         commentsListener = db.collection("posts")
-            .document(post.id)
+            .document(postId)
             .collection("comments")
             .order(by: "timestamp", descending: true)
             .addSnapshotListener { [weak self] snapshot, error in
@@ -97,7 +107,7 @@ class PostDetailViewModel: ObservableObject {
         // Beğenileri dinle
         likesListener?.remove()
         likesListener = db.collection("posts")
-            .document(post.id)
+            .document(postId)
             .collection("likes")
             .addSnapshotListener { [weak self] snapshot, error in
                 guard let documents = snapshot?.documents else {
@@ -114,10 +124,11 @@ class PostDetailViewModel: ObservableObject {
     
     func toggleLike() {
         guard let post = post,
+              let postId = post.id,
               let userId = Auth.auth().currentUser?.uid else { return }
         
         let likeRef = db.collection("posts")
-            .document(post.id)
+            .document(postId)
             .collection("likes")
             .document(userId)
         
@@ -129,8 +140,14 @@ class PostDetailViewModel: ObservableObject {
     }
     
     func deletePost(_ post: Post, completion: @escaping () -> Void) {
+        // Unwrap post.id
+        guard let postId = post.id else {
+             print("❌ Post ID is nil in deletePost.")
+             // Optionally call completion with an error or just return
+             return
+         }
         db.collection("posts")
-            .document(post.id)
+            .document(postId)
             .delete { error in
                 if let error = error {
                     print("Gönderi silinirken hata oluştu: \(error.localizedDescription)")

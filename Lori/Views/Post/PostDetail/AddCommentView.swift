@@ -69,6 +69,13 @@ struct AddCommentView: View {
         isLoading = true
         
         Task {
+            // Unwrap post.id at the beginning
+            guard let postId = post.id else {
+                print("❌ Post ID is nil, cannot add comment.")
+                isLoading = false
+                return
+            }
+            
             do {
                 let response = try await HateSpeechService.shared.checkHateSpeech(text: trimmedComment)
                 
@@ -79,7 +86,7 @@ struct AddCommentView: View {
                     // Yorumu kaydet
                     let comment = Comment(
                         id: UUID().uuidString,
-                        postId: post.id,
+                        postId: postId,
                         userId: Auth.auth().currentUser?.uid ?? "",
                         username: Auth.auth().currentUser?.displayName ?? "Anonim",
                         content: trimmedComment,
@@ -92,7 +99,7 @@ struct AddCommentView: View {
                         "userId": comment.userId,
                         "createdAt": FieldValue.serverTimestamp()
                     ]
-                    try await db.collection("posts").document(post.id).updateData([
+                    try await db.collection("posts").document(postId).updateData([
                         "comments": FieldValue.arrayUnion([commentData])
                     ])
                     

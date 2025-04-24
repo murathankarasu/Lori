@@ -5,15 +5,19 @@ struct PostHeaderView: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            Image(systemName: "person.circle.fill")
-                .resizable()
-                .frame(width: 40, height: 40)
-                .foregroundColor(.white)
+            NavigationLink(destination: ProfileView(userId: post.userId)) {
+                Image(systemName: "person.circle.fill")
+                    .resizable()
+                    .frame(width: 40, height: 40)
+                    .foregroundColor(.white)
+            }
             
             VStack(alignment: .leading, spacing: 4) {
-                Text(post.username)
-                    .font(.headline)
-                    .foregroundColor(.white)
+                NavigationLink(destination: ProfileView(userId: post.userId)) {
+                    Text(post.username)
+                        .font(.headline)
+                        .foregroundColor(.white)
+                }
                 
                 Text(post.timestamp, style: .relative)
                     .font(.caption)
