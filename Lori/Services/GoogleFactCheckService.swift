@@ -1,7 +1,7 @@
 import Foundation
 
 class GoogleFactCheckService {
-    private let apiKey = "AIzaSyA0apdZD1C3mnYzNS9po-q16N9Y4JHW2Nw"
+    private let apiKey = "*******"
     
     func check(_ content: String) async throws -> FactCheckAPIResponse {
         var components = URLComponents(string: "https://factchecktools.googleapis.com/v1alpha1/claims:search")
