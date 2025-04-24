@@ -10,7 +10,7 @@ class DisinformationService {
     
     private class FactCheckService {
         private let baseURL = "https://factchecktools.googleapis.com/v1alpha1/claims:search"
-        private let apiKey = "AIzaSyA0apdZD1C3mnYzNS9po-q16N9Y4JHW2Nw"
+        private let apiKey = "*********"
         
         func check(_ content: String) async throws -> FactCheckResponse? {
             let query = content.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
