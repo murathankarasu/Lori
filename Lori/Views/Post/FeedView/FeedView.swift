@@ -56,19 +56,21 @@ struct FeedView: View {
                     }
                     .tag(2)
                 
-                GaladrielView()
+                SearchView()
                     .tabItem {
-                        Image(systemName: selectedTab == 3 ? "wand.and.stars.inverse" : "wand.and.stars")
-                        Text("Galadriel")
+                        Image(systemName: selectedTab == 3 ? "magnifyingglass.circle.fill" : "magnifyingglass")
+                        Text("Arama")
                     }
                     .tag(3)
                 
-                SettingsView(isLoggedIn: $isLoggedIn)
+                GaladrielView()
                     .tabItem {
-                        Image(systemName: selectedTab == 4 ? "gearshape.fill" : "gearshape")
-                        Text("Ayarlar")
+                        Image(systemName: selectedTab == 4 ? "wand.and.stars.inverse" : "wand.and.stars")
+                        Text("Galadriel")
                     }
                     .tag(4)
+                
+                // Ayarlar sekmesi kaldırıldı
             }
             .accentColor(.white)
         }

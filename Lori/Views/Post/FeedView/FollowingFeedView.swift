@@ -97,10 +97,7 @@ struct FollowingFeedView: View {
                 return
             }
             
-            var following = snapshot?.data()?["following"] as? [String] ?? []
-            if !following.contains(userId) {
-                following.append(userId)
-            }
+            let following = snapshot?.data()?["following"] as? [String] ?? []
             
             if following.isEmpty {
                 isLoading = false

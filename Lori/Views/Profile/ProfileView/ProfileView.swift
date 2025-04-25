@@ -11,10 +11,9 @@ struct ProfileView: View {
     @Environment(\.dismiss) private var dismiss
     
     @State private var showEditProfile = false
-    @State private var showFollowers = false
-    @State private var showFollowing = false
     @State private var selectedPost: Post?
     @State private var showPostDetail = false
+    @State private var showSettings = false
     
     init(userId: String) {
         self.userId = userId
@@ -23,7 +22,7 @@ struct ProfileView: View {
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            Color.black.edgesIgnoringSafeArea(.all)
             
             ScrollView {
                 VStack(spacing: 24) {
@@ -70,7 +69,7 @@ struct ProfileView: View {
                                 .clipShape(Capsule())
                         }
                     } else {
-                       // Takip Et/Takibi Bırak Butonu
+                        // Takip Et/Takibi Bırak Butonu
                         Button(action: { Task { await viewModel.toggleFollow() } }) {
                             Text(viewModel.isFollowing ? "Takibi Bırak" : "Takip Et")
                                 .font(.system(size: 14, weight: .medium))
@@ -97,7 +96,7 @@ struct ProfileView: View {
                             }
                         }
                         
-                        // Takipçi Sayısı - NavigationLink eklendi
+                        // Takipçi Sayısı
                         NavigationLink(destination: FollowersView(userId: viewModel.userId)) {
                             VStack {
                                 Text("\(viewModel.followersCount)")
@@ -110,7 +109,7 @@ struct ProfileView: View {
                             }
                         }
                         
-                        // Takip Edilen Sayısı - NavigationLink eklendi
+                        // Takip Edilen Sayısı
                         NavigationLink(destination: FollowingView(userId: viewModel.userId)) {
                             VStack {
                                 Text("\(viewModel.followingCount)")
@@ -153,26 +152,50 @@ struct ProfileView: View {
                 }
                 .padding(.top, 32)
             }
-            // NavigationDestination eklendi
-            .navigationDestination(for: Post.self) { post in
-                PostDetailView(post: post)
-            }
-        }
-        .navigationTitle("Profil")
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarBackButtonHidden(true)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarLeading) {
-                if !viewModel.isCurrentUser {
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.white)
+            
+            // Ekranın üst kısmında butonlar
+            VStack {
+                HStack {
+                    // Geri Dönüş Butonu (sadece başka bir kullanıcının profilindeyse)
+                    if !viewModel.isCurrentUser {
+                        Button(action: { dismiss() }) {
+                            Image(systemName: "chevron.left")
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(12)
+                                .background(Color.black.opacity(0.5))
+                                .clipShape(Circle())
+                        }
+                        .padding(.leading, 16)
+                    } else {
+                        // Boş view (geri butonu yoksa sol tarafı boş bırak)
+                        Spacer().frame(width: 60)
+                    }
+                    
+                    Spacer() // Ortayı boş bırak
+                    
+                    // Ayarlar Butonu (sadece kendi profilindeyse)
+                    if viewModel.isCurrentUser {
+                        Button(action: { showSettings = true }) {
+                            Image(systemName: "gearshape.fill")
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(12)
+                                .background(Color.black.opacity(0.5))
+                                .clipShape(Circle())
+                        }
+                        .padding(.trailing, 16)
+                    } else {
+                        // Boş view (ayarlar butonu yoksa sağ tarafı boş bırak)
+                        Spacer().frame(width: 60)
                     }
                 }
+                .padding(.top, 16)
+                
+                Spacer() // Alt tarafı boş bırak
             }
         }
+        .navigationBarBackButtonHidden(true)
         .sheet(isPresented: $showEditProfile) {
             NavigationView {
                 EditProfileView(
@@ -181,6 +204,11 @@ struct ProfileView: View {
                     interests: $viewModel.interests,
                     profileImageUrl: $viewModel.profileImageUrl
                 )
+            }
+        }
+        .sheet(isPresented: $showSettings) {
+            NavigationView {
+                SettingsView(isLoggedIn: .constant(true))
             }
         }
     }
