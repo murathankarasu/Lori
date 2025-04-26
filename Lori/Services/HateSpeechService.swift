@@ -2,7 +2,7 @@ import Foundation
 
 public class HateSpeechService {
     static let shared = HateSpeechService()
-    private let baseURL = "https://hate-speech-service.onrender.com//api"
+    private let baseURL = "https://hate-speech-service-main-services.up.railway.app"
     private let session: URLSession
     private var bannedWords: [String: String] = [:]
     
@@ -107,8 +107,8 @@ public class HateSpeechService {
         print("ℹ️ CSV kontrolü: Nefret söylemi tespit edilmedi, API kontrolüne geçiliyor")
         
         // API kontrolü
-        guard let url = URL(string: "\(baseURL)/check-hate-speech") else {
-            print("❌ Geçersiz URL: \(baseURL)/check-hate-speech")
+        guard let url = URL(string: "\(baseURL)/api/check-hate-speech") else {
+            print("❌ Geçersiz URL: \(baseURL)/api/check-hate-speech")
             throw HateSpeechError.invalidResponse
         }
         
