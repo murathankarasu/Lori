@@ -23,7 +23,7 @@ struct Comment: Identifiable, Codable, Hashable {
         id = try container.decode(String?.self, forKey: .id)
         postId = try container.decode(String.self, forKey: .postId)
         userId = try container.decode(String.self, forKey: .userId)
-        username = try container.decode(String.self, forKey: .username)
+        username = try container.decodeIfPresent(String.self, forKey: .username) ?? "Anonim"
         content = try container.decode(String.self, forKey: .content)
         timestamp = try container.decode(Date.self, forKey: .timestamp)
     }

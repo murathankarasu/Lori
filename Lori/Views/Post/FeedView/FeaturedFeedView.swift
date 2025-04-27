@@ -159,28 +159,13 @@ struct FeaturedFeedView: View {
                 imageUrl: data["imageUrl"] as? String,
                 timestamp: (data["timestamp"] as? Timestamp)?.dateValue() ?? Date(),
                 likes: data["likes"] as? Int ?? 0,
-                comments: (data["comments"] as? [[String: Any]])?.compactMap { commentData in
-                    guard let id = commentData["id"] as? String,
-                          let userId = commentData["userId"] as? String,
-                          let username = commentData["username"] as? String,
-                          let content = commentData["content"] as? String,
-                          let timestamp = (commentData["timestamp"] as? Timestamp)?.dateValue() else {
-                        return nil
-                    }
-                    return Comment(
-                        id: id,
-                        postId: document.documentID,
-                        userId: userId,
-                        username: username,
-                        content: content,
-                        timestamp: timestamp
-                    )
-                } ?? [],
+                comments: [],
                 isViewed: data["isViewed"] as? Bool ?? false,
                 tags: data["tags"] as? [String] ?? [],
                 category: data["category"] as? String ?? "featured",
                 mentions: data["mentions"] as? [String] ?? [],
-                interests: data["interests"] as? [String] ?? []
+                interests: data["interests"] as? [String] ?? [],
+                emotionAnalysis: nil
             )
         }
     }

@@ -7,10 +7,6 @@ struct PostsGridView: View {
     @Binding var selectedPost: Post?
     @Binding var showPostDetail: Bool
     
-    private var limitedPosts: [Post] {
-        Array(posts.prefix(2))
-    }
-    
     var body: some View {
         Group {
             if isLoading {
@@ -35,7 +31,7 @@ struct PostsGridView: View {
             } else {
                 ScrollView {
                     LazyVStack(spacing: 16) {
-                        ForEach(limitedPosts) { post in
+                        ForEach(posts) { post in
                             PostCard(post: post)
                                 .onTapGesture {
                                     selectedPost = post

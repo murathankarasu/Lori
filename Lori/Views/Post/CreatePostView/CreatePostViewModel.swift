@@ -51,6 +51,8 @@ class CreatePostViewModel: ObservableObject {
     private var debounceTimer: Timer?
     
     private let disinformationService = DisinformationService()
+    private let emotionService = EmotionService.shared
+    private let userEmotionService = UserEmotionService.shared
     
     var canPost: Bool {
         !postContent.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
@@ -140,6 +142,9 @@ class CreatePostViewModel: ObservableObject {
                 throw PostError.hateSpeechError("Nefret söylemi tespit edildi. Kategori: \(category)")
             }
             
+            // Duygu analizi
+            let emotionAnalysis = try await emotionService.analyzeEmotion(text: trimmedContent)
+            
             // Etiketleri çıkar
             let words = trimmedContent.split(separator: " ")
             var tags: [String] = []
@@ -168,7 +173,12 @@ class CreatePostViewModel: ObservableObject {
                 "likes": 0,
                 "comments": [],
                 "tags": tags,
-                "interests": userInterests
+                "interests": userInterests,
+                "emotionAnalysis": [
+                    "emotion": emotionAnalysis.emotion,
+                    "confidence": emotionAnalysis.confidence,
+                    "timestamp": Timestamp(date: emotionAnalysis.timestamp)
+                ]
             ]
             
             print("\n=== Gönderi Oluşturma ===")
@@ -177,6 +187,7 @@ class CreatePostViewModel: ObservableObject {
             print("Kullanıcı Adı: \(username)")
             print("İçerik: \(trimmedContent)")
             print("Etiketler: \(tags)")
+            print("Duygu Analizi: \(emotionAnalysis.emotion) (Güven: \(emotionAnalysis.confidence))")
             
             // Resimleri yükle
             if !processedImages.isEmpty {
@@ -207,6 +218,15 @@ class CreatePostViewModel: ObservableObject {
             
             // Firebase'e kaydet
             try await db.collection("posts").document(postId).setData(postData)
+            
+            // Etkileşimi kaydet
+            try await userEmotionService.saveInteraction(
+                userId: user.uid,
+                postId: postId,
+                interactionType: .create,
+                emotion: emotionAnalysis.emotion,
+                confidence: emotionAnalysis.confidence
+            )
             
             print("✅ Gönderi başarıyla kaydedildi")
             print("===================\n")

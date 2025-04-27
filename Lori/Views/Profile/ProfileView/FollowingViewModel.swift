@@ -25,83 +25,165 @@ class FollowingViewModel: ObservableObject {
         defer { isLoading = false }
         
         do {
-            // 1. Takip edilen ID'lerini al
-            let followingDoc = try await db.collection("following").document(userId).getDocument()
-            let followingIds = followingDoc.data()?["users"] as? [String] ?? []
+            // 1. Görüntülenen kullanıcının dokümanını 'users' koleksiyonundan al
+            let userDoc = try await db.collection("users").document(userId).getDocument()
+            guard let userData = userDoc.data(), userDoc.exists else {
+                print("❌ Takip edilenleri yüklerken kullanıcı dokümanı bulunamadı veya boş: \(userId)")
+                self.following = []
+                await checkFollowStatus(for: []) // Durumu temizle
+                return
+            }
+            // Kullanıcının 'following' dizisini oku
+            let followingIds = userData["following"] as? [String] ?? []
             
             guard !followingIds.isEmpty else {
                 self.following = []
+                await checkFollowStatus(for: []) // Durumu temizle
                 return
             }
             
-            // 2. Takip edilen kullanıcı bilgilerini al
+            // 2. Takip edilen kullanıcı bilgilerini 'users' koleksiyonundan al (Chunking ile)
             var loadedFollowing: [User] = []
-            let querySnapshot = try await db.collection("users").whereField(FieldPath.documentID(), in: followingIds).getDocuments()
+            let chunks = followingIds.chunked(into: 10)
             
-            for document in querySnapshot.documents {
-                let data = document.data()
-                let user = User(
-                    id: document.documentID,
-                    username: data["username"] as? String ?? "",
-                    email: data["email"] as? String ?? "",
-                    profileImageUrl: data["profileImageUrl"] as? String,
-                    bio: data["bio"] as? String,
-                    followers: 0,
-                    following: 0,
-                    createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
-                    isVerified: data["isVerified"] as? Bool ?? false
-                )
-                loadedFollowing.append(user)
+            for chunk in chunks {
+                let querySnapshot = try await db.collection("users").whereField(FieldPath.documentID(), in: chunk).getDocuments()
+                for document in querySnapshot.documents {
+                    // MANUEL DÖNÜŞÜM: document.data(as: User.self) yerine
+                    let data = document.data()
+                    let id = document.documentID
+                    let username = data["username"] as? String ?? ""
+                    let email = data["email"] as? String ?? ""
+                    let profileImageUrl = data["profileImageUrl"] as? String
+                    let bio = data["bio"] as? String
+                    let createdAtTimestamp = data["createdAt"] as? Timestamp
+                    let createdAtDate = createdAtTimestamp?.dateValue() ?? Date() // Timestamp'ı Date'e çevir
+                    let isVerified = data["isVerified"] as? Bool ?? false
+                    
+                    // User nesnesini manuel oluştur, followers/following için 0 kullan
+                    let user = User(
+                        id: id,
+                        username: username,
+                        email: email,
+                        profileImageUrl: profileImageUrl,
+                        bio: bio,
+                        followers: 0, // Varsayılan değer veya liste için gereksizse 0
+                        following: 0, // Varsayılan değer veya liste için gereksizse 0
+                        createdAt: createdAtDate,
+                        isVerified: isVerified
+                    )
+                    loadedFollowing.append(user)
+                }
             }
             self.following = loadedFollowing
             
-            // 3. Mevcut kullanıcının takip durumlarını kontrol et (Takip Edilenler listesi için de gerekli)
+            // 3. Mevcut kullanıcının takip durumlarını kontrol et
             await checkFollowStatus(for: followingIds)
             
         } catch {
             print("❌ Takip edilen yükleme hatası: \(error.localizedDescription)")
+            self.following = [] // Hata durumunda listeyi temizle
         }
     }
     
     private func checkFollowStatus(for userIds: [String]) async {
-        guard let currentUserId = self.currentUserId, !userIds.isEmpty else { return }
+        guard let currentUserId = self.currentUserId else { return }
+        
+        if userIds.isEmpty {
+            DispatchQueue.main.async { self.followStatus = [:] }
+            return
+        }
         
         do {
-            let followingDoc = try await db.collection("following").document(currentUserId).getDocument()
-            let currentlyFollowingIds = followingDoc.data()?["users"] as? [String] ?? []
+            // Mevcut kullanıcının dokümanını 'users' koleksiyonundan al
+            let currentUserDoc = try await db.collection("users").document(currentUserId).getDocument()
+            guard let currentUserData = currentUserDoc.data(), currentUserDoc.exists else {
+                print("❌ Takip durumu kontrolü için mevcut kullanıcı dokümanı bulunamadı: \(currentUserId)")
+                DispatchQueue.main.async { self.followStatus = [:] }
+                return
+            }
+            // Mevcut kullanıcının 'following' dizisini oku ve Set'e çevir
+            let currentlyFollowingIds = Set(currentUserData["following"] as? [String] ?? [])
+            
             var statusMap: [String: Bool] = [:]
             for id in userIds {
                 statusMap[id] = currentlyFollowingIds.contains(id)
             }
-            self.followStatus = statusMap
+            DispatchQueue.main.async {
+                self.followStatus = statusMap
+            }
         } catch {
             print("❌ Takip durumu kontrol hatası: \(error.localizedDescription)")
+            DispatchQueue.main.async { self.followStatus = [:] }
         }
     }
     
-    // toggleFollow fonksiyonu FollowersViewModel ile aynı, kopyalanabilir veya ortak bir yere taşınabilir.
     func toggleFollow(userToToggle: User) async {
         guard let currentUserId = self.currentUserId, currentUserId != userToToggle.id else { return }
         
         let targetUserId = userToToggle.id
         let isCurrentlyFollowing = followStatus[targetUserId] ?? false
         
-        followStatus[targetUserId] = !isCurrentlyFollowing
+        // İyimser UI güncellemesi
+        DispatchQueue.main.async {
+            self.followStatus[targetUserId] = !isCurrentlyFollowing
+        }
         
         do {
-            let followingRef = db.collection("following").document(currentUserId)
-            let followersRef = db.collection("followers").document(targetUserId)
+            let currentUserRef = db.collection("users").document(currentUserId)
+            let targetUserRef = db.collection("users").document(targetUserId)
             
-            if isCurrentlyFollowing {
-                try await followingRef.updateData(["users": FieldValue.arrayRemove([targetUserId])])
-                try await followersRef.updateData(["users": FieldValue.arrayRemove([currentUserId])])
-            } else {
-                try await followingRef.setData(["users": FieldValue.arrayUnion([targetUserId])], merge: true)
-                try await followersRef.setData(["users": FieldValue.arrayUnion([currentUserId])], merge: true)
+            // Firestore transaction kullanarak 'users' koleksiyonunu atomik olarak güncelle
+            try await db.runTransaction { (transaction, errorPointer) -> Any? in
+                // İşlem sırasında dokümanların varlığını kontrol etmeye gerek yok,
+                // arrayUnion/arrayRemove var olmayan alanları/dokümanları tolere eder.
+                
+                // Mevcut kullanıcının 'following' listesini güncelle
+                if isCurrentlyFollowing {
+                    transaction.updateData(["following": FieldValue.arrayRemove([targetUserId])], forDocument: currentUserRef)
+                } else {
+                    transaction.updateData(["following": FieldValue.arrayUnion([targetUserId])], forDocument: currentUserRef)
+                }
+                
+                // Hedef kullanıcının 'followers' listesini güncelle
+                if isCurrentlyFollowing {
+                    transaction.updateData(["followers": FieldValue.arrayRemove([currentUserId])], forDocument: targetUserRef)
+                } else {
+                    transaction.updateData(["followers": FieldValue.arrayUnion([currentUserId])], forDocument: targetUserRef)
+                }
+                return nil
             }
+            print("✅ Takip durumu (users collection) başarıyla güncellendi: \(targetUserId)")
+            
+            // Profildeki takipçi/takip edilen sayılarını da güncellemek önemli olabilir.
+            // Bu genellikle ana profil viewmodel'inde veya Cloud Function ile yapılır.
+            
         } catch {
-            print("❌ Takip toggle hatası: \(error.localizedDescription)")
-            followStatus[targetUserId] = isCurrentlyFollowing
+            print("❌ Takip toggle (users collection) hatası: \(error.localizedDescription)")
+            // Hata durumunda UI'ı eski haline getir
+            DispatchQueue.main.async {
+                self.followStatus[targetUserId] = isCurrentlyFollowing
+            }
         }
     }
-} 
+    
+    // Opsiyonel: Kullanıcının takipçi/takip edilen sayılarını güncellemek için fonksiyon
+    /*
+    private func updateUserFollowCounts(userId: String) async {
+        // Bu fonksiyon, ilgili 'followers' ve 'following' dokümanlarındaki 'users' dizisinin boyutunu alıp
+        // 'users' koleksiyonundaki ilgili kullanıcının 'followerCount' ve 'followingCount' alanlarını güncelleyebilir.
+        // Bu işlem genellikle Cloud Functions ile daha verimli yönetilir.
+    }
+    */
+}
+
+// Array chunked extension (Artık ortak dosyada tanımlı olduğu için kaldırılıyor)
+/*
+extension Array {
+    func chunked(into size: Int) -> [[Element]] {
+        return stride(from: 0, to: count, by: size).map {
+            Array(self[$0 ..< Swift.min($0 + size, count)])
+        }
+    }
+}
+*/ 

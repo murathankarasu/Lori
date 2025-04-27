@@ -11,6 +11,7 @@ class PostDetailViewModel: ObservableObject {
     @Published var likesCount: Int = 0
     @Published var disinformationCheck: DisinformationResponse?
     @Published var isCheckingDisinformation = false
+    @Published var commentsCount: Int = 0
     
     // Dezenformasyon kontrolünün gösterilip gösterilmeyeceğini belirleyen özellik
     var shouldShowDisinformationCheck: Bool {
@@ -74,7 +75,7 @@ class PostDetailViewModel: ObservableObject {
         fetchComments(for: postId)
         checkIfLiked(postId: postId)
         fetchLikesCount(postId: postId)
-        
+        listenCommentsCount(postId: postId)
         // Sadece gerekli durumlarda dezenformasyon kontrolü yap
         if shouldShowDisinformationCheck {
             checkInitialDisinformation(for: post)
@@ -131,11 +132,31 @@ class PostDetailViewModel: ObservableObject {
             .document(postId)
             .collection("likes")
             .document(userId)
+        let postRef = db.collection("posts").document(postId)
         
         if isLiked {
             likeRef.delete()
+            // likes sayısını azalt
+            postRef.updateData(["likes": FieldValue.increment(Int64(-1))])
         } else {
             likeRef.setData([:])
+            // likes sayısını artır
+            postRef.updateData(["likes": FieldValue.increment(Int64(1))])
+            // Etkileşimi kaydet
+            Task {
+                do {
+                    let emotionAnalysis = try await EmotionService.shared.analyzeEmotion(text: post.content)
+                    try await UserEmotionService.shared.saveInteraction(
+                        userId: userId,
+                        postId: postId,
+                        interactionType: .like,
+                        emotion: emotionAnalysis.emotion,
+                        confidence: emotionAnalysis.confidence
+                    )
+                } catch {
+                    print("Beğeni etkileşimi kaydedilemedi: \(error)")
+                }
+            }
         }
     }
     
@@ -216,6 +237,13 @@ class PostDetailViewModel: ObservableObject {
                  self.likesCount = document.data()?["likes"] as? Int ?? 0
              }
      }
+    
+    private func listenCommentsCount(postId: String) {
+        db.collection("posts").document(postId).addSnapshotListener { [weak self] snapshot, error in
+            guard let data = snapshot?.data() else { return }
+            self?.commentsCount = data["commentsCount"] as? Int ?? 0
+        }
+    }
     
     deinit {
         commentsListener?.remove()

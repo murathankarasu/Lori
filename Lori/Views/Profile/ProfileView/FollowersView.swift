@@ -59,35 +59,41 @@ struct FollowerRow: View {
     
     var body: some View {
         HStack {
-            NavigationLink(destination: ProfileView(userId: user.id)) {
-                HStack {
-                    KFImage(URL(string: user.profileImageUrl ?? ""))
-                        .placeholder {
-                            Image(systemName: "person.circle.fill")
-                                .resizable()
-                                .frame(width: 45, height: 45)
-                                .foregroundColor(.gray)
-                        }
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 45, height: 45)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.white.opacity(0.5), lineWidth: 1))
-                    
-                    VStack(alignment: .leading) {
-                        Text(user.username)
-                            .font(.headline)
-                            .foregroundColor(.white)
-                        if let bio = user.bio, !bio.isEmpty {
-                            Text(bio)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                                .lineLimit(1)
-                        }
+            let userInfoView = HStack {
+                KFImage(URL(string: user.profileImageUrl ?? ""))
+                    .placeholder {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .frame(width: 45, height: 45)
+                            .foregroundColor(.gray)
+                    }
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 45, height: 45)
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white.opacity(0.5), lineWidth: 1))
+                
+                VStack(alignment: .leading) {
+                    Text(user.username)
+                        .font(.headline)
+                        .foregroundColor(.white)
+                    if let bio = user.bio, !bio.isEmpty {
+                        Text(bio)
+                            .font(.subheadline)
+                            .foregroundColor(.gray)
+                            .lineLimit(1)
                     }
                 }
             }
-            .buttonStyle(PlainButtonStyle())
+
+            if user.id != currentUserId {
+                NavigationLink(destination: ProfileView(userId: user.id)) {
+                   userInfoView
+                }
+                .buttonStyle(PlainButtonStyle())
+            } else {
+                userInfoView
+            }
 
             Spacer()
             

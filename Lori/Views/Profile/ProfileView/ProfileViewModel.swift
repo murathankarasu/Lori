@@ -132,21 +132,21 @@ class ProfileViewModel: ObservableObject {
             
             if wasFollowing {
                 // Takibi bırak
-                try await db.collection("followers").document(userId).updateData([
-                    "users": FieldValue.arrayRemove([currentUserId])
+                try await db.collection("users").document(currentUserId).updateData([
+                    "following": FieldValue.arrayRemove([userId])
                 ])
-                try await db.collection("following").document(currentUserId).updateData([
-                    "users": FieldValue.arrayRemove([userId])
+                try await db.collection("users").document(userId).updateData([
+                    "followers": FieldValue.arrayRemove([currentUserId])
                 ])
                 followersCount -= 1
             } else {
                 // Takip et
-                try await db.collection("followers").document(userId).setData([
-                    "users": FieldValue.arrayUnion([currentUserId])
-                ], merge: true)
-                try await db.collection("following").document(currentUserId).setData([
-                    "users": FieldValue.arrayUnion([userId])
-                ], merge: true)
+                try await db.collection("users").document(currentUserId).updateData([
+                    "following": FieldValue.arrayUnion([userId])
+                ])
+                try await db.collection("users").document(userId).updateData([
+                    "followers": FieldValue.arrayUnion([currentUserId])
+                ])
                 followersCount += 1
             }
         } catch {
@@ -161,8 +161,8 @@ class ProfileViewModel: ObservableObject {
         guard let currentUserId = Auth.auth().currentUser?.uid else { return }
         
         do {
-            let doc = try await db.collection("following").document(currentUserId).getDocument()
-            let following = doc.data()?["users"] as? [String] ?? []
+            let doc = try await db.collection("users").document(currentUserId).getDocument()
+            let following = doc.data()?["following"] as? [String] ?? []
             isFollowing = following.contains(userId)
         } catch {
             print("Takip durumu kontrol edilemedi: \(error.localizedDescription)")
@@ -174,13 +174,13 @@ class ProfileViewModel: ObservableObject {
         followingListener?.remove()
         
         // Listener for followers count
-        followersListener = db.collection("followers").document(userId)
+        followersListener = db.collection("users").document(userId)
             .addSnapshotListener { [weak self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
                     print("Error fetching followers count snapshot: \(error?.localizedDescription ?? "Unknown error")")
                     return
                 }
-                let count = (document.data()?["users"] as? [String])?.count ?? 0
+                let count = (document.data()?["followers"] as? [String])?.count ?? 0
                 // Sadece değiştiyse güncelleme (gereksiz UI güncellemelerini önlemek için)
                 if self?.followersCount != count {
                     self?.followersCount = count
@@ -189,13 +189,13 @@ class ProfileViewModel: ObservableObject {
             }
         
         // Listener for following count
-        followingListener = db.collection("following").document(userId)
+        followingListener = db.collection("users").document(userId)
             .addSnapshotListener { [weak self] documentSnapshot, error in
                 guard let document = documentSnapshot else {
                     print("Error fetching following count snapshot: \(error?.localizedDescription ?? "Unknown error")")
                     return
                 }
-                let count = (document.data()?["users"] as? [String])?.count ?? 0
+                let count = (document.data()?["following"] as? [String])?.count ?? 0
                 if self?.followingCount != count {
                     self?.followingCount = count
                      print("[ProfileViewModel] Following count updated: \(count)")
