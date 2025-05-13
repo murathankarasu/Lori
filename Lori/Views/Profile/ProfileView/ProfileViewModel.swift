@@ -19,6 +19,7 @@ class ProfileViewModel: ObservableObject {
     @Published var isCurrentUser = false
     @Published var isFollowing = false
     @Published var hasMorePosts = true
+    @Published var hasCommunityBadge: Bool = false
     private var lastDocument: DocumentSnapshot?
     private let pageSize = 20
     
@@ -36,6 +37,7 @@ class ProfileViewModel: ObservableObject {
         Task {
             await fetchUserProfile()
             await fetchUserPosts()
+            await checkCommunityBadge()
             if !isCurrentUser {
                 await checkIfFollowing()
             }
@@ -270,5 +272,20 @@ class ProfileViewModel: ObservableObject {
                      print("[ProfileViewModel] Following count updated: \(count)")
                 }
             }
+    }
+    
+    /// Topluluk rozeti kontrolü
+    func checkCommunityBadge() async {
+        do {
+            let result = try await UserEmotionService.shared.hasCommunityBadge(userId: userId)
+            await MainActor.run {
+                self.hasCommunityBadge = result
+            }
+        } catch {
+            print("Topluluk rozeti kontrolünde hata: \(error)")
+            await MainActor.run {
+                self.hasCommunityBadge = false
+            }
+        }
     }
 } 

@@ -79,49 +79,42 @@ struct PostCard: View {
             VStack(alignment: .leading, spacing: 12) {
                 // Kullanıcı bilgileri (farklı kullanıcıysa tıklanabilir, kendi postu için normal)
                 if let currentUserId = Auth.auth().currentUser?.uid, post.userId != currentUserId {
-                    NavigationLink(destination: ProfileView(userId: post.userId)) {
-                        HStack {
-                            // PROFİL FOTOĞRAFI
-                            if let profileImageUrl = post.profileImageUrl, !profileImageUrl.isEmpty, let url = URL(string: profileImageUrl) {
-                                AsyncImage(url: url) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                } placeholder: {
-                                    Image(systemName: "person.circle.fill")
-                                        .resizable()
-                                        .foregroundColor(.white)
-                                }
-                                .frame(width: 40, height: 40)
-                                .clipShape(Circle())
-                            } else {
+                    HStack {
+                        // PROFİL FOTOĞRAFI
+                        if let profileImageUrl = post.profileImageUrl, !profileImageUrl.isEmpty, let url = URL(string: profileImageUrl) {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            } placeholder: {
                                 Image(systemName: "person.circle.fill")
                                     .resizable()
-                                    .frame(width: 40, height: 40)
                                     .foregroundColor(.white)
                             }
-
-                            VStack(alignment: .leading) {
-                                Text(post.username)
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-
-                                Text(post.timestamp, style: .relative)
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
-
-                            Spacer()
-
-                            if !post.tags.isEmpty {
-                                Text(post.tags.joined(separator: ", "))
-                                    .font(.caption)
-                                    .foregroundColor(.gray)
-                            }
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                        } else {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(.white)
                         }
-                        .padding(.horizontal)
+                        VStack(alignment: .leading) {
+                            Text(post.username)
+                                .font(.headline)
+                                .foregroundColor(.white)
+                            Text(post.timestamp, style: .relative)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+                        Spacer()
+                        if !post.tags.isEmpty {
+                            Text(post.tags.joined(separator: ", "))
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
                     }
-                    .buttonStyle(PlainButtonStyle())
+                    .padding(.horizontal)
                 } else {
                     HStack {
                         // PROFİL FOTOĞRAFI (KENDİ POSTU İÇİN)

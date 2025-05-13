@@ -26,20 +26,27 @@ struct ProfileView: View {
             
             ScrollView {
                 VStack(spacing: 24) {
-                    // Profil Fotoğrafı
-                    if let imageUrl = viewModel.profileImageUrl {
-                        KFImage(URL(string: imageUrl))
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: 120, height: 120)
-                            .clipShape(Circle())
-                            .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                    } else {
-                        Image(systemName: "person.circle.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
-                            .foregroundColor(.gray)
+                    // Profil Fotoğrafı ve Topluluk Rozeti
+                    ZStack(alignment: .bottomTrailing) {
+                        if let imageUrl = viewModel.profileImageUrl {
+                            KFImage(URL(string: imageUrl))
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 120, height: 120)
+                                .clipShape(Circle())
+                                .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                        } else {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 120, height: 120)
+                                .foregroundColor(.gray)
+                        }
+                        // Topluluk Rozeti
+                        if viewModel.hasCommunityBadge {
+                            CommunityBadgeView()
+                                .offset(x: 12, y: 12)
+                        }
                     }
                     
                     // Kullanıcı Adı
@@ -218,6 +225,44 @@ struct ProfileView: View {
         .sheet(isPresented: $showSettings) {
             NavigationView {
                 SettingsView(isLoggedIn: .constant(true))
+            }
+        }
+    }
+}
+
+struct CommunityBadgeView: View {
+    @State private var showInfo = false
+    var body: some View {
+        ZStack {
+            Button(action: { showInfo.toggle() }) {
+                Image("badge")
+                    .resizable()
+                    .frame(width: 44, height: 44)
+                    .shadow(radius: 4)
+            }
+            .sheet(isPresented: $showInfo) {
+                VStack(spacing: 24) {
+                    Capsule()
+                        .frame(width: 40, height: 5)
+                        .foregroundColor(.gray.opacity(0.4))
+                        .padding(.top, 12)
+                    Image("badge")
+                        .resizable()
+                        .frame(width: 60, height: 60)
+                        .padding(.top, 8)
+                    Text("Community Badge")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                        .foregroundColor(.white)
+                    Text("This badge is given to users who make a positive contribution to the Lori community by receiving positive interactions on their posts.")
+                        .font(.body)
+                        .foregroundColor(.white)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity)
+                .background(Color.black.ignoresSafeArea())
             }
         }
     }
