@@ -6,10 +6,12 @@ struct PostsGridView: View {
     let posts: [Post]
     @Binding var selectedPost: Post?
     @Binding var showPostDetail: Bool
+    var onScrolledAtBottom: (() -> Void)? = nil
+    var hasMorePosts: Bool = true
     
     var body: some View {
         Group {
-            if isLoading {
+            if isLoading && posts.isEmpty {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     .scaleEffect(1.5)
@@ -31,12 +33,28 @@ struct PostsGridView: View {
             } else {
                 ScrollView {
                     LazyVStack(spacing: 16) {
-                        ForEach(posts) { post in
+                        ForEach(posts.indices, id: \.self) { index in
+                            let post = posts[index]
                             PostCard(post: post)
                                 .onTapGesture {
                                     selectedPost = post
                                     showPostDetail = true
                                 }
+                                .onAppear {
+                                    if index == posts.count - 1 {
+                                        onScrolledAtBottom?()
+                                    }
+                                }
+                        }
+                        if isLoading && posts.count > 0 {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .padding()
+                        }
+                        if !hasMorePosts && posts.count > 0 {
+                            Text("Daha fazla gönderi yok.")
+                                .foregroundColor(.gray)
+                                .padding(.bottom, 16)
                         }
                     }
                     .padding(.vertical)

@@ -2,6 +2,7 @@ import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
 import PhotosUI
+import AVKit
 
 // MARK: - CreatePostView
 struct CreatePostView: View {
@@ -15,6 +16,7 @@ struct CreatePostView: View {
     @State private var showUserMentionPicker = false
     @State private var selectedEmoji: String?
     @State private var selectedUser: String?
+    @State private var showVideoPicker = false
     
     private let maxContentLength: Double = 500
     
@@ -42,29 +44,24 @@ struct CreatePostView: View {
                         Task {
                             isPublishing = true
                             do {
-                                print("Nefret söylemi kontrolü başlıyor...")
+                                // Nefret söylemi kontrolü
                                 let (isHateSpeech, category, _) = try await viewModel.checkHateSpeech()
-                                print("Kontrol sonucu:")
-                                print("- Nefret söylemi var mı?: \(isHateSpeech)")
-                                print("- Kategori: \(category)")
-                                
                                 if isHateSpeech {
                                     viewModel.errorMessage = "Politikalarımız gereği mesajınıza izin verilmiyor. Kategori: \(category)"
-                                    print("❌ Nefret söylemi tespit edildi")
                                 } else {
                                     viewModel.errorMessage = ""
-                                    print("✅ Nefret söylemi tespit edilmedi")
-                                    // Nefret söylemi yoksa gönderiyi paylaş
-                                    print("Gönderi paylaşılıyor...")
-                                    try await viewModel.createPost()
-                                    print("✅ Gönderi başarıyla paylaşıldı")
-                                    dismiss()
                                 }
+                                // Medya dosyalarını işle ve analiz et
+                                print("Medya dosyaları işleniyor...")
+                                await viewModel.processMedia()
+                                // Her durumda paylaşımı yap (nefret söylemi koleksiyonuna veya normal koleksiyona kaydedilecek)
+                                try await viewModel.createPost()
+                                // Sadece başarılıysa ekranı kapat
+                                dismiss()
                             } catch {
-                                print("❌ İşlem hatası: \(error)")
+                                viewModel.errorMessage = error.localizedDescription
                             }
                             isPublishing = false
-                            print("===================\n")
                         }
                     }) {
                         HStack {
@@ -161,6 +158,12 @@ struct CreatePostView: View {
                                     .font(.system(size: 20))
                                     .foregroundColor(.white)
                             }
+                            // Video seçici
+                            PhotosPicker(selection: $viewModel.selectedVideos, matching: .videos) {
+                                Image(systemName: "video")
+                                    .font(.system(size: 20))
+                                    .foregroundColor(.white)
+                            }
                         }
                         .padding(.horizontal)
                         
@@ -180,6 +183,29 @@ struct CreatePostView: View {
                                                 viewModel.processedImages.remove(at: index)
                                             }) {
                                                 Text("Fotoğrafı Kaldır")
+                                                    .font(.subheadline)
+                                                    .foregroundColor(.red)
+                                            }
+                                            .padding(.top, 8)
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal)
+                            }
+                        }
+                        // Video Preview
+                        if !viewModel.processedVideos.isEmpty {
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 10) {
+                                    ForEach(viewModel.processedVideos.indices, id: \.self) { index in
+                                        VStack {
+                                            VideoPlayer(player: AVPlayer(url: viewModel.processedVideos[index]))
+                                                .frame(height: 200)
+                                                .cornerRadius(12)
+                                            Button(action: {
+                                                viewModel.processedVideos.remove(at: index)
+                                            }) {
+                                                Text("Videoyu Kaldır")
                                                     .font(.subheadline)
                                                     .foregroundColor(.red)
                                             }
@@ -210,6 +236,11 @@ struct CreatePostView: View {
         .onChange(of: viewModel.selectedImages) { _ in
             Task {
                 await viewModel.processSelectedImages()
+            }
+        }
+        .onChange(of: viewModel.selectedVideos) { _ in
+            Task {
+                await viewModel.processSelectedVideos()
             }
         }
     }

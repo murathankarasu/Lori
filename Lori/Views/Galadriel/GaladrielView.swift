@@ -1,4 +1,6 @@
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
 
 struct GaladrielView: View {
     @StateObject private var viewModel = GaladrielViewModel()
@@ -7,6 +9,7 @@ struct GaladrielView: View {
     @State private var showDebugLogs = false
     @State private var glowAmount: CGFloat = 0.0
     @State private var typingDots = 1
+    @State private var username: String = ""
     
     let timer = Timer.publish(every: 1.5, on: .main, in: .common).autoconnect()
     let typingTimer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
@@ -118,6 +121,17 @@ struct GaladrielView: View {
                 }
             }
             .navigationBarHidden(true)
+            .onAppear(perform: fetchUsername)
+        }
+    }
+    
+    private func fetchUsername() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        let db = Firestore.firestore()
+        db.collection("users").document(userId).getDocument { snapshot, error in
+            if let data = snapshot?.data(), let uname = data["username"] as? String {
+                username = uname
+            }
         }
     }
     
@@ -132,7 +146,7 @@ struct GaladrielView: View {
         isLoading = true
         
         Task {
-            await viewModel.sendMessage(trimmedMessage)
+            await viewModel.sendMessage(trimmedMessage, username: username)
             isLoading = false
         }
     }

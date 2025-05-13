@@ -263,6 +263,19 @@ struct EditProfileView: View {
                         throw NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Resim dönüştürülemedi"])
                     }
                     
+                    // --- GÖRSEL ANALİZ ---
+                    let analysisService = MediaAnalysisService()
+                    let isSafe = try await analysisService.analyzeImageData(imageData)
+                    if !isSafe {
+                        await MainActor.run {
+                            isLoading = false
+                            showError = true
+                            errorMessage = "Yüklediğiniz profil fotoğrafı topluluk kurallarına uygun değil. Lütfen başka bir fotoğraf seçin."
+                        }
+                        return
+                    }
+                    // --- GÖRSEL ANALİZ SONU ---
+                    
                     let storage = Storage.storage()
                     let storageRef = storage.reference()
                         .child("profile_images")

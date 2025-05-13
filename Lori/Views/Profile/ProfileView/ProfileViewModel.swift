@@ -18,6 +18,9 @@ class ProfileViewModel: ObservableObject {
     @Published var followingCount = 0
     @Published var isCurrentUser = false
     @Published var isFollowing = false
+    @Published var hasMorePosts = true
+    private var lastDocument: DocumentSnapshot?
+    private let pageSize = 20
     
     let userId: String
     private let db = Firestore.firestore()
@@ -84,42 +87,108 @@ class ProfileViewModel: ObservableObject {
     }
     
     func fetchUserPosts() async {
+        await MainActor.run { isLoading = true; errorMessage = "" }
+        defer { Task { await MainActor.run { isLoading = false } } }
         do {
-            print("Kullanıcı gönderileri yükleniyor: \(userId)")
-            
-            let querySnapshot = try await db.collection("posts")
+            let query = db.collection("posts")
                 .whereField("userId", isEqualTo: userId)
                 .order(by: "timestamp", descending: true)
-                .getDocuments()
-            
-            posts = querySnapshot.documents.compactMap { document in
+                .limit(to: pageSize)
+            let querySnapshot = try await query.getDocuments()
+            let docs = querySnapshot.documents
+            let newPosts = docs.compactMap { document in
                 let data = document.data()
-                
-                // Timestamp'i Date'e çevir
+                let id = document.documentID
                 let timestamp = (data["timestamp"] as? Timestamp)?.dateValue() ?? Date()
-                
+                let userId = data["userId"] as? String ?? ""
+                let username = data["username"] as? String ?? ""
+                let content = data["content"] as? String ?? ""
+                let imageUrl = data["imageUrl"] as? String
+                let profileImageUrl = data["profileImageUrl"] as? String
+                let likes = data["likes"] as? Int ?? 0
+                let comments: [Comment] = []
+                let tags = data["tags"] as? [String] ?? []
+                let category = data["category"] as? String ?? "featured"
+                let mentions = data["mentions"] as? [String] ?? []
                 return Post(
-                    id: document.documentID,
-                    userId: data["userId"] as? String ?? "",
-                    username: data["username"] as? String ?? "",
-                    content: data["content"] as? String ?? "",
-                    imageUrl: data["imageUrl"] as? String,
+                    id: id,
+                    userId: userId,
+                    username: username,
+                    content: content,
+                    imageUrl: imageUrl,
+                    profileImageUrl: profileImageUrl,
                     timestamp: timestamp,
-                    likes: data["likes"] as? Int ?? 0,
-                    comments: [], // Boş array olarak başlat, gerekirse sonra doldur
-                    isViewed: data["isViewed"] as? Bool ?? false,
-                    tags: data["tags"] as? [String] ?? [],
-                    category: data["category"] as? String ?? "featured",
-                    mentions: data["mentions"] as? [String] ?? []
+                    likes: likes,
+                    comments: comments,
+                    tags: tags,
+                    category: category,
+                    mentions: mentions
                 )
             }
-            
-            print("✅ \(posts.count) gönderi yüklendi")
-            
+            await MainActor.run {
+                self.posts = newPosts
+                self.lastDocument = docs.last
+                self.hasMorePosts = docs.count == self.pageSize
+            }
         } catch {
-            print("❌ Gönderi yükleme hatası: \(error.localizedDescription)")
-            errorMessage = error.localizedDescription
-            showError = true
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+                self.showError = true
+            }
+        }
+    }
+    
+    func fetchMoreUserPosts() async {
+        guard !isLoading, hasMorePosts, let lastDoc = lastDocument else { return }
+        await MainActor.run { isLoading = true }
+        defer { Task { await MainActor.run { isLoading = false } } }
+        do {
+            let query = db.collection("posts")
+                .whereField("userId", isEqualTo: userId)
+                .order(by: "timestamp", descending: true)
+                .start(afterDocument: lastDoc)
+                .limit(to: pageSize)
+            let querySnapshot = try await query.getDocuments()
+            let docs = querySnapshot.documents
+            let newPosts = docs.compactMap { document in
+                let data = document.data()
+                let id = document.documentID
+                let timestamp = (data["timestamp"] as? Timestamp)?.dateValue() ?? Date()
+                let userId = data["userId"] as? String ?? ""
+                let username = data["username"] as? String ?? ""
+                let content = data["content"] as? String ?? ""
+                let imageUrl = data["imageUrl"] as? String
+                let profileImageUrl = data["profileImageUrl"] as? String
+                let likes = data["likes"] as? Int ?? 0
+                let comments: [Comment] = []
+                let tags = data["tags"] as? [String] ?? []
+                let category = data["category"] as? String ?? "featured"
+                let mentions = data["mentions"] as? [String] ?? []
+                return Post(
+                    id: id,
+                    userId: userId,
+                    username: username,
+                    content: content,
+                    imageUrl: imageUrl,
+                    profileImageUrl: profileImageUrl,
+                    timestamp: timestamp,
+                    likes: likes,
+                    comments: comments,
+                    tags: tags,
+                    category: category,
+                    mentions: mentions
+                )
+            }
+            await MainActor.run {
+                self.posts.append(contentsOf: newPosts)
+                self.lastDocument = docs.last
+                self.hasMorePosts = docs.count == self.pageSize
+            }
+        } catch {
+            await MainActor.run {
+                self.errorMessage = error.localizedDescription
+                self.showError = true
+            }
         }
     }
     

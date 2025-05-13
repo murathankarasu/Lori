@@ -24,17 +24,25 @@ struct PostView: View {
         VStack(alignment: .leading, spacing: 12) {
             // Kullanıcı bilgileri
             HStack {
-                AsyncImage(url: URL(string: "https://example.com/profile.jpg")) { image in
-                    image
-                        .resizable()
-                        .scaledToFill()
-                } placeholder: {
+                if let profileImageUrl = post.profileImageUrl, !profileImageUrl.isEmpty, let url = URL(string: profileImageUrl) {
+                    AsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .scaledToFill()
+                    } placeholder: {
+                        Image(systemName: "person.circle.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(.white)
+                    }
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+                } else {
                     Image(systemName: "person.circle.fill")
                         .font(.system(size: 40))
                         .foregroundColor(.white)
+                        .frame(width: 40, height: 40)
+                        .clipShape(Circle())
                 }
-                .frame(width: 40, height: 40)
-                .clipShape(Circle())
                 
                 VStack(alignment: .leading) {
                     Text(post.username)
@@ -238,10 +246,10 @@ struct PostView_Previews: PreviewProvider {
                 username: "Test Kullanıcı",
                 content: "Test gönderi içeriği",
                 imageUrl: nil,
+                profileImageUrl: nil,
                 timestamp: Date(),
                 likes: 0,
                 comments: [],
-                isViewed: false,
                 tags: []
             ),
             isFollowing: false,

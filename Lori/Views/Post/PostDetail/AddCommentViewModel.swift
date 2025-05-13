@@ -83,7 +83,6 @@ class AddCommentViewModel: ObservableObject {
             // Firestore'a kaydet
             let commentId = comment.id ?? UUID().uuidString
             let commentData: [String: Any] = [
-                "id": comment.id ?? commentId,
                 "postId": comment.postId,
                 "userId": comment.userId,
                 "username": username,

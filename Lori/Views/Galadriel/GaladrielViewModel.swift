@@ -5,7 +5,7 @@ class GaladrielViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var debugLogs: [String] = []
     
-    private let apiKey = "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"
+    private let apiKey = "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"
     private let apiEndpoint = "https://openrouter.ai/api/v1/chat/completions"
     
     private func addLog(_ message: String) {
@@ -15,7 +15,7 @@ class GaladrielViewModel: ObservableObject {
         debugLogs.append(logMessage)
     }
     
-    func sendMessage(_ content: String) async {
+    func sendMessage(_ content: String, username: String) async {
         addLog("🟢 Sending message: \(content)")
         
         do {
@@ -28,11 +28,11 @@ class GaladrielViewModel: ObservableObject {
             
             // OpenAI API request format
             let parameters: [String: Any] = [
-                "model": "deepseek/deepseek-v3-base:free",
+                "model": "mistralai/mistral-7b-instruct",
                 "messages": [
                     [
                         "role": "system",
-                        "content": "You are Galadriel, an AI assistant. You must always respond in English. Do not repeat yourself and keep your responses concise and clear."
+                        "content": "You are Galadriel, an AI assistant. Always respond in English. Address the user by their username (\(username)). Avoid repetition and keep your responses concise and clear."
                     ]
                 ] + previousMessages.map { message in
                     [

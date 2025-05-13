@@ -2,7 +2,7 @@ import Foundation
 
 public class EmotionService {
     static let shared = EmotionService()
-    private let baseURL = "https://emotion-recognition-service-production.up.railway.app"
+    private let baseURL = "https://emotion-service-main-services.up.railway.app"
     private let session: URLSession
     
     public init() {

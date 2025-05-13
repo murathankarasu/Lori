@@ -44,4 +44,27 @@ struct EmotionAnalysis: Codable, Hashable, Equatable {
         hasher.combine(confidence)
         hasher.combine(timestamp)
     }
+
+    // Firestore dictionary'sinden initializer
+    init?(data: [String: Any]) {
+        guard let emotion = data["emotion"] as? String,
+              let confidence = data["confidence"] as? Double,
+              // Firestore'dan Timestamp olarak okuyup Date'e çeviriyoruz
+              let timestamp = (data["timestamp"] as? Timestamp)?.dateValue() else {
+            return nil
+        }
+        self.emotion = emotion
+        self.confidence = confidence
+        self.timestamp = timestamp
+    }
+    
+    // Firestore'a yazmak için dictionary
+    func toDictionary() -> [String: Any] {
+        return [
+            "emotion": emotion,
+            "confidence": confidence,
+            // Date'i Firestore Timestamp'ine çeviriyoruz
+            "timestamp": Timestamp(date: timestamp)
+        ]
+    }
 } 

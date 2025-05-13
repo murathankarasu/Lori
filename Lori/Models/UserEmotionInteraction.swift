@@ -14,6 +14,7 @@ struct UserEmotionInteraction: Identifiable, Codable {
         case like
         case comment
         case create
+        case viewDetail
     }
     
     enum CodingKeys: String, CodingKey {

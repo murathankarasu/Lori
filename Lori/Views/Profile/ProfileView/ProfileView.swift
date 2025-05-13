@@ -147,14 +147,20 @@ struct ProfileView: View {
                         isLoading: viewModel.isLoading,
                         posts: viewModel.posts,
                         selectedPost: $selectedPost,
-                        showPostDetail: $showPostDetail
+                        showPostDetail: $showPostDetail,
+                        onScrolledAtBottom: {
+                            Task {
+                                await viewModel.fetchMoreUserPosts()
+                            }
+                        },
+                        hasMorePosts: viewModel.hasMorePosts
                     )
                 }
-                .padding(.top, 32)
+                .padding(.top, 60)
             }
             
-            // Ekranın üst kısmında butonlar
-            VStack {
+            // Ekranın üst kısmındaki butonlar (sabit header)
+            VStack(spacing: 0) {
                 HStack {
                     // Geri Dönüş Butonu (sadece başka bir kullanıcının profilindeyse)
                     if !viewModel.isCurrentUser {
@@ -168,12 +174,11 @@ struct ProfileView: View {
                         }
                         .padding(.leading, 16)
                     } else {
-                        // Boş view (geri butonu yoksa sol tarafı boş bırak)
                         Spacer().frame(width: 60)
                     }
-                    
-                    Spacer() // Ortayı boş bırak
-                    
+
+                    Spacer()
+
                     // Ayarlar Butonu (sadece kendi profilindeyse)
                     if viewModel.isCurrentUser {
                         Button(action: { showSettings = true }) {
@@ -186,14 +191,18 @@ struct ProfileView: View {
                         }
                         .padding(.trailing, 16)
                     } else {
-                        // Boş view (ayarlar butonu yoksa sağ tarafı boş bırak)
                         Spacer().frame(width: 60)
                     }
                 }
-                .padding(.top, 16)
-                
-                Spacer() // Alt tarafı boş bırak
+                .frame(maxWidth: .infinity)
+                .padding(.top, 44)
+                .padding(.bottom, 8)
+                .background(Color.black)
+
+                Spacer()
             }
+            .ignoresSafeArea(edges: .top)
+            .zIndex(1)
         }
         .navigationBarBackButtonHidden(true)
         .sheet(isPresented: $showEditProfile) {

@@ -77,33 +77,93 @@ struct PostCard: View {
             showComments = true
         }) {
             VStack(alignment: .leading, spacing: 12) {
-                // Kullanıcı bilgileri
-                HStack {
-                    Image(systemName: "person.circle.fill")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .foregroundColor(.white)
-                    
-                    VStack(alignment: .leading) {
-                        Text(post.username)
-                            .font(.headline)
-                            .foregroundColor(.white)
-                        
-                        Text(post.timestamp, style: .relative)
-                            .font(.caption)
-                            .foregroundColor(.gray)
+                // Kullanıcı bilgileri (farklı kullanıcıysa tıklanabilir, kendi postu için normal)
+                if let currentUserId = Auth.auth().currentUser?.uid, post.userId != currentUserId {
+                    NavigationLink(destination: ProfileView(userId: post.userId)) {
+                        HStack {
+                            // PROFİL FOTOĞRAFI
+                            if let profileImageUrl = post.profileImageUrl, !profileImageUrl.isEmpty, let url = URL(string: profileImageUrl) {
+                                AsyncImage(url: url) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFill()
+                                } placeholder: {
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .foregroundColor(.white)
+                                }
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
+                            } else {
+                                Image(systemName: "person.circle.fill")
+                                    .resizable()
+                                    .frame(width: 40, height: 40)
+                                    .foregroundColor(.white)
+                            }
+
+                            VStack(alignment: .leading) {
+                                Text(post.username)
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+
+                                Text(post.timestamp, style: .relative)
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+
+                            Spacer()
+
+                            if !post.tags.isEmpty {
+                                Text(post.tags.joined(separator: ", "))
+                                    .font(.caption)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+                        .padding(.horizontal)
                     }
-                    
-                    Spacer()
-                    
-                    // Tag'leri göster
-                    if !post.tags.isEmpty {
-                        Text(post.tags.joined(separator: ", "))
-                            .font(.caption)
-                            .foregroundColor(.gray)
+                    .buttonStyle(PlainButtonStyle())
+                } else {
+                    HStack {
+                        // PROFİL FOTOĞRAFI (KENDİ POSTU İÇİN)
+                        if let profileImageUrl = post.profileImageUrl, !profileImageUrl.isEmpty, let url = URL(string: profileImageUrl) {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .scaledToFill()
+                            } placeholder: {
+                                Image(systemName: "person.circle.fill")
+                                    .resizable()
+                                    .foregroundColor(.white)
+                            }
+                            .frame(width: 40, height: 40)
+                            .clipShape(Circle())
+                        } else {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(.white)
+                        }
+
+                        VStack(alignment: .leading) {
+                            Text(post.username)
+                                .font(.headline)
+                                .foregroundColor(.white)
+
+                            Text(post.timestamp, style: .relative)
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
+
+                        Spacer()
+
+                        if !post.tags.isEmpty {
+                            Text(post.tags.joined(separator: ", "))
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                        }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
                 
                 // Gönderi içeriği
                 Text(post.content)
