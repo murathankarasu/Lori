@@ -3,121 +3,154 @@ import FirebaseFirestore
 
 enum DisinformationServiceError: Error {
     case invalidResponse
+    case apiError(String)
 }
 
 class DisinformationService {
     private let db = Firestore.firestore()
     
-    private class FactCheckService {
-        private let baseURL = "https://factchecktools.googleapis.com/v1alpha1/claims:search"
-        private let apiKey = "AIzaSyA0apdZD1C3mnYzNS9po-q16N9Y4JHW2Nw"
+    private class GaladrielFactCheckService {
+        private let apiKey = "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"
+        private let apiEndpoint = "https://openrouter.ai/api/v1/chat/completions"
         
-        func check(_ content: String) async throws -> FactCheckResponse? {
-            let query = content.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            let urlString = "\(baseURL)?query=\(query)&key=\(apiKey)"
+        func check(_ content: String) async throws -> String {
+            print("Galadriel Fact Check başlatılıyor...")
             
-            print("Fact Check API URL: \(urlString)")
+            // Mistral AI's fact check prompt in English
+            let factCheckPrompt = """
+            Please analyze the following content for factual accuracy:
+
+            CONTENT: \(content)
+
+            First, determine if this is a factual claim that can be verified. If it's an opinion, subjective statement, or too vague, state that it cannot be fact-checked.
+
+            If it can be fact-checked, analyze if it's accurate based on known facts.
             
-            guard let url = URL(string: urlString) else {
+            IMPORTANT: Keep your analysis VERY BRIEF (max 2-3 sentences). Be direct and concise.
+            
+            End with ONLY ONE of these verdicts:
+            "VERDICT: TRUE" if accurate
+            "VERDICT: FALSE" if inaccurate
+            "VERDICT: PARTIALLY TRUE" if partly accurate
+            "VERDICT: OPINION/UNVERIFIABLE" if it's an opinion or cannot be verified
+            """
+            
+            // API request parameters
+            let parameters: [String: Any] = [
+                "model": "mistralai/mistral-7b-instruct",
+                "messages": [
+                    [
+                        "role": "system",
+                        "content": "You are Galadriel Fact Check, an AI specialized in fact checking. Provide EXTREMELY BRIEF analysis (1-2 sentences only) followed by a clear verdict. Avoid lengthy explanations. Always respond in English."
+                    ],
+                    [
+                        "role": "user",
+                        "content": factCheckPrompt
+                    ]
+                ],
+                "temperature": 0.3,
+                "max_tokens": 150,
+                "route": "fallback"
+            ]
+            
+            // Prepare API request
+            guard let url = URL(string: apiEndpoint) else {
                 throw DisinformationServiceError.invalidResponse
             }
             
-            let (data, response) = try await URLSession.shared.data(from: url)
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
+            request.setValue("https://lori.app", forHTTPHeaderField: "HTTP-Referer")
+            request.setValue("Lori", forHTTPHeaderField: "X-Title")
+            request.setValue("OpenRouter/v1", forHTTPHeaderField: "HTTP-Referer")
+            request.timeoutInterval = 30
+            
+            let jsonData = try JSONSerialization.data(withJSONObject: parameters)
+            request.httpBody = jsonData
+            
+            print("Mistral AI API isteği gönderiliyor...")
+            let (data, response) = try await URLSession.shared.data(for: request)
             
             if let httpResponse = response as? HTTPURLResponse {
-                print("Fact Check API Status Code: \(httpResponse.statusCode)")
+                print("Mistral AI yanıt durumu: \(httpResponse.statusCode)")
+                
+                guard (200...299).contains(httpResponse.statusCode) else {
+                    let responseString = String(data: data, encoding: .utf8) ?? "Yanıt çözümlenemedi"
+                    print("❌ HTTP Hatası \(httpResponse.statusCode): \(responseString)")
+                    throw DisinformationServiceError.apiError("HTTP Hatası \(httpResponse.statusCode): \(responseString)")
+                }
             }
             
-            // API yanıtını string olarak yazdır
-            if let responseString = String(data: data, encoding: .utf8) {
-                print("Fact Check API Raw Response: \(responseString)")
+            // Process API response
+            guard let jsonResponse = try JSONSerialization.jsonObject(with: data) as? [String: Any],
+                  let choices = jsonResponse["choices"] as? [[String: Any]],
+                  let firstChoice = choices.first,
+                  let message = firstChoice["message"] as? [String: Any],
+                  let responseText = message["content"] as? String else {
+                throw DisinformationServiceError.invalidResponse
             }
             
-            let decoder = JSONDecoder()
-            do {
-                let decodedResponse = try decoder.decode(FactCheckResponse.self, from: data)
-                print("Fact Check API Decoded Response: \(decodedResponse)")
-                return decodedResponse
-            } catch {
-                print("Fact Check API Decoding Error: \(error)")
-                throw error
-            }
+            print("Mistral AI yanıtı alındı: \(responseText)")
+            return responseText
         }
         
-        func processResult(_ response: FactCheckResponse) -> DisinformationResponse? {
-            // API'den yanıt gelmediğinde veya boş yanıt geldiğinde
-            guard let claims = response.claims, !claims.isEmpty else {
-                return DisinformationResponse(
-                    isVerified: false,
-                    sources: nil,
-                    confidence: 0.0,
-                    explanation: "🔍 İçerik kontrolü yapılamadı\n\nLori'nin doğrulama sistemi şu anda bu içeriği değerlendiremiyor. Bu durum genellikle içeriğin çok yeni olmasından veya yeterli kaynak bulunamamasından kaynaklanır. Lütfen daha sonra tekrar deneyin."
-                )
+        func processResult(_ responseText: String) -> DisinformationResponse {
+            let lowercaseResponse = responseText.lowercased()
+            
+            // Directly use the API response, preserve the original verdict and explanation
+            var isVerified = false
+            var confidence = 0.5
+            
+            // Determine verdict and confidence based on response
+            if lowercaseResponse.contains("verdict: true") {
+                isVerified = true
+                confidence = 0.9
+            } else if lowercaseResponse.contains("verdict: partially true") {
+                isVerified = false
+                confidence = 0.7
+            } else if lowercaseResponse.contains("verdict: opinion") || lowercaseResponse.contains("verdict: unverifiable") {
+                isVerified = false
+                confidence = 0.5
+            } else if lowercaseResponse.contains("verdict: false") {
+                isVerified = false
+                confidence = 0.2
             }
             
-            guard let claim = claims.first else {
-                return nil
-            }
-            
-            let rating = claim.claimReview?.first?.textualRating?.lowercased() ?? ""
-            let publisher = claim.claimReview?.first?.publisher?.name ?? "Güvenilir Kaynak"
-            
-            switch rating {
-            case "true", "mostly true":
-                return DisinformationResponse(
-                    isVerified: true,
-                    sources: [claim.claimReview?.first?.url ?? ""],
-                    confidence: 0.9,
-                    explanation: "✅ İçerik Doğrulandı\n\nBu bilgi \(publisher) tarafından doğrulanmıştır. İçerik güvenilir kaynaklarca desteklenmektedir ve doğru bilgi içermektedir."
-                )
-            case "false", "mostly false", "pants on fire":
-                return DisinformationResponse(
-                    isVerified: false,
-                    sources: [claim.claimReview?.first?.url ?? ""],
-                    confidence: 0.9,
-                    explanation: "❌ Yanlış Bilgi\n\n\(publisher) tarafından yapılan inceleme sonucunda, bu içerikte yanlış veya yanıltıcı bilgiler tespit edilmiştir. Lütfen güvenilir kaynaklardan bilgi almayı tercih edin."
-                )
-            case "half true", "mixture":
-                return DisinformationResponse(
-                    isVerified: false,
-                    sources: [claim.claimReview?.first?.url ?? ""],
-                    confidence: 0.7,
-                    explanation: "⚠️ Kısmen Doğru\n\n\(publisher) tarafından yapılan inceleme sonucunda, bu içerikte bazı doğru bilgiler olsa da, eksik veya yanıltıcı yönler bulunmaktadır. Daha detaylı bilgi için kaynakları incelemenizi öneririz."
-                )
-            default:
-                return DisinformationResponse(
-                    isVerified: false,
-                    sources: nil,
-                    confidence: 0.0,
-                    explanation: "🔍 Değerlendirme Yapılamadı\n\nBu içerik henüz Lori'nin doğrulama sisteminde değerlendirilemedi. Bu durum genellikle içeriğin çok yeni olmasından kaynaklanır. Lütfen daha sonra tekrar kontrol edin."
-                )
-            }
+            // Return response with original text
+            return DisinformationResponse(
+                isVerified: isVerified,
+                sources: nil,
+                confidence: confidence,
+                explanation: responseText // Pass the original text directly
+            )
         }
     }
     
-    private let factCheckService = FactCheckService()
+    private let galadrielFactCheckService = GaladrielFactCheckService()
     
     func checkDisinformation(for post: Post) async throws -> DisinformationResponse? {
         if !isNewsOrInformation(post.content) {
             return nil
         }
         
-        print("\n=== Starting Fact Check ===")
-        print("Content: \(post.content)")
+        print("\n=== Galadriel Fact Check Başlatılıyor ===")
+        print("İçerik: \(post.content)")
         
         do {
-            if let factCheckResponse = try await factCheckService.check(post.content),
-               let result = factCheckService.processResult(factCheckResponse) {
-                // Unwrap post.id before using it
-                guard let postId = post.id else {
-                    print("❌ Post ID is nil, cannot save disinformation check.")
-                    return nil // or throw an error
-                }
-                try await saveDisinformationCheck(postId: postId, response: result)
-                return result
+            let factCheckResponse = try await galadrielFactCheckService.check(post.content)
+            let result = galadrielFactCheckService.processResult(factCheckResponse)
+            
+            // Unwrap post.id before using it
+            guard let postId = post.id else {
+                print("❌ Post ID bulunamadı, doğrulama kaydedilemiyor.")
+                return nil
             }
+            try await saveDisinformationCheck(postId: postId, response: result)
+            return result
         } catch {
-            print("Fact Check API error: \(error)")
+            print("Galadriel Fact Check hatası: \(error)")
         }
         
         return nil
@@ -158,7 +191,18 @@ class DisinformationService {
             // Education & Academia
             "education", "university", "school", "student", "teacher", "professor", "academic",
             "research", "study", "learning", "teaching", "knowledge", "science", "discipline",
-            "degree", "course", "program", "institution", "faculty", "department"
+            "degree", "course", "program", "institution", "faculty", "department",
+            
+            // Türkçe anahtar kelimeler (Türkçe içerikler için)
+            "haber", "açıklama", "bildiri", "duyuru", "bildirdi", "söyledi", "iddia",
+            "rapor", "araştırma", "çalışma", "sonuç", "bulgu", "keşif", "gelişme", "olay",
+            "son dakika", "acil", "önemli", "kritik", "dikkat", "uyarı",
+            "bilim", "teknoloji", "deney", "buluş", "bilimsel", "veri", "analiz",
+            "sağlık", "tıbbi", "hastalık", "virüs", "aşı", "tedavi", "doktor", "hastane",
+            "hükümet", "cumhurbaşkanı", "bakan", "meclis", "seçim", "oy", "kanun", "yasa",
+            "ekonomi", "piyasa", "borsa", "yatırım", "şirket", "sektör", "finansal", "banka",
+            "çevre", "iklim", "doğa", "dünya", "gezegen", "küresel", "ısınma", "kirlilik",
+            "eğitim", "üniversite", "okul", "öğrenci", "öğretmen", "profesör", "akademik"
         ]
         
         let lowercasedContent = content.lowercased()
