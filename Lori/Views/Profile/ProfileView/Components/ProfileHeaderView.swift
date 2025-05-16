@@ -12,6 +12,8 @@ struct ProfileHeaderView: View {
             // Profil Resmi
             if let imageUrl = profileImageUrl {
                 KFImage(URL(string: imageUrl))
+                    .cacheMemoryOnly(false)
+                    .cacheOriginalImage()
                     .resizable()
                     .scaledToFill()
                     .frame(width: 100, height: 100)

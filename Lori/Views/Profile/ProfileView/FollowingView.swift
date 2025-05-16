@@ -64,6 +64,8 @@ struct FollowingRow: View {
             // Kullanıcı bilgisi bölümü
             let userInfoView = HStack {
                 KFImage(URL(string: user.profileImageUrl ?? ""))
+                    .cacheMemoryOnly(false)
+                    .cacheOriginalImage()
                     .placeholder {
                         Image(systemName: "person.circle.fill")
                             .resizable()

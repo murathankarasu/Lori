@@ -1,23 +1,33 @@
 import SwiftUI
 import FirebaseFirestore
 import FirebaseAuth
+import Kingfisher
 
 struct AddCommentView: View {
     let post: Post
     @StateObject private var viewModel = AddCommentViewModel()
     @Environment(\.dismiss) private var dismiss
+    @State private var profileImageUrl: String?
+    @State private var username: String = ""
     
     var body: some View {
         VStack(spacing: 0) {
             // Üst bar
             HStack {
-                Button("İptal") { dismiss() }
-                    .foregroundColor(.white)
+                Button(action: { dismiss() }) {
+                    Text("İptal")
+                        .foregroundColor(.white)
+                        .font(.subheadline)
+                }
+                
                 Spacer()
+                
                 Text("Yorum Yap")
                     .font(.headline)
                     .foregroundColor(.white)
+                
                 Spacer()
+                
                 Button(action: {
                     Task {
                         await viewModel.addComment(to: post) { success in
@@ -30,45 +40,93 @@ struct AddCommentView: View {
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     } else {
                         Text("Gönder")
-                            .foregroundColor(viewModel.canPost ? .white : .gray)
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(viewModel.canPost ? .white : .gray.opacity(0.7))
                     }
                 }
                 .disabled(!viewModel.canPost)
             }
-            .padding()
-            .background(Color.black)
+            .padding(.vertical, 16)
+            .padding(.horizontal)
+            .background(Color.black.opacity(0.8))
+            
+            Divider()
+                .background(Color.gray.opacity(0.5))
+            
+            // Kullanıcı bilgileri
+            HStack(spacing: 12) {
+                // Profil fotoğrafı
+                profileImageView
+                    .frame(width: 40, height: 40)
+                
+                Text(username)
+                    .font(.headline)
+                    .foregroundColor(.white)
+                
+                Spacer()
+            }
+            .padding(.horizontal)
+            .padding(.vertical, 10)
             
             // Yorum alanı
             ZStack(alignment: .topLeading) {
-                TextEditor(text: $viewModel.commentText)
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray.opacity(0.15))
                     .frame(height: 120)
-                    .padding(8)
-                    .background(Color.gray.opacity(0.2))
-                    .cornerRadius(8)
-                    .foregroundColor(.white)
-                    .padding(.horizontal)
+                
                 if viewModel.commentText.isEmpty {
                     Text("Yorumunuzu yazın...")
                         .foregroundColor(.gray)
                         .padding(.horizontal, 16)
                         .padding(.top, 16)
                 }
+                
+                TextEditor(text: $viewModel.commentText)
+                    .scrollContentBackground(.hidden)
+                    .background(Color.clear)
+                    .frame(height: 120)
+                    .padding(8)
+                    .foregroundColor(.white)
             }
-            .padding(.top, 8)
+            .padding(.horizontal)
             
-            // Karakter sayacı
+            // Karakter sayacı ve nefret söylemi göstergesi
             HStack {
+                if viewModel.isCheckingHateSpeech {
+                    HStack(spacing: 6) {
+                        ProgressView()
+                            .scaleEffect(0.6)
+                        Text("Nefret söylemi kontrolü...")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                    }
+                } else if viewModel.isHateSpeechDetected {
+                    HStack(spacing: 6) {
+                        Image(systemName: "exclamationmark.triangle.fill")
+                            .foregroundColor(.yellow)
+                            .font(.caption)
+                        Text("Nefret söylemi tespit edildi!")
+                            .font(.caption)
+                            .foregroundColor(.yellow)
+                    }
+                }
+                
                 Spacer()
+                
                 Text("\(viewModel.commentText.count)/\(viewModel.maxContentLength)")
                     .foregroundColor(viewModel.commentText.count > viewModel.maxContentLength ? .red : .gray)
                     .font(.caption)
-                    .padding(.trailing, 24)
             }
-            .padding(.bottom, 8)
+            .padding(.horizontal, 24)
+            .padding(.top, 8)
             
             Spacer()
         }
         .background(Color.black.ignoresSafeArea())
+        .onAppear {
+            loadUserProfile()
+        }
         .alert("Nefret Söylemi Tespit Edildi", isPresented: $viewModel.showHateSpeechWarning) {
             Button("Tamam", role: .cancel) { viewModel.showHateSpeechWarning = false }
         } message: {
@@ -78,6 +136,41 @@ struct AddCommentView: View {
             Button("Tamam", role: .cancel) { viewModel.showError = false }
         } message: {
             Text(viewModel.errorMessage)
+        }
+    }
+    
+    private var profileImageView: some View {
+        Group {
+            if let profileUrl = profileImageUrl, !profileUrl.isEmpty, let url = URL(string: profileUrl) {
+                KFImage(url)
+                    .resizable()
+                    .placeholder {
+                        Image(systemName: "person.circle.fill")
+                            .font(.system(size: 40))
+                            .foregroundColor(.gray)
+                    }
+                    .scaledToFill()
+                    .frame(width: 40, height: 40)
+                    .clipShape(Circle())
+            } else {
+                Image(systemName: "person.circle.fill")
+                    .font(.system(size: 40))
+                    .foregroundColor(.gray)
+            }
+        }
+    }
+    
+    private func loadUserProfile() {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        
+        let db = Firestore.firestore()
+        db.collection("users").document(userId).getDocument { snapshot, error in
+            if let data = snapshot?.data() {
+                DispatchQueue.main.async {
+                    self.username = data["username"] as? String ?? "Kullanıcı"
+                    self.profileImageUrl = data["profileImageUrl"] as? String
+                }
+            }
         }
     }
 } 

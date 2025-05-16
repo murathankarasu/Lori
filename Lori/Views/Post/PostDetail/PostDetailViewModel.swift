@@ -63,6 +63,7 @@ class PostDetailViewModel: ObservableObject {
     private var commentsListener: ListenerRegistration?
     private var likesListener: ListenerRegistration?
     private let disinformationService = DisinformationService()
+    private let interactionService = InteractionService.shared
     
     func loadPostDetails(_ post: Post) {
         // Unwrap post.id early
@@ -76,6 +77,10 @@ class PostDetailViewModel: ObservableObject {
         checkIfLiked(postId: postId)
         fetchLikesCount(postId: postId)
         listenCommentsCount(postId: postId)
+        
+        // Post görüntüleme etkileşimini kaydet
+        interactionService.recordViewInteraction(for: post)
+        
         // Sadece gerekli durumlarda dezenformasyon kontrolü yap
         if shouldShowDisinformationCheck {
             checkInitialDisinformation(for: post)
@@ -88,74 +93,37 @@ class PostDetailViewModel: ObservableObject {
             print("❌ Post ID is nil in setupListeners.")
             return
         }
-        // Yorumları dinle
+        
+        // Önceki dinleyicileri temizle
         commentsListener?.remove()
-        commentsListener = db.collection("posts")
-            .document(postId)
-            .collection("comments")
-            .order(by: "timestamp", descending: true)
-            .addSnapshotListener { [weak self] snapshot, error in
-                guard let documents = snapshot?.documents else {
-                    print("Yorumlar yüklenirken hata oluştu: \(error?.localizedDescription ?? "")")
-                    return
-                }
-                
-                self?.comments = documents.compactMap { document -> Comment? in
-                    try? document.data(as: Comment.self)
-                }
-            }
+        likesListener?.remove()
+        
+        // Yorumları dinle
+        commentsListener = interactionService.listenToComments(for: postId) { [weak self] comments in
+            self?.comments = comments
+        }
         
         // Beğenileri dinle
-        likesListener?.remove()
-        likesListener = db.collection("posts")
-            .document(postId)
-            .collection("likes")
-            .addSnapshotListener { [weak self] snapshot, error in
-                guard let documents = snapshot?.documents else {
-                    print("Beğeniler yüklenirken hata oluştu: \(error?.localizedDescription ?? "")")
-                    return
-                }
-                
-                self?.likesCount = documents.count
-                if let userId = Auth.auth().currentUser?.uid {
-                    self?.isLiked = documents.contains { $0.documentID == userId }
-                }
-            }
+        likesListener = interactionService.listenToLikes(for: postId) { [weak self] count, isLiked in
+            self?.likesCount = count
+            self?.isLiked = isLiked
+        }
     }
     
     func toggleLike() {
-        guard let post = post,
-              let postId = post.id,
-              let userId = Auth.auth().currentUser?.uid else { return }
+        guard let post = post else { return }
         
-        let likeRef = db.collection("posts")
-            .document(postId)
-            .collection("likes")
-            .document(userId)
-        let postRef = db.collection("posts").document(postId)
-        
-        if isLiked {
-            likeRef.delete()
-            // likes sayısını azalt
-            postRef.updateData(["likes": FieldValue.increment(Int64(-1))])
-        } else {
-            likeRef.setData([:])
-            // likes sayısını artır
-            postRef.updateData(["likes": FieldValue.increment(Int64(1))])
-            // Etkileşimi kaydet
-            Task {
-                do {
-                    let emotionAnalysis = try await EmotionService.shared.analyzeEmotion(text: post.content)
-                    try await UserEmotionService.shared.saveInteraction(
-                        userId: userId,
-                        postId: postId,
-                        interactionType: .like,
-                        emotion: emotionAnalysis.emotion,
-                        confidence: emotionAnalysis.confidence
-                    )
-                } catch {
-                    print("Beğeni etkileşimi kaydedilemedi: \(error)")
-                }
+        interactionService.toggleLike(for: post, isLiked: isLiked) { [weak self] newIsLiked, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Beğeni işlemi sırasında hata: \(error.localizedDescription)")
+                return
+            }
+            
+            // UI güncellemesi MainActor'da yapılacak
+            Task { @MainActor in
+                self.isLiked = newIsLiked
             }
         }
     }
@@ -208,35 +176,21 @@ class PostDetailViewModel: ObservableObject {
     }
     
     func fetchComments(for postId: String) {
-        db.collection("posts").document(postId).collection("comments")
-          .order(by: "timestamp", descending: false)
-          .addSnapshotListener { querySnapshot, error in
-              guard let documents = querySnapshot?.documents else {
-                  print("Error fetching comments: \(error?.localizedDescription ?? "Unknown error")")
-                  return
-              }
-              self.comments = documents.compactMap { try? $0.data(as: Comment.self) }
-          }
+        commentsListener?.remove()
+        commentsListener = interactionService.listenToComments(for: postId) { [weak self] comments in
+            self?.comments = comments
+        }
     }
 
     func checkIfLiked(postId: String) {
-        guard let userId = Auth.auth().currentUser?.uid else { return }
-        db.collection("users").document(userId).collection("likedPosts").document(postId)
-            .getDocument { document, _ in
-                self.isLiked = document?.exists ?? false
-            }
+        // InteractionService ile beğeni durumunu dinliyoruz, bu metot artık gerekli değil
+        // Ancak uyumluluk için boş bırakıyoruz
     }
     
     func fetchLikesCount(postId: String) {
-         db.collection("posts").document(postId)
-             .addSnapshotListener { documentSnapshot, error in
-                 guard let document = documentSnapshot else {
-                     print("Error fetching likes count: \(error?.localizedDescription ?? "Unknown error")")
-                     return
-                 }
-                 self.likesCount = document.data()?["likes"] as? Int ?? 0
-             }
-     }
+        // InteractionService ile beğeni sayısını dinliyoruz, bu metot artık gerekli değil
+        // Ancak uyumluluk için boş bırakıyoruz
+    }
     
     private func listenCommentsCount(postId: String) {
         db.collection("posts").document(postId).addSnapshotListener { [weak self] snapshot, error in

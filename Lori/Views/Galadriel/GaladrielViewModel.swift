@@ -5,7 +5,7 @@ class GaladrielViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var debugLogs: [String] = []
     
-    private let apiKey = "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"
+    private let apiKey = "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"
     private let apiEndpoint = "https://openrouter.ai/api/v1/chat/completions"
     
     private func addLog(_ message: String) {

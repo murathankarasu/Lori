@@ -89,15 +89,28 @@ class ProfileViewModel: ObservableObject {
     }
     
     func fetchUserPosts() async {
-        await MainActor.run { isLoading = true; errorMessage = "" }
+        await MainActor.run { 
+            isLoading = true
+            errorMessage = ""
+            // İlk yüklemede postları temizle
+            posts = []
+        }
+        
         defer { Task { await MainActor.run { isLoading = false } } }
+        
         do {
+            print("[ProfileViewModel] Fetching posts for user: \(userId)")
+            
             let query = db.collection("posts")
                 .whereField("userId", isEqualTo: userId)
                 .order(by: "timestamp", descending: true)
                 .limit(to: pageSize)
+            
             let querySnapshot = try await query.getDocuments()
             let docs = querySnapshot.documents
+            
+            print("[ProfileViewModel] Found \(docs.count) posts")
+            
             let newPosts = docs.compactMap { document in
                 let data = document.data()
                 let id = document.documentID
@@ -133,6 +146,7 @@ class ProfileViewModel: ObservableObject {
                 self.hasMorePosts = docs.count == self.pageSize
             }
         } catch {
+            print("[ProfileViewModel] Error fetching posts: \(error.localizedDescription)")
             await MainActor.run {
                 self.errorMessage = error.localizedDescription
                 self.showError = true

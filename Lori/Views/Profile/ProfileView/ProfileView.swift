@@ -14,6 +14,7 @@ struct ProfileView: View {
     @State private var selectedPost: Post?
     @State private var showPostDetail = false
     @State private var showSettings = false
+    @State private var showSearchSheet = false
     
     init(userId: String) {
         self.userId = userId
@@ -30,6 +31,8 @@ struct ProfileView: View {
                     ZStack(alignment: .bottomTrailing) {
                         if let imageUrl = viewModel.profileImageUrl {
                             KFImage(URL(string: imageUrl))
+                                .cacheMemoryOnly(false)
+                                .cacheOriginalImage()
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 120, height: 120)
@@ -169,8 +172,25 @@ struct ProfileView: View {
             // Ekranın üst kısmındaki butonlar (sabit header)
             VStack(spacing: 0) {
                 HStack {
+                    // Arama Butonu (sadece kendi profilindeyse)
+                    if viewModel.isCurrentUser {
+                        Button(action: {
+                            showSearchSheet.toggle()
+                        }) {
+                            Image(systemName: "magnifyingglass")
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(12)
+                                .background(Color.black.opacity(0.5))
+                                .clipShape(Circle())
+                        }
+                        .padding(.leading, 16)
+                        .sheet(isPresented: $showSearchSheet) {
+                            SearchView()
+                        }
+                    }
                     // Geri Dönüş Butonu (sadece başka bir kullanıcının profilindeyse)
-                    if !viewModel.isCurrentUser {
+                    else if !viewModel.isCurrentUser {
                         Button(action: { dismiss() }) {
                             Image(systemName: "chevron.left")
                                 .font(.system(size: 20, weight: .semibold))
@@ -225,6 +245,18 @@ struct ProfileView: View {
         .sheet(isPresented: $showSettings) {
             NavigationView {
                 SettingsView(isLoggedIn: .constant(true))
+            }
+        }
+        .onAppear {
+            // Sayfa her görüntülendiğinde verileri yenile
+            Task {
+                await viewModel.fetchUserProfile()
+                await viewModel.fetchUserPosts()
+            }
+        }
+        .fullScreenCover(isPresented: $showPostDetail) {
+            if let post = selectedPost {
+                PostDetailView(post: post)
             }
         }
     }

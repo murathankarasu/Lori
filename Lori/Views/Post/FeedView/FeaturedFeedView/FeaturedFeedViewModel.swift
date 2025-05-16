@@ -106,17 +106,6 @@ class FeaturedFeedViewModel: ObservableObject {
         // Tekilleştirilmiş yeni postları mevcut listenin başına ekle
         self.posts.insert(contentsOf: uniqueNewPosts, at: 0)
         
-        // Alternatif: Yeni listeyi başa ekle, sonra tüm listeyi ID bazında tekilleştir
-        // let allPosts = combinedPosts + self.posts
-        // var uniquePosts: [Post] = []
-        // var seenIDs = Set<String>()
-        // for post in allPosts {
-        //     if let postId = post.id, !seenIDs.contains(postId) {
-        //         uniquePosts.append(post)
-        //         seenIDs.insert(postId)
-        //     }
-        // }
-        // self.posts = uniquePosts
         
         self.isLoading = false
     }

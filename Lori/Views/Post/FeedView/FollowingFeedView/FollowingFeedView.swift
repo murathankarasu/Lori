@@ -27,6 +27,13 @@ struct FollowingFeedView: View {
                 VStack(spacing: 0) {
                     // Üst bar
                     HStack {
+                        // Mesaj butonu eklendi
+                        Button(action: {}) {
+                            Image(systemName: "message")
+                                .foregroundColor(.white)
+                                .padding(.top, 10)
+                        }
+                        
                         Spacer()
                         
                         Image("loginlogo")
@@ -101,10 +108,8 @@ struct FollowingFeedView: View {
             // .alert artık kullanılmıyor, hata mesajı doğrudan gösteriliyor
             // .alert(isPresented: $viewModel.showError) { ... }
             .onAppear {
-                // View ilk göründüğünde veriyi yükle
-                if viewModel.posts.isEmpty {
-                    viewModel.fetchPosts(initial: true)
-                }
+                // Sayfa her görüntülendiğinde içeriği yenile
+                viewModel.fetchPosts(initial: true)
             }
             // .onDisappear listener temizliği ViewModel'ın deinit'inde yapılıyor
             // .onDisappear { ... }

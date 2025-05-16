@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import Kingfisher
 
 struct ContentView: View {
     @State private var isLoggedIn = false
@@ -42,6 +43,7 @@ struct ContentView: View {
         .animation(.easeInOut, value: isLoggedIn)
         .animation(.easeInOut, value: isLoading)
         .onAppear {
+            configureKingfisherCache()
             checkInitialAuthState()
         }
         .alert("Hata", isPresented: .constant(authError != nil)) {
@@ -101,6 +103,30 @@ struct ContentView: View {
                 isLoggedIn = false
             }
         }
+    }
+    
+    private func configureKingfisherCache() {
+        let cache = ImageCache.default
+        cache.memoryStorage.config.totalCostLimit = 100 * 1024 * 1024 // 100 MB
+        cache.memoryStorage.config.countLimit = 50 // Maksimum 50 resim
+        cache.diskStorage.config.sizeLimit = 200 * 1024 * 1024 // 200 MB
+        cache.diskStorage.config.expiration = .days(7) // 7 gün sakla
+        
+        // Temizleme politikasını ayarla
+        ImageCache.default.clearDiskCache()
+        ImageCache.default.clearMemoryCache()
+        
+        // Önbellek indirme davranışı ayarla
+        let processor = CroppingImageProcessor(size: CGSize(width: 120, height: 120))
+            |> RoundCornerImageProcessor(cornerRadius: 60)
+        
+        KingfisherManager.shared.defaultOptions = [
+            .processor(processor),
+            .scaleFactor(UIScreen.main.scale),
+            .cacheOriginalImage,
+            .diskCacheExpiration(.days(7)),
+            .memoryCacheExpiration(.days(1))
+        ]
     }
 }
 

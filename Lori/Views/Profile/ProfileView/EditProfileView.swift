@@ -68,6 +68,8 @@ struct EditProfileView: View {
                                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
                             } else if let imageUrl = profileImageUrl {
                                 KFImage(URL(string: imageUrl))
+                                    .cacheMemoryOnly(false)
+                                    .cacheOriginalImage()
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: 120, height: 120)

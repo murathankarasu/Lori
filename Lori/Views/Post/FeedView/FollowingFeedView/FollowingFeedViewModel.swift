@@ -51,8 +51,6 @@ class FollowingFeedViewModel: ObservableObject {
         errorMessage = nil
 
         // 1. Kullanıcının takip ettiği kişilerin listesini al (`users` koleksiyonundan)
-        // Not: Bu adım her sayfa yüklemede tekrarlanıyor. Daha verimli olması için
-        // takip listesi cache'lenebilir veya ViewModel'ın ömrü boyunca bir kez çekilebilir.
         db.collection("users").document(currentUserId).getDocument { [weak self] userSnapshot, error in
             guard let self = self else { return }
 
@@ -63,11 +61,19 @@ class FollowingFeedViewModel: ObservableObject {
                 return
             }
 
+            // Takip edilen kullanıcıların ID'leri
             let followingIds = userSnapshot?.data()?["following"] as? [String] ?? []
+            
+            // Takip edilenler ve kullanıcının kendisi için birleşik liste oluştur
             var allUserIds = followingIds
+            
+            // Kendi ID'sini her zaman listeye ekle
             if !allUserIds.contains(currentUserId) {
                 allUserIds.append(currentUserId)
             }
+            
+            print("FollowingFeedViewModel: Total user IDs to fetch (including self): \(allUserIds.count)")
+            print("FollowingFeedViewModel: User IDs: \(allUserIds)")
 
             guard !allUserIds.isEmpty else {
                 self.posts = []
@@ -78,7 +84,6 @@ class FollowingFeedViewModel: ObservableObject {
             }
             
             // Firestore 'in' sorgusu limiti (30). Bu limiti aşan kullanıcılar için sadece ilk 30 kişi dikkate alınır.
-            // TODO: Daha fazla kişiyi desteklemek için strateji geliştirilmeli (örn. birden fazla sorgu ve birleştirme)
             let limitedUserIds = Array(allUserIds.prefix(30))
             if allUserIds.count > 30 {
                 print("FollowingFeedViewModel: Warning - User follows >30 people. Querying posts for first 30 only due to Firestore limits.")

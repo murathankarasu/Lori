@@ -5,9 +5,11 @@ import FirebaseFirestore
 struct PostDetailView: View {
     let post: Post
     @Environment(\.dismiss) private var dismiss
+    @Environment(\.presentationMode) private var presentationMode
     @StateObject private var viewModel = PostDetailViewModel()
     @State private var showDeleteAlert = false
     @State private var showCommentSheet = false
+    @State private var showDetailedFactCheck = false
     
     var body: some View {
         NavigationView {
@@ -61,7 +63,10 @@ struct PostDetailView: View {
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(
                 leading: Button(action: {
-                    dismiss()
+                    // Animasyonsuz kapatma
+                    withAnimation(.none) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }) {
                     Image(systemName: "chevron.left")
                         .foregroundColor(.white)
@@ -69,11 +74,14 @@ struct PostDetailView: View {
                 trailing: deleteButton
             )
         }
+        .transition(.identity) // Animasyonsuz geçiş
         .alert("Gönderiyi Sil", isPresented: $showDeleteAlert) {
             Button("İptal", role: .cancel) { }
             Button("Sil", role: .destructive) {
                 viewModel.deletePost(post) {
-                    dismiss()
+                    withAnimation(.none) {
+                        presentationMode.wrappedValue.dismiss()
+                    }
                 }
             }
         } message: {
@@ -81,6 +89,11 @@ struct PostDetailView: View {
         }
         .sheet(isPresented: $showCommentSheet) {
             AddCommentView(post: post)
+        }
+        .sheet(isPresented: $showDetailedFactCheck) {
+            if let check = viewModel.disinformationCheck {
+                DetailedFactCheckView(check: check)
+            }
         }
         .onAppear {
             viewModel.loadPostDetails(post)
@@ -107,7 +120,13 @@ struct PostDetailView: View {
     private var disinformationView: some View {
         Group {
             if let check = viewModel.disinformationCheck {
-                disinformationResultView(check)
+                Button(action: {
+                    showDetailedFactCheck = true
+                }) {
+                    GaladrielFactCheckView(check: check)
+                        .padding(.horizontal)
+                }
+                .buttonStyle(PlainButtonStyle())
             } else if viewModel.isCheckingDisinformation {
                 disinformationLoadingView
             }
@@ -115,81 +134,206 @@ struct PostDetailView: View {
     }
     
     @ViewBuilder
-    private func disinformationResultView(_ check: DisinformationResponse) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                if check.isVerified {
-                    Image(systemName: "checkmark.seal.fill")
-                        .foregroundColor(.blue)
-                        .font(.system(size: 22))
-                    Text("Verified Content")
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                } else {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                        .foregroundColor(.yellow)
-                        .font(.system(size: 22))
-                    Text("Unverified Content")
-                        .font(.headline)
-                        .fontWeight(.semibold)
-                        .foregroundColor(.white)
-                }
-            }
+    private var disinformationLoadingView: some View {
+        HStack {
+            ProgressView()
+                .progressViewStyle(CircularProgressViewStyle(tint: .white))
             
-            if check.isVerified {
-                Text("This content has been verified by Lori's AI-powered fact-checking system in collaboration with trusted sources.")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                    .padding(.top, 4)
-            }
-            
-            Text(check.explanation)
-                .font(.subheadline)
-                .foregroundColor(.gray)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.top, 4)
-            
-            if let sources = check.sources, !sources.isEmpty {
-                sourcesView(sources)
-            }
+            Text("Galadriel is fact checking...")
+                .font(.footnote)
+                .foregroundColor(.white)
+                .padding(.leading, 8)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
-        .background(Color.gray.opacity(0.2))
-        .cornerRadius(12)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.black)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                )
+        )
         .padding(.horizontal)
     }
+}
+
+// Detailed fact check view for sheet presentation
+struct DetailedFactCheckView: View {
+    let check: DisinformationResponse
+    @Environment(\.presentationMode) var presentationMode
     
-    @ViewBuilder
-    private var disinformationLoadingView: some View {
-        ProgressView("Checking information...")
-           .progressViewStyle(CircularProgressViewStyle(tint: .white))
-           .foregroundColor(.white)
-           .padding()
+    // Status text from API response
+    private var statusText: String {
+        let lowercaseResponse = check.explanation.lowercased()
+        
+        if lowercaseResponse.contains("verdict: true") {
+            return "TRUE"
+        } else if lowercaseResponse.contains("verdict: partially true") {
+            return "PARTIALLY TRUE"
+        } else if lowercaseResponse.contains("verdict: opinion") || lowercaseResponse.contains("verdict: unverifiable") {
+            return "UNVERIFIABLE"
+        } else if lowercaseResponse.contains("verdict: false") {
+            return "FALSE"
+        } else {
+            return "UNVERIFIABLE"
+        }
     }
     
-    @ViewBuilder
-    private func sourcesView(_ sources: [String]) -> some View {
-        VStack(alignment: .leading) {
-            Text("Sources:")
-                .font(.subheadline)
-                .foregroundColor(.gray)
-            
-            ForEach(sources, id: \.self) { source in
-                if let url = URL(string: source) {
-                    Link(destination: url) {
-                        Text(source)
+    // Status color
+    private var statusColor: Color {
+        switch statusText {
+        case "TRUE":
+            return .green
+        case "PARTIALLY TRUE":
+            return .orange
+        case "UNVERIFIABLE":
+            return .yellow
+        case "FALSE":
+            return .red
+        default:
+            return .gray
+        }
+    }
+    
+    var body: some View {
+        NavigationView {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    // Header with status
+                    HStack {
+                        Text("GALADRIEL VERDICT")
+                            .font(.headline)
+                            .fontWeight(.bold)
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        
+                        Text(statusText)
                             .font(.subheadline)
-                            .foregroundColor(.blue)
-                            .fixedSize(horizontal: false, vertical: true)
+                            .fontWeight(.semibold)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 6)
+                            .background(Capsule().fill(statusColor))
+                            .foregroundColor(.white)
                     }
-                } else {
-                    Text("Invalid source URL: \(source)")
-                        .font(.subheadline)
-                        .foregroundColor(.red)
-                        .fixedSize(horizontal: false, vertical: true)
+                    .padding()
+                    .background(Color.black)
+                    
+                    // Explanation section
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("AI ANALYSIS")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.gray)
+                        
+                        Text(extractExplanation())
+                            .font(.body)
+                            .foregroundColor(.white)
+                            .lineSpacing(4)
+                        
+                        // Confidence score
+                        HStack {
+                            Text("CONFIDENCE SCORE")
+                                .font(.footnote)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.gray)
+                            
+                            Spacer()
+                            
+                            Text("\(Int(check.confidence * 100))%")
+                                .font(.body)
+                                .fontWeight(.semibold)
+                                .foregroundColor(statusColor)
+                        }
+                        .padding(.top, 8)
+                        
+                        // Progress bar
+                        ZStack(alignment: .leading) {
+                            // Background
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(Color.gray.opacity(0.3))
+                                .frame(height: 8)
+                            
+                            // Foreground
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(statusColor)
+                                .frame(width: UIScreen.main.bounds.width * 0.8 * CGFloat(check.confidence), height: 8)
+                        }
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.black)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(statusColor.opacity(0.3), lineWidth: 1)
+                            )
+                    )
+                    .padding(.horizontal)
+                    
+                    // Sources if available
+                    if let sources = check.sources, !sources.isEmpty {
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("SOURCES")
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                                .foregroundColor(.gray)
+                            
+                            ForEach(sources, id: \.self) { source in
+                                if let url = URL(string: source) {
+                                    Link(destination: url) {
+                                        HStack {
+                                            Image(systemName: "link")
+                                                .foregroundColor(.blue)
+                                            
+                                            Text(source)
+                                                .font(.subheadline)
+                                                .foregroundColor(.blue)
+                                                .lineLimit(1)
+                                        }
+                                    }
+                                    .padding(.vertical, 4)
+                                }
+                            }
+                        }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(Color.black)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                )
+                        )
+                        .padding(.horizontal)
+                    }
                 }
+                .padding(.vertical)
+            }
+            .background(Color.black.edgesIgnoringSafeArea(.all))
+            .navigationBarTitle("Fact Check", displayMode: .inline)
+            .navigationBarItems(trailing: Button("Close") {
+                presentationMode.wrappedValue.dismiss()
+            })
+        }
+    }
+    
+    // Extract the explanation part only
+    private func extractExplanation() -> String {
+        // Try to find the verdict statement
+        if let verdictRange = check.explanation.range(of: "VERDICT:", options: [.caseInsensitive]) {
+            // Extract the explanation part after the verdict
+            let startIndex = verdictRange.upperBound
+            
+            // Skip to the next line after the verdict
+            if let newlineRange = check.explanation[startIndex...].range(of: "\n") {
+                let explanationStartIndex = newlineRange.upperBound
+                return String(check.explanation[explanationStartIndex...]).trimmingCharacters(in: .whitespacesAndNewlines)
             }
         }
+        
+        // If no verdict found, return the full text
+        return check.explanation
     }
 } 

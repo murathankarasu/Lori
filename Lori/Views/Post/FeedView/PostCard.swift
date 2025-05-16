@@ -1,6 +1,7 @@
 import SwiftUI
 import FirebaseAuth
 import FirebaseFirestore
+import Kingfisher
 
 class PostCardViewModel: ObservableObject {
     @Published var isLiked: Bool = false
@@ -11,14 +12,13 @@ class PostCardViewModel: ObservableObject {
     private var commentsListener: ListenerRegistration?
     private let post: Post
     private let userId: String?
+    private let interactionService = InteractionService.shared
     
     init(post: Post) {
         self.post = post
         self.userId = Auth.auth().currentUser?.uid
         self.likesCount = post.likes
-        listenToLikes()
-        listenToComments()
-        checkIfLiked()
+        setupListeners()
     }
     
     deinit {
@@ -26,39 +26,35 @@ class PostCardViewModel: ObservableObject {
         commentsListener?.remove()
     }
     
-    func listenToLikes() {
+    private func setupListeners() {
         guard let postId = post.id else { return }
-        likesListener = db.collection("posts").document(postId).collection("likes").addSnapshotListener { [weak self] snapshot, _ in
-            self?.likesCount = snapshot?.documents.count ?? 0
+        
+        // Beğenileri dinle
+        likesListener = interactionService.listenToLikes(for: postId) { [weak self] count, isLiked in
+            self?.likesCount = count
+            self?.isLiked = isLiked
         }
-    }
-    
-    func listenToComments() {
-        guard let postId = post.id else { return }
+        
+        // Yorumları dinle (sadece sayı için)
         commentsListener = db.collection("posts").document(postId).collection("comments").addSnapshotListener { [weak self] snapshot, _ in
             self?.commentsCount = snapshot?.documents.count ?? 0
         }
     }
     
-    func checkIfLiked() {
-        guard let postId = post.id, let userId = userId else { return }
-        db.collection("posts").document(postId).collection("likes").document(userId).getDocument { [weak self] doc, _ in
-            self?.isLiked = doc?.exists ?? false
-        }
-    }
-    
     func toggleLike() {
-        guard let postId = post.id, let userId = userId else { return }
-        let likeRef = db.collection("posts").document(postId).collection("likes").document(userId)
-        let postRef = db.collection("posts").document(postId)
-        if isLiked {
-            likeRef.delete()
-            postRef.updateData(["likes": FieldValue.increment(Int64(-1))])
-        } else {
-            likeRef.setData([:])
-            postRef.updateData(["likes": FieldValue.increment(Int64(1))])
+        interactionService.toggleLike(for: post, isLiked: isLiked) { [weak self] newIsLiked, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Beğeni işlemi sırasında hata: \(error.localizedDescription)")
+                return
+            }
+            
+            // UI güncellemesi MainActor'da yapılacak
+            Task { @MainActor in
+                self.isLiked = newIsLiked
+            }
         }
-        isLiked.toggle()
     }
 }
 
@@ -82,17 +78,18 @@ struct PostCard: View {
                     HStack {
                         // PROFİL FOTOĞRAFI
                         if let profileImageUrl = post.profileImageUrl, !profileImageUrl.isEmpty, let url = URL(string: profileImageUrl) {
-                            AsyncImage(url: url) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            } placeholder: {
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .foregroundColor(.white)
-                            }
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
+                            KFImage(url)
+                                .placeholder {
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .foregroundColor(.white)
+                                }
+                                .cacheMemoryOnly(false) // Hem bellek hem disk cache kullan
+                                .fade(duration: 0.25) // Yumuşak geçiş efekti
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
                         } else {
                             Image(systemName: "person.circle.fill")
                                 .resizable()
@@ -119,17 +116,18 @@ struct PostCard: View {
                     HStack {
                         // PROFİL FOTOĞRAFI (KENDİ POSTU İÇİN)
                         if let profileImageUrl = post.profileImageUrl, !profileImageUrl.isEmpty, let url = URL(string: profileImageUrl) {
-                            AsyncImage(url: url) { image in
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            } placeholder: {
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .foregroundColor(.white)
-                            }
-                            .frame(width: 40, height: 40)
-                            .clipShape(Circle())
+                            KFImage(url)
+                                .placeholder {
+                                    Image(systemName: "person.circle.fill")
+                                        .resizable()
+                                        .foregroundColor(.white)
+                                }
+                                .cacheMemoryOnly(false) // Hem bellek hem disk cache kullan
+                                .fade(duration: 0.25) // Yumuşak geçiş efekti
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 40, height: 40)
+                                .clipShape(Circle())
                         } else {
                             Image(systemName: "person.circle.fill")
                                 .resizable()
@@ -167,14 +165,15 @@ struct PostCard: View {
                 
                 // Gönderi resmi (varsa)
                 if let imageUrl = post.imageUrl {
-                    AsyncImage(url: URL(string: imageUrl)) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                    } placeholder: {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                    }
+                    KFImage(URL(string: imageUrl))
+                        .placeholder {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        }
+                        .cacheMemoryOnly(false)
+                        .fade(duration: 0.3)
+                        .resizable()
+                        .scaledToFit()
                 }
                 
                 // Etkileşim butonları
@@ -209,7 +208,11 @@ struct PostCard: View {
                 .padding(.horizontal)
             }
             .padding(.vertical)
-            .background(Color(.systemGray6))
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color(.systemGray6), lineWidth: 1)
+                    .background(Color.black)
+            )
             .cornerRadius(12)
             .padding(.horizontal)
         }

@@ -167,6 +167,11 @@ struct UserCell: View {
             HStack {
                 // Kingfisher ile profil fotoğrafı
                 KFImage(URL(string: user.profileImageUrl ?? ""))
+                    .cacheMemoryOnly(false)
+                    .cacheOriginalImage()
+                    .fade(duration: 0.25)
+                    .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 80, height: 80)))
+                    .loadDiskFileSynchronously()
                     .placeholder {
                         Image(systemName: "person.circle.fill")
                             .resizable()

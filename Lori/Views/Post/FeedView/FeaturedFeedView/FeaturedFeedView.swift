@@ -1,7 +1,7 @@
 import SwiftUI
+import FirebaseAuth
 // Firebase importları ViewModel'a taşındı
 // import FirebaseFirestore
-// import FirebaseAuth
 
 struct FeaturedFeedView: View {
     @Binding var selectedPost: Post?
@@ -12,6 +12,9 @@ struct FeaturedFeedView: View {
     // @State private var showError = false // ViewModel'a taşındı
     // @State private var errorMessage = "" // ViewModel'a taşındı
     @State private var showCreatePost = false
+    
+    // Podcast butonu ve ilgili state kaldırıldı
+    // @State private var showPodcastView = false
     
     // Listener'lar ViewModel'a taşındı
     // @State private var postsListener: ListenerRegistration?
@@ -25,6 +28,13 @@ struct FeaturedFeedView: View {
                 VStack {
                     // Üst bar
                     HStack {
+                        // Mesaj butonu eklendi
+                        Button(action: {}) {
+                            Image(systemName: "message")
+                                .foregroundColor(.white)
+                                .padding(.top, 10)
+                        }
+                        
                         Spacer()
                         
                         Image("loginlogo")
@@ -78,6 +88,7 @@ struct FeaturedFeedView: View {
             .sheet(isPresented: $showCreatePost) {
                 CreatePostView()
             }
+            // Podcast fullScreenCover kaldırıldı
             .alert(isPresented: $viewModel.showError) { // ViewModel'daki showError ve errorMessage kullanılır
                 Alert(
                     title: Text("Hata"),

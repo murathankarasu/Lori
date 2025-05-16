@@ -16,7 +16,8 @@ class AddCommentViewModel: ObservableObject {
     let maxContentLength = 500
     
     private let emotionService = EmotionService.shared
-    private let userEmotionService = UserEmotionService.shared
+    private let interactionService = InteractionService.shared
+    private let hateSpeechService = HateSpeechService.shared
     
     var canPost: Bool {
         !commentText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
@@ -32,7 +33,7 @@ class AddCommentViewModel: ObservableObject {
             return (true, localCheck.category ?? "Nefret Söylemi", 1.0)
         }
         do {
-            let response = try await HateSpeechService.shared.checkHateSpeech(text: trimmedContent)
+            let response = try await hateSpeechService.checkHateSpeech(text: trimmedContent)
             let isHateSpeech = response.data.category == "1"
             let category = isHateSpeech ? "Nefret Söylemi" : "Güvenli"
             return (isHateSpeech, category, response.data.confidence)
@@ -46,6 +47,7 @@ class AddCommentViewModel: ObservableObject {
         guard canPost else { return }
         isPosting = true
         defer { isPosting = false }
+        
         do {
             guard let user = Auth.auth().currentUser else {
                 throw NSError(domain: "auth", code: 401, userInfo: [NSLocalizedDescriptionKey: "Oturum açmanız gerekiyor"])
@@ -53,10 +55,12 @@ class AddCommentViewModel: ObservableObject {
             guard let postId = post.id else {
                 throw NSError(domain: "post", code: 400, userInfo: [NSLocalizedDescriptionKey: "Gönderi bulunamadı"])
             }
+            
             let trimmedContent = commentText.trimmingCharacters(in: .whitespacesAndNewlines)
             guard !trimmedContent.isEmpty else {
                 throw NSError(domain: "content", code: 400, userInfo: [NSLocalizedDescriptionKey: "Yorum boş olamaz"])
             }
+            
             // Nefret söylemi kontrolü
             let (isHateSpeech, category, _) = try await checkHateSpeech(text: trimmedContent)
             if isHateSpeech {
@@ -66,11 +70,12 @@ class AddCommentViewModel: ObservableObject {
                 completion(false)
                 return
             }
-            // Duygu analizi
-            let emotionAnalysis = try await emotionService.analyzeEmotion(text: trimmedContent)
+            
+            // Firestore'dan kullanıcı adını al
             let db = Firestore.firestore()
             let userDoc = try await db.collection("users").document(user.uid).getDocument()
-            let username = userDoc.data()? ["username"] as? String ?? user.displayName ?? "Anonim"
+            let username = userDoc.data()?["username"] as? String ?? user.displayName ?? "Anonim"
+            
             // Yorum modelini oluştur
             let comment = Comment(
                 id: UUID().uuidString,
@@ -80,34 +85,18 @@ class AddCommentViewModel: ObservableObject {
                 content: trimmedContent,
                 timestamp: Date()
             )
-            // Firestore'a kaydet
-            let commentId = comment.id ?? UUID().uuidString
-            let commentData: [String: Any] = [
-                "postId": comment.postId,
-                "userId": comment.userId,
-                "username": username,
-                "content": comment.content,
-                "timestamp": Timestamp(date: comment.timestamp),
-                "emotionAnalysis": [
-                    "emotion": emotionAnalysis.emotion,
-                    "confidence": emotionAnalysis.confidence,
-                    "timestamp": Timestamp(date: emotionAnalysis.timestamp)
-                ]
-            ]
-            try await db.collection("posts").document(postId).collection("comments").document(commentId).setData(commentData)
-            // commentsCount alanını artır
-            try await db.collection("posts").document(postId).updateData([
-                "commentsCount": FieldValue.increment(Int64(1))
-            ])
-            // Etkileşimi kaydet
-            try await userEmotionService.saveInteraction(
-                userId: user.uid,
-                postId: postId,
-                interactionType: .comment,
-                emotion: emotionAnalysis.emotion,
-                confidence: emotionAnalysis.confidence
-            )
-            completion(true)
+            
+            // InteractionService kullanarak yorumu ekle
+            interactionService.addComment(comment: comment, to: post) { error in
+                if let error = error {
+                    self.errorMessage = error.localizedDescription
+                    self.showError = true
+                    completion(false)
+                } else {
+                    completion(true)
+                }
+            }
+            
         } catch {
             print("Yorum eklenirken hata: \(error)")
             errorMessage = error.localizedDescription
