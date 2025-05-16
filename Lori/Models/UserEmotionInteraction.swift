@@ -12,6 +12,7 @@ struct UserEmotionInteraction: Identifiable, Codable {
     
     enum InteractionType: String, Codable {
         case like
+        case dislike
         case comment
         case create
         case viewDetail
