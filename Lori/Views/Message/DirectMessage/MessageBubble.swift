@@ -1,10 +1,12 @@
 import SwiftUI
 import Firebase
+import Kingfisher
 
 // Mesaj balonu görünümü
 struct MessageBubble: View {
     let message: DirectMessage
     let isFromCurrentUser: Bool
+    @State private var showingFullScreenImage = false
     
     var body: some View {
         HStack(alignment: .bottom, spacing: 8) {
@@ -28,29 +30,99 @@ struct MessageBubble: View {
                             .foregroundColor(.white)
                     }
                     
-                    Text(message.content)
-                        .font(.system(size: 16))
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 10)
-                        .background(Color.white)
-                        .foregroundColor(.black)
-                        .clipShape(
-                            MessageBubbleShape(isFromCurrentUser: true)
-                        )
-                        .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    // Mesaj içeriği - resim varsa resmi göster
+                    if let imageURL = message.imageURL, !imageURL.isEmpty, imageURL != "temp_uploading" {
+                        KFImage(URL(string: imageURL))
+                            .placeholder {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.gray.opacity(0.3))
+                                        .frame(width: 200, height: 150)
+                                    ProgressView()
+                                        .tint(.white)
+                                }
+                            }
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(maxWidth: 200, maxHeight: 300)
+                            .cornerRadius(12)
+                            .clipped()
+                            .onTapGesture {
+                                showingFullScreenImage = true
+                            }
+                    } else if message.imageURL == "temp_uploading" {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.gray.opacity(0.3))
+                                .frame(width: 200, height: 150)
+                            VStack(spacing: 8) {
+                                ProgressView()
+                                    .tint(.white)
+                                Text("Yükleniyor...")
+                                    .font(.caption)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    } else {
+                        Text(message.content)
+                            .font(.system(size: 16))
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .clipShape(
+                                MessageBubbleShape(isFromCurrentUser: true)
+                            )
+                            .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    }
                 }
             } else {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(message.content)
-                        .font(.system(size: 16))
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 10)
-                        .background(Color.white)
-                        .foregroundColor(.black)
-                        .clipShape(
-                            MessageBubbleShape(isFromCurrentUser: false)
-                        )
-                        .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    // Mesaj içeriği - resim varsa resmi göster
+                    if let imageURL = message.imageURL, !imageURL.isEmpty, imageURL != "temp_uploading" {
+                        KFImage(URL(string: imageURL))
+                            .placeholder {
+                                ZStack {
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.gray.opacity(0.3))
+                                        .frame(width: 200, height: 150)
+                                    ProgressView()
+                                        .tint(.white)
+                                }
+                            }
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(maxWidth: 200, maxHeight: 300)
+                            .cornerRadius(12)
+                            .clipped()
+                            .onTapGesture {
+                                showingFullScreenImage = true
+                            }
+                    } else if message.imageURL == "temp_uploading" {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 12)
+                                .fill(Color.gray.opacity(0.3))
+                                .frame(width: 200, height: 150)
+                            VStack(spacing: 8) {
+                                ProgressView()
+                                    .tint(.white)
+                                Text("Yükleniyor...")
+                                    .font(.caption)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    } else {
+                        Text(message.content)
+                            .font(.system(size: 16))
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+                            .background(Color.white)
+                            .foregroundColor(.black)
+                            .clipShape(
+                                MessageBubbleShape(isFromCurrentUser: false)
+                            )
+                            .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 1)
+                    }
                     
                     Text(timeFormatter.string(from: message.timestamp))
                         .font(.system(size: 11))
@@ -63,6 +135,11 @@ struct MessageBubble: View {
         }
         .padding(.horizontal, 4)
         .padding(.vertical, 2)
+        .fullScreenCover(isPresented: $showingFullScreenImage) {
+            if let imageURL = message.imageURL, !imageURL.isEmpty, imageURL != "temp_uploading" {
+                FullScreenImageView(imageURL: imageURL)
+            }
+        }
     }
     
     private let timeFormatter: DateFormatter = {

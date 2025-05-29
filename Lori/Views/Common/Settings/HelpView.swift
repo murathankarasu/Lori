@@ -5,100 +5,217 @@ struct HelpView: View {
     @State private var isAnimating = false
     @State private var showAlert = false
     @State private var alertMessage = ""
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
+            // Gradient background
+            LinearGradient(
+                gradient: Gradient(colors: [Color.black, Color.gray.opacity(0.8)]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .edgesIgnoringSafeArea(.all)
             
-            ScrollView {
-                VStack(spacing: 25) {
-                    // Arama Çubuğu
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.white)
-                        
-                        TextField("Search help...", text: $searchText)
-                            .textFieldStyle(PlainTextFieldStyle())
-                            .foregroundColor(.white)
-                        
-                        if !searchText.isEmpty {
-                            Button(action: {
-                                searchText = ""
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.white)
+            VStack(spacing: 0) {
+                // Custom Header with Back Button
+                HStack {
+                    Button(action: {
+                        dismiss()
+                    }) {
+                        HStack(spacing: 8) {
+                            Image(systemName: "arrow.left")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(.white)
+                            
+                            Text("Geri")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundColor(.white)
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+                        .background(Color.white.opacity(0.1))
+                        .cornerRadius(20)
+                    }
+                    
+                    Spacer()
+                    
+                    Text("Yardım")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(.white)
+                    
+                    Spacer()
+                    
+                    // Invisible placeholder for balance
+                    Rectangle()
+                        .fill(Color.clear)
+                        .frame(width: 80, height: 40)
+                }
+                .padding(.horizontal, 20)
+                .padding(.top, 20)
+                .padding(.bottom, 30)
+                
+                // Content
+                ScrollView(showsIndicators: false) {
+                    VStack(spacing: 30) {
+                        // Search Bar
+                        HStack {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.white.opacity(0.7))
+                                .font(.system(size: 16))
+                            
+                            TextField("Yardımda ara...", text: $searchText)
+                                .textFieldStyle(PlainTextFieldStyle())
+                                .foregroundColor(.white)
+                                .font(.system(size: 16))
+                            
+                            if !searchText.isEmpty {
+                                Button(action: {
+                                    searchText = ""
+                                }) {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(.white.opacity(0.7))
+                                        .font(.system(size: 16))
+                                }
                             }
                         }
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(15)
-                    .padding(.horizontal)
-                    
-                    // Ana Kategoriler
-                    VStack(alignment: .leading, spacing: 15) {
-                        Text("Ana Kategoriler")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding(.horizontal)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
+                                .fill(Color.white.opacity(0.1))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 15)
+                                        .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                )
+                        )
+                        .padding(.horizontal, 20)
                         
-                        VStack(spacing: 10) {
-                            HelpCategoryRow(title: "Sık Sorulan Sorular", icon: "questionmark.circle.fill", color: .white)
-                            HelpCategoryRow(title: "Kullanıcı Kılavuzu", icon: "book.fill", color: .white)
+                        // Ana Kategoriler
+                        VStack(alignment: .leading, spacing: 20) {
+                            HStack {
+                                Image(systemName: "folder.circle.fill")
+                                    .font(.system(size: 22))
+                                    .foregroundColor(.white)
+                                
+                                Text("Ana Kategoriler")
+                                    .font(.system(size: 20, weight: .bold))
+                                    .foregroundColor(.white)
+                                
+                                Spacer()
+                            }
+                            .padding(.horizontal, 25)
+                            
+                            VStack(spacing: 0) {
+                                Button(action: {
+                                    alertMessage = "Sık sorulan sorularımızı buradan inceleyebilirsiniz."
+                                    showAlert = true
+                                }) {
+                                    ModernSettingsRow(
+                                        title: "Sık Sorulan Sorular",
+                                        subtitle: "En çok merak edilen konular",
+                                        icon: "questionmark.circle.fill",
+                                        iconColor: .blue,
+                                        isFirst: true
+                                    )
+                                }
+                                
+                                Divider()
+                                    .background(Color.white.opacity(0.1))
+                                    .padding(.horizontal, 20)
+                                
+                                Button(action: {
+                                    alertMessage = "Uygulamayı kullanma kılavuzunu buradan bulabilirsiniz."
+                                    showAlert = true
+                                }) {
+                                    ModernSettingsRow(
+                                        title: "Kullanıcı Kılavuzu",
+                                        subtitle: "Adım adım kullanım talimatları",
+                                        icon: "book.fill",
+                                        iconColor: .green,
+                                        isLast: true
+                                    )
+                                }
+                            }
+                            .background(
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(Color.white.opacity(0.05))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 20)
+                                            .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                                    )
+                            )
+                            .padding(.horizontal, 20)
                         }
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(15)
-                        .padding(.horizontal)
-                    }
-                    
-                    // Hızlı Yardım
-                    VStack(alignment: .leading, spacing: 15) {
-                        Text("Hızlı Yardım")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding(.horizontal)
                         
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 15) {
-                                QuickHelpCard(title: "Profil Ayarları", icon: "person.fill", color: .white)
+                        // Hızlı Yardım
+                        VStack(alignment: .leading, spacing: 20) {
+                            HStack {
+                                Image(systemName: "bolt.circle.fill")
+                                    .font(.system(size: 22))
+                                    .foregroundColor(.white)
+                                
+                                Text("Hızlı Yardım")
+                                    .font(.system(size: 20, weight: .bold))
+                                    .foregroundColor(.white)
+                                
+                                Spacer()
+                            }
+                            .padding(.horizontal, 25)
+                            
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: 15) {
+                                    QuickHelpCard(
+                                        title: "Profil Ayarları",
+                                        icon: "person.fill",
+                                        color: .cyan
+                                    )
                                     .onTapGesture {
                                         alertMessage = "Profil ayarlarınızı değiştirmek için:\n1. Profil fotoğrafınızı değiştirmek için fotoğrafa tıklayın\n2. Kullanıcı adınızı değiştirmek için düzenle butonuna tıklayın\n3. Değişiklikleri kaydetmek için kaydet butonuna tıklayın"
                                         showAlert = true
                                     }
-                                
-                                QuickHelpCard(title: "Bildirimler", icon: "bell.fill", color: .white)
+                                    
+                                    QuickHelpCard(
+                                        title: "Bildirimler",
+                                        icon: "bell.fill",
+                                        color: .orange
+                                    )
                                     .onTapGesture {
                                         alertMessage = "Bildirim ayarlarınızı yönetmek için:\n1. Bildirimler sekmesine gidin\n2. İstediğiniz bildirim türünü seçin\n3. Bildirim sıklığını ayarlayın"
                                         showAlert = true
                                     }
-                                
-                                QuickHelpCard(title: "Güvenlik", icon: "lock.fill", color: .white)
+                                    
+                                    QuickHelpCard(
+                                        title: "Güvenlik",
+                                        icon: "lock.fill",
+                                        color: .red
+                                    )
                                     .onTapGesture {
                                         alertMessage = "Güvenlik ayarlarınızı yönetmek için:\n1. Güvenlik sekmesine gidin\n2. Şifrenizi değiştirin\n3. İki faktörlü doğrulamayı etkinleştirin"
                                         showAlert = true
                                     }
-                                
-                                QuickHelpCard(title: "Gizlilik", icon: "eye.slash.fill", color: .white)
+                                    
+                                    QuickHelpCard(
+                                        title: "Gizlilik",
+                                        icon: "eye.slash.fill",
+                                        color: .purple
+                                    )
                                     .onTapGesture {
                                         alertMessage = "Gizlilik ayarlarınızı yönetmek için:\n1. Gizlilik sekmesine gidin\n2. Profil görünürlüğünü ayarlayın\n3. Veri paylaşım tercihlerinizi belirleyin"
                                         showAlert = true
                                     }
+                                }
+                                .padding(.horizontal, 20)
                             }
-                            .padding(.horizontal)
                         }
                     }
+                    .padding(.bottom, 40)
                 }
-                .padding(.vertical)
             }
         }
-        .navigationTitle("Help")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbarColorScheme(.dark, for: .navigationBar)
-        .toolbarBackground(Color.black, for: .navigationBar)
-        .toolbarBackground(.visible, for: .navigationBar)
+        .navigationBarHidden(true)
         .alert("Yardım", isPresented: $showAlert) {
-            Button("OK", role: .cancel) { }
+            Button("Tamam", role: .cancel) { }
         } message: {
             Text(alertMessage)
         }
@@ -140,23 +257,34 @@ struct QuickHelpCard: View {
     let color: Color
     
     var body: some View {
-        VStack(spacing: 10) {
-            Image(systemName: icon)
-                .font(.title)
-                .foregroundColor(color)
-                .frame(width: 50, height: 50)
-                .background(color.opacity(0.1))
-                .clipShape(Circle())
+        VStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(color.opacity(0.2))
+                    .frame(width: 50, height: 50)
+                
+                Image(systemName: icon)
+                    .font(.system(size: 20, weight: .semibold))
+                    .foregroundColor(color)
+            }
             
             Text(title)
-                .font(.subheadline)
+                .font(.system(size: 13, weight: .semibold))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
+                .lineLimit(2)
         }
-        .frame(width: 100)
-        .padding()
-        .background(Color(.systemGray6))
-        .cornerRadius(15)
+        .frame(width: 110, height: 100)
+        .padding(.vertical, 16)
+        .padding(.horizontal, 12)
+        .background(
+            RoundedRectangle(cornerRadius: 16)
+                .fill(Color.white.opacity(0.05))
+                .overlay(
+                    RoundedRectangle(cornerRadius: 16)
+                        .stroke(Color.white.opacity(0.1), lineWidth: 1)
+                )
+        )
     }
 }
 

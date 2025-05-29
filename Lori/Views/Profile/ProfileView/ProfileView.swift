@@ -10,11 +10,8 @@ struct ProfileView: View {
     let userId: String
     @Environment(\.dismiss) private var dismiss
     
-    @State private var showEditProfile = false
     @State private var selectedPost: Post?
     @State private var showPostDetail = false
-    @State private var showSettings = false
-    @State private var showSearchSheet = false
     @State private var showDirectMessage = false
     let fromChatView: Bool
     
@@ -72,7 +69,11 @@ struct ProfileView: View {
                     
                     // Profili Düzenle Butonu - Sadece mevcut kullanıcı için
                     if viewModel.isCurrentUser {
-                        Button(action: { showEditProfile = true }) {
+                        NavigationLink(destination: EditProfileView(
+                            username: $viewModel.username,
+                            bio: $viewModel.bio,
+                            profileImageUrl: $viewModel.profileImageUrl
+                        )) {
                             Text("Edit Profile")
                                 .font(.system(size: 14, weight: .medium))
                                 .foregroundColor(.white)
@@ -137,24 +138,6 @@ struct ProfileView: View {
                     }
                     .padding(.vertical)
                     
-                    // İlgi Alanları
-                    if !viewModel.interests.isEmpty {
-                        ScrollView(.horizontal, showsIndicators: false) {
-                            HStack(spacing: 8) {
-                                ForEach(viewModel.interests, id: \.self) { interest in
-                                    Text(interest)
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.black)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 6)
-                                        .background(Color.white)
-                                        .clipShape(Capsule())
-                                }
-                            }
-                            .padding(.horizontal)
-                        }
-                    }
-                    
                     // Gönderiler
                     PostsGridView(
                         isLoading: viewModel.isLoading,
@@ -187,23 +170,6 @@ struct ProfileView: View {
                         }
                         .padding(.leading, 16)
                     }
-                    // Normal durum: Arama Butonu (sadece kendi profilindeyse)
-                    else if viewModel.isCurrentUser {
-                        Button(action: {
-                            showSearchSheet.toggle()
-                        }) {
-                            Image(systemName: "magnifyingglass")
-                                .font(.system(size: 20, weight: .semibold))
-                                .foregroundColor(.white)
-                                .padding(12)
-                                .background(Color.black.opacity(0.5))
-                                .clipShape(Circle())
-                        }
-                        .padding(.leading, 16)
-                        .fullScreenCover(isPresented: $showSearchSheet) {
-                            SearchView()
-                        }
-                    }
                     // Normal durum: Geri Dönüş Butonu (sadece başka bir kullanıcının profilindeyse)
                     else if !viewModel.isCurrentUser {
                         Button(action: { dismiss() }) {
@@ -223,7 +189,7 @@ struct ProfileView: View {
 
                     // Ayarlar Butonu (sadece kendi profilindeyse) veya Mesaj Butonu (başka profildeyse)
                     if viewModel.isCurrentUser {
-                        Button(action: { showSettings = true }) {
+                        NavigationLink(destination: SettingsView(isLoggedIn: .constant(true))) {
                             Image(systemName: "gearshape.fill")
                                 .font(.system(size: 20, weight: .semibold))
                                 .foregroundColor(.white)
@@ -259,21 +225,6 @@ struct ProfileView: View {
             .zIndex(1)
         }
         .navigationBarBackButtonHidden(true)
-        .sheet(isPresented: $showEditProfile) {
-            NavigationView {
-                EditProfileView(
-                    username: $viewModel.username,
-                    bio: $viewModel.bio,
-                    interests: $viewModel.interests,
-                    profileImageUrl: $viewModel.profileImageUrl
-                )
-            }
-        }
-        .sheet(isPresented: $showSettings) {
-            NavigationView {
-                SettingsView(isLoggedIn: .constant(true))
-            }
-        }
         .fullScreenCover(isPresented: $showDirectMessage) {
             if let currentUserId = Auth.auth().currentUser?.uid {
                 DirectMessageWithUserView(currentUserId: currentUserId, targetUserId: userId)

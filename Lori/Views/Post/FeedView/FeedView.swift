@@ -73,6 +73,10 @@ struct CustomTabBarView: UIViewControllerRepresentable {
         tabBarController.tabBar.itemWidth = UIScreen.main.bounds.width / 5 // 5 sekme için
         tabBarController.tabBar.itemPositioning = .fill // Sekmeleri yayarak doldur
         
+        // Tab bar'ın her zaman görünür olmasını sağla
+        tabBarController.tabBar.isHidden = false
+        tabBarController.hidesBottomBarWhenPushed = false
+        
         // Sekmeleri oluştur
         let viewControllers = [
             createViewController(for: 0), // Keşfet
@@ -105,6 +109,9 @@ struct CustomTabBarView: UIViewControllerRepresentable {
     private func createViewController(for index: Int) -> UIViewController {
         let hostingController = UIHostingController(rootView: getTabView(for: index))
         hostingController.view.backgroundColor = .black
+        
+        // Tab bar'ın gizlenmesini engelle
+        hostingController.hidesBottomBarWhenPushed = false
         
         let tabBarItem = UITabBarItem()
         switch index {
@@ -154,7 +161,7 @@ struct CustomTabBarView: UIViewControllerRepresentable {
         case 3:
             return AnyView(PodcastView(userID: Auth.auth().currentUser?.uid ?? "", username: username))
         case 4:
-            return AnyView(GaladrielView())
+            return AnyView(GaladrielOpeningView())
         default:
             return AnyView(Text("Invalid Tab"))
         }

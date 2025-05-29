@@ -1,12 +1,14 @@
 import Foundation
 import Firebase
 import FirebaseFirestore
+import FirebaseStorage
 
 class DirectMessageService: ObservableObject {
     @Published var conversations: [DirectMessageConversation] = []
     @Published var messages: [DirectMessage] = []
     
     private let db = Firestore.firestore()
+    private let notificationService = NotificationService.shared
     
     // Tüm konuşma listesini getir
     func fetchUserConversations(for userId: String) async throws -> [DirectMessageConversation] {
@@ -334,6 +336,12 @@ class DirectMessageService: ObservableObject {
             "lastMessageSenderId": message.senderId,
             "lastMessageRead": false
         ])
+        
+        // Bildirim gönder (NotificationService otomatik olarak dinliyor ve bildirim gönderecek)
+        // Ayrıca rozet sayısını güncelle
+        DispatchQueue.main.async {
+            self.notificationService.updateBadgeCount()
+        }
     }
     
     // Yeni konuşma oluştur
@@ -455,5 +463,27 @@ class DirectMessageService: ObservableObject {
         batch.deleteDocument(db.collection("conversations").document(conversationId))
         
         try await batch.commit()
+    }
+    
+    // Resim yükle ve URL döndür
+    func uploadImage(_ image: UIImage, conversationId: String) async throws -> String {
+        guard let imageData = image.jpegData(compressionQuality: 0.7) else {
+            throw NSError(domain: "DirectMessageService", code: 1, userInfo: [NSLocalizedDescriptionKey: "Resim dönüştürülemedi"])
+        }
+        
+        let storage = Storage.storage()
+        let imageId = UUID().uuidString
+        let storageRef = storage.reference()
+            .child("direct_message_images")
+            .child(conversationId)
+            .child("\(imageId).jpg")
+        
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        
+        _ = try await storageRef.putDataAsync(imageData, metadata: metadata)
+        let downloadURL = try await storageRef.downloadURL()
+        
+        return downloadURL.absoluteString
     }
 } 

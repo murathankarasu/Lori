@@ -15,116 +15,116 @@ struct GaladrielView: View {
     let typingTimer = Timer.publish(every: 0.5, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.black.edgesIgnoringSafeArea(.all)
-                
-                VStack {
-                    // Üst bar
-                    HStack {
-                        Button(action: { showDebugLogs.toggle() }) {
-                            Image(systemName: "terminal")
-                                .foregroundColor(.white)
-                        }
-                        
-                        Spacer()
-                        
-                        Text("Galadriel")
-                            .font(.system(size: 24, weight: .bold))
-                            .foregroundColor(.white)
-                            .shadow(color: .white.opacity(glowAmount), radius: 10, x: 0, y: 0)
-                            .onReceive(timer) { _ in
-                                withAnimation(.easeInOut(duration: 1.5)) {
-                                    glowAmount = glowAmount == 0.0 ? 0.8 : 0.0
-                                }
-                            }
-                        
-                        Spacer()
-                        
+        ZStack {
+            Color.black.ignoresSafeArea(.all, edges: .top)
+            
+            VStack(spacing: 0) {
+                // Üst bar
+                HStack {
+                    Button(action: { showDebugLogs.toggle() }) {
                         Image(systemName: "terminal")
-                            .foregroundColor(.clear)
-                    }
-                    .padding()
-                    .background(Color.black)
-                    .zIndex(1)
-                    
-                    if showDebugLogs {
-                        // Debug logları
-                        ScrollView {
-                            VStack(alignment: .leading, spacing: 8) {
-                                ForEach(viewModel.debugLogs, id: \.self) { log in
-                                    Text(log)
-                                        .font(.system(.footnote, design: .monospaced))
-                                        .foregroundColor(.green)
-                                }
-                            }
-                            .padding()
-                        }
-                        .background(Color.black.opacity(0.8))
-                    } else {
-                        // Sohbet alanı
-                        ScrollView {
-                            LazyVStack(spacing: 20) {
-                                ForEach(viewModel.messages) { message in
-                                    MessageBubbleView(message: message)
-                                }
-                                
-                                if isLoading {
-                                    HStack {
-                                        Text(String(repeating: ".", count: typingDots))
-                                            .padding(.horizontal, 16)
-                                            .padding(.vertical, 10)
-                                            .background(Color.gray.opacity(0.3))
-                                            .foregroundColor(.white)
-                                            .clipShape(RoundedRectangle(cornerRadius: 18))
-                                            .onReceive(typingTimer) { _ in
-                                                withAnimation {
-                                                    typingDots = typingDots >= 3 ? 1 : typingDots + 1
-                                                }
-                                            }
-                                        Spacer()
-                                    }
-                                    .padding(.horizontal, 4)
-                                }
-                            }
-                            .padding()
-                        }
-                    }
-                    
-                    // Mesaj gönderme alanı
-                    HStack(spacing: 12) {
-                        TextField("Type your message...", text: $messageText)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(20)
                             .foregroundColor(.white)
-                            .accentColor(.white)
-                        
-                        Button(action: sendMessage) {
-                            if isLoading {
-                                ProgressView()
-                                    .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            } else {
-                                ZStack {
-                                    Circle()
-                                        .fill(Color.white)
-                                        .frame(width: 40, height: 40)
-                                    
-                                    Image(systemName: "arrow.up")
-                                        .font(.system(size: 20, weight: .semibold))
-                                        .foregroundColor(.black)
-                                }
+                    }
+                    
+                    Spacer()
+                    
+                    Text("Galadriel")
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(.white)
+                        .shadow(color: .white.opacity(glowAmount), radius: 10, x: 0, y: 0)
+                        .onReceive(timer) { _ in
+                            withAnimation(.easeInOut(duration: 1.5)) {
+                                glowAmount = glowAmount == 0.0 ? 0.8 : 0.0
                             }
                         }
-                        .disabled(messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading)
-                    }
-                    .padding()
+                    
+                    Spacer()
+                    
+                    Image(systemName: "terminal")
+                        .foregroundColor(.clear)
                 }
+                .padding()
+                .padding(.top, 10) // Extra padding for status bar
+                .background(Color.black)
+                .zIndex(1)
+                
+                if showDebugLogs {
+                    // Debug logları
+                    ScrollView {
+                        VStack(alignment: .leading, spacing: 8) {
+                            ForEach(viewModel.debugLogs, id: \.self) { log in
+                                Text(log)
+                                    .font(.system(.footnote, design: .monospaced))
+                                    .foregroundColor(.green)
+                            }
+                        }
+                        .padding()
+                    }
+                    .background(Color.black.opacity(0.8))
+                } else {
+                    // Sohbet alanı
+                    ScrollView {
+                        LazyVStack(spacing: 20) {
+                            ForEach(viewModel.messages) { message in
+                                MessageBubbleView(message: message)
+                            }
+                            
+                            if isLoading {
+                                HStack {
+                                    Text(String(repeating: ".", count: typingDots))
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 10)
+                                        .background(Color.gray.opacity(0.3))
+                                        .foregroundColor(.white)
+                                        .clipShape(RoundedRectangle(cornerRadius: 18))
+                                        .onReceive(typingTimer) { _ in
+                                            withAnimation {
+                                                typingDots = typingDots >= 3 ? 1 : typingDots + 1
+                                            }
+                                        }
+                                    Spacer()
+                                }
+                                .padding(.horizontal, 4)
+                            }
+                        }
+                        .padding()
+                        .padding(.bottom, 10) // Tab bar için extra space
+                    }
+                }
+                
+                // Mesaj gönderme alanı
+                HStack(spacing: 12) {
+                    TextField("Type your message...", text: $messageText)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+                        .background(Color.gray.opacity(0.2))
+                        .cornerRadius(20)
+                        .foregroundColor(.white)
+                        .accentColor(.white)
+                    
+                    Button(action: sendMessage) {
+                        if isLoading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        } else {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.white)
+                                    .frame(width: 40, height: 40)
+                                
+                                Image(systemName: "arrow.up")
+                                    .font(.system(size: 20, weight: .semibold))
+                                    .foregroundColor(.black)
+                            }
+                        }
+                    }
+                    .disabled(messageText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isLoading)
+                }
+                .padding()
+                .background(Color.black)
             }
-            .navigationBarHidden(true)
-            .onAppear(perform: fetchUsername)
         }
+        .onAppear(perform: fetchUsername)
     }
     
     private func fetchUsername() {

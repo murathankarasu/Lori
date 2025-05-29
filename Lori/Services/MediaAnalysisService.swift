@@ -174,9 +174,4 @@ class MediaAnalysisService {
             throw MediaAnalysisError.networkError("Video analizi sırasında ağ hatası: \(error.localizedDescription)")
         }
     }
-}
-
-// Extend AnalyticsOperationType with profile image case
-extension AnalyticsOperationType {
-    static let profileImage = AnalyticsOperationType(rawValue: "profile_image")!
 } 

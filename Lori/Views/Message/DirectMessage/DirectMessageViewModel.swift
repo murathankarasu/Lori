@@ -2,6 +2,8 @@ import Foundation
 import SwiftUI
 import Firebase
 import Combine
+import UIKit
+import Kingfisher
 
 @MainActor
 class DirectMessageViewModel: ObservableObject {
@@ -207,9 +209,34 @@ class DirectMessageViewModel: ObservableObject {
             if let index = self.conversations.firstIndex(where: { $0.id == conversationId }) {
                 self.conversations[index].lastMessageRead = true
             }
+            
+            // Arka planda profil resimlerini önceden yükle
+            Task {
+                await preloadProfileImages(for: fetchedMessages)
+            }
         } catch {
             self.errorMessage = "Mesajlar yüklenemedi: \(error.localizedDescription)"
             self.isLoading = false
+        }
+    }
+    
+    // Profil resimlerini önceden yükle
+    private func preloadProfileImages(for messages: [DirectMessage]) async {
+        // Mesajlardaki tüm benzersiz kullanıcı ID'lerini topla
+        let userIds = Set(messages.map { $0.senderId })
+        
+        // Her kullanıcının profil resmini önbelleğe yükle
+        for userId in userIds {
+            if let user = userCache[userId], let profileImageUrl = user.profileImageUrl, !profileImageUrl.isEmpty {
+                // Kingfisher'a resmi önceden yüklemesi için söyle
+                if let url = URL(string: profileImageUrl) {
+                    Task { @MainActor in
+                        // Kingfisher prefetcher kullanarak resmi arka planda yükle
+                        let prefetcher = ImagePrefetcher(urls: [url])
+                        prefetcher.start()
+                    }
+                }
+            }
         }
     }
     
@@ -240,6 +267,51 @@ class DirectMessageViewModel: ObservableObject {
             await loadConversations() // Konuşma listesini güncelle
         } catch {
             self.errorMessage = "Mesaj gönderilemedi: \(error.localizedDescription)"
+            // Hata durumunda geçici mesajı kaldır
+            self.currentConversationMessages.removeAll(where: { $0.id == tempMessage.id })
+        }
+    }
+    
+    // Resim mesajı gönder
+    func sendImageMessage(image: UIImage, to conversationId: String, receiverId: String) async {
+        // UI'ı hemen güncellemek için geçici mesaj oluştur
+        let tempMessage = DirectMessage(
+            id: UUID().uuidString,
+            senderId: userId,
+            receiverId: receiverId,
+            content: "📷 Fotoğraf",
+            timestamp: Date(),
+            isRead: false,
+            imageURL: "temp_uploading" // Geçici URL
+        )
+        
+        self.currentConversationMessages.append(tempMessage)
+        
+        do {
+            // Resmi Firebase Storage'a yükle
+            let imageURL = try await messageService.uploadImage(image, conversationId: conversationId)
+            
+            // Gerçek mesajı oluştur
+            let imageMessage = DirectMessage(
+                id: tempMessage.id,
+                senderId: userId,
+                receiverId: receiverId,
+                content: "📷 Fotoğraf",
+                timestamp: Date(),
+                isRead: false,
+                imageURL: imageURL
+            )
+            
+            // Geçici mesajı gerçek mesajla değiştir
+            if let index = self.currentConversationMessages.firstIndex(where: { $0.id == tempMessage.id }) {
+                self.currentConversationMessages[index] = imageMessage
+            }
+            
+            // Mesajı Firestore'a kaydet
+            try await messageService.sendMessage(to: conversationId, message: imageMessage)
+            await loadConversations() // Konuşma listesini güncelle
+        } catch {
+            self.errorMessage = "Fotoğraf gönderilemedi: \(error.localizedDescription)"
             // Hata durumunda geçici mesajı kaldır
             self.currentConversationMessages.removeAll(where: { $0.id == tempMessage.id })
         }

@@ -209,16 +209,6 @@ struct PostCard: View {
                             .foregroundColor(.white)
                             .font(.system(size: 14, weight: .medium))
                     }
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        // Paylaşım işlemi
-                    }) {
-                        Image(systemName: "square.and.arrow.up")
-                            .foregroundColor(.white)
-                            .font(.system(size: 16, weight: .medium))
-                    }
                 }
                 .padding(.horizontal, 16)
                 .padding(.bottom, 4)

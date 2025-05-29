@@ -9,7 +9,6 @@ struct EditProfileView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var username: String
     @Binding var bio: String
-    @Binding var interests: [String]
     @Binding var profileImageUrl: String?
     
     @State private var showImagePicker = false
@@ -18,156 +17,203 @@ struct EditProfileView: View {
     @State private var showError = false
     @State private var errorMessage = ""
     @State private var tempBio: String
-    @State private var showInterestPicker = false
-    @State private var searchText = ""
+    @State private var tempUsername: String
     
-    private let availableInterests = [
-        Interest(name: "Teknoloji", icon: "laptopcomputer"),
-        Interest(name: "Spor", icon: "sportscourt"),
-        Interest(name: "Müzik", icon: "music.note"),
-        Interest(name: "Sanat", icon: "paintpalette"),
-        Interest(name: "Yemek", icon: "fork.knife"),
-        Interest(name: "Seyahat", icon: "airplane"),
-        Interest(name: "Kitap", icon: "book"),
-        Interest(name: "Film", icon: "film"),
-        Interest(name: "Oyun", icon: "gamecontroller"),
-        Interest(name: "Bilim", icon: "atom")
-    ].map { $0.name }
-    
-    private var filteredInterests: [String] {
-        if searchText.isEmpty {
-            return availableInterests
-        } else {
-            return availableInterests.filter { $0.lowercased().contains(searchText.lowercased()) }
-        }
-    }
-    
-    init(username: Binding<String>, bio: Binding<String>, interests: Binding<[String]>, profileImageUrl: Binding<String?>) {
+    init(username: Binding<String>, bio: Binding<String>, profileImageUrl: Binding<String?>) {
         _username = username
         _bio = bio
-        _interests = interests
         _profileImageUrl = profileImageUrl
         _tempBio = State(initialValue: bio.wrappedValue)
+        _tempUsername = State(initialValue: username.wrappedValue)
     }
     
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            // Background gradient
+            LinearGradient(
+                gradient: Gradient(colors: [Color.black, Color(.systemGray6).opacity(0.1)]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
             
             ScrollView {
-                VStack(spacing: 24) {
-                    // Profil Resmi Bölümü
-                    VStack(spacing: 12) {
-                        Button(action: { showImagePicker = true }) {
-                            if let image = selectedImage {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 120, height: 120)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                            } else if let imageUrl = profileImageUrl {
-                                KFImage(URL(string: imageUrl))
-                                    .setProcessor(RoundCornerImageProcessor(cornerRadius: 60))
-                                    .cacheMemoryOnly(false)
-                                    .cacheOriginalImage()
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 120, height: 120)
-                                    .clipShape(Circle())
-                                    .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                            } else {
-                                Image(systemName: "person.circle.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 120, height: 120)
-                                    .foregroundColor(.gray)
+                VStack(spacing: 32) {
+                    // Header spacer
+                    Color.clear.frame(height: 20)
+                    
+                    // Profile Photo Section
+                    VStack(spacing: 20) {
+                        ZStack {
+                            // Background circle with gradient
+                            Circle()
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [Color.white.opacity(0.1), Color.white.opacity(0.05)]),
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
+                                .frame(width: 140, height: 140)
+                            
+                            // Profile image
+                            Button(action: { showImagePicker = true }) {
+                                if let image = selectedImage {
+                                    Image(uiImage: image)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 120, height: 120)
+                                        .clipShape(Circle())
+                                        .overlay(
+                                            Circle()
+                                                .stroke(
+                                                    LinearGradient(
+                                                        gradient: Gradient(colors: [Color.white, Color.white.opacity(0.5)]),
+                                                        startPoint: .topLeading,
+                                                        endPoint: .bottomTrailing
+                                                    ),
+                                                    lineWidth: 3
+                                                )
+                                        )
+                                } else if let imageUrl = profileImageUrl {
+                                    KFImage(URL(string: imageUrl))
+                                        .setProcessor(RoundCornerImageProcessor(cornerRadius: 60))
+                                        .cacheMemoryOnly(false)
+                                        .cacheOriginalImage()
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 120, height: 120)
+                                        .clipShape(Circle())
+                                        .overlay(
+                                            Circle()
+                                                .stroke(
+                                                    LinearGradient(
+                                                        gradient: Gradient(colors: [Color.white, Color.white.opacity(0.5)]),
+                                                        startPoint: .topLeading,
+                                                        endPoint: .bottomTrailing
+                                                    ),
+                                                    lineWidth: 3
+                                                )
+                                        )
+                                } else {
+                                    Circle()
+                                        .fill(Color.white.opacity(0.1))
+                                        .frame(width: 120, height: 120)
+                                        .overlay(
+                                            Image(systemName: "person.fill")
+                                                .font(.system(size: 40))
+                                                .foregroundColor(.white.opacity(0.6))
+                                        )
+                                        .overlay(
+                                            Circle()
+                                                .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                                        )
+                                }
                             }
+                            
+                            // Camera icon overlay
+                            VStack {
+                                Spacer()
+                                HStack {
+                                    Spacer()
+                                    Button(action: { showImagePicker = true }) {
+                                        Image(systemName: "camera.fill")
+                                            .font(.system(size: 16, weight: .semibold))
+                                            .foregroundColor(.black)
+                                            .frame(width: 32, height: 32)
+                                            .background(Color.white)
+                                            .clipShape(Circle())
+                                            .shadow(color: .black.opacity(0.2), radius: 4, x: 0, y: 2)
+                                    }
+                                    .offset(x: -8, y: -8)
+                                }
+                            }
+                            .frame(width: 120, height: 120)
                         }
                         
-                        Text("Change Photo")
+                        Text("Tap to change photo")
                             .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(.white)
+                            .foregroundColor(.white.opacity(0.8))
                     }
-                    .padding(.top, 32)
                     
-                    // Biyografi Bölümü
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("About Me")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                        
-                        TextField("Tell us about yourself...", text: $tempBio, axis: .vertical)
-                            .lineLimit(4...6)
-                            .padding()
-                            .frame(maxWidth: .infinity)
-                            .background(Color.white)
-                            .cornerRadius(8)
-                            .foregroundColor(.black)
-                    }
-                    .padding(.horizontal)
-                    
-                    // İlgi Alanları Bölümü
-                    VStack(alignment: .leading, spacing: 12) {
-                        HStack {
-                            Text("Interests")
-                                .font(.headline)
+                    // Form Section
+                    VStack(spacing: 24) {
+                        // Username Field
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Username")
+                                .font(.system(size: 16, weight: .semibold))
                                 .foregroundColor(.white)
                             
-                            Spacer()
-                            
-                            Button(action: { showInterestPicker = true }) {
-                                Image(systemName: "plus.circle.fill")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 20))
-                            }
+                            TextField("Enter username", text: $tempUsername)
+                                .font(.system(size: 16))
+                                .foregroundColor(.white)
+                                .padding(16)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.white.opacity(0.1))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                        )
+                                )
+                                .accentColor(.white)
                         }
                         
-                        if !interests.isEmpty {
-                            ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 8) {
-                                    ForEach(interests, id: \.self) { interest in
-                                        HStack(spacing: 4) {
-                                            Text(interest)
-                                                .font(.system(size: 14))
-                                                .foregroundColor(.black)
-                                            
-                                            Button(action: {
-                                                if let index = interests.firstIndex(of: interest) {
-                                                    interests.remove(at: index)
-                                                }
-                                            }) {
-                                                Image(systemName: "xmark.circle.fill")
-                                                    .foregroundColor(.black)
-                                                    .font(.system(size: 14))
-                                            }
-                                        }
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 6)
-                                        .background(Color.white)
-                                        .clipShape(Capsule())
-                                    }
-                                }
-                                .padding(.horizontal)
-                            }
-                        } else {
-                            Text("No interests added yet")
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                                .padding(.horizontal)
+                        // Bio Field
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("About Me")
+                                .font(.system(size: 16, weight: .semibold))
+                                .foregroundColor(.white)
+                            
+                            TextField("Tell us about yourself...", text: $tempBio, axis: .vertical)
+                                .font(.system(size: 16))
+                                .foregroundColor(.white)
+                                .padding(16)
+                                .frame(minHeight: 100)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color.white.opacity(0.1))
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                                        )
+                                )
+                                .accentColor(.white)
+                                .lineLimit(4...8)
                         }
                     }
-                    .padding(.horizontal)
+                    .padding(.horizontal, 24)
+                    
+                    // Bottom spacer
+                    Color.clear.frame(height: 100)
                 }
             }
             
+            // Loading overlay
             if isLoading {
-                Color.black.opacity(0.5).ignoresSafeArea()
-                ProgressView("Kaydediliyor...")
-                    .foregroundColor(.white)
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
+                ZStack {
+                    Color.black.opacity(0.7)
+                        .ignoresSafeArea()
+                    
+                    VStack(spacing: 16) {
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                            .scaleEffect(1.2)
+                        
+                        Text("Saving changes...")
+                            .font(.system(size: 16, weight: .medium))
+                            .foregroundColor(.white)
+                    }
+                    .padding(32)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.black.opacity(0.8))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                            )
+                    )
+                }
             }
         }
         .navigationTitle("Edit Profile")
@@ -175,77 +221,33 @@ struct EditProfileView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
-                Button("Cancel") {
+                Button(action: {
                     dismiss()
+                }) {
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 18, weight: .semibold))
+                        .foregroundColor(.white)
                 }
-                .foregroundColor(.white)
             }
             
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Save") {
                     saveChanges()
                 }
+                .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.white)
                 .disabled(isLoading)
+                .opacity(isLoading ? 0.6 : 1.0)
             }
         }
+        .toolbarBackground(Color.black, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
+        .toolbarColorScheme(.dark, for: .navigationBar)
         .sheet(isPresented: $showImagePicker) {
             ImagePicker(image: $selectedImage)
         }
-        .sheet(isPresented: $showInterestPicker) {
-            NavigationView {
-                VStack(spacing: 0) {
-                    // Arama Çubuğu
-                    HStack {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.gray)
-                        
-                        TextField("Search interests...", text: $searchText)
-                            .textFieldStyle(PlainTextFieldStyle())
-                            .foregroundColor(.white)
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    
-                    // İlgi Alanları Listesi
-                    ScrollView {
-                        LazyVGrid(columns: [
-                            GridItem(.flexible()),
-                            GridItem(.flexible()),
-                            GridItem(.flexible())
-                        ], spacing: 12) {
-                            ForEach(filteredInterests.filter { !interests.contains($0) }, id: \.self) { interest in
-                                Button(action: {
-                                    interests.append(interest)
-                                }) {
-                                    Text(interest)
-                                        .font(.system(size: 14))
-                                        .foregroundColor(.black)
-                                        .padding(.horizontal, 12)
-                                        .padding(.vertical, 8)
-                                        .frame(maxWidth: .infinity)
-                                        .background(Color.white)
-                                        .clipShape(Capsule())
-                                }
-                            }
-                        }
-                        .padding()
-                    }
-                }
-                .navigationTitle("İlgi Alanı Seç")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("OK") {
-                            showInterestPicker = false
-                        }
-                    }
-                }
-            }
-            .preferredColorScheme(.dark)
-        }
-        .alert("Hata", isPresented: $showError) {
-            Button("Tamam", role: .cancel) {}
+        .alert("Error", isPresented: $showError) {
+            Button("OK", role: .cancel) {}
         } message: {
             Text(errorMessage)
         }
@@ -302,24 +304,29 @@ struct EditProfileView: View {
                     profileImageUrl = downloadURL.absoluteString
                     
                     // Update profile image in all user's posts
-                    await updateProfileImageInPosts(newImageUrl: downloadURL.absoluteString, userId: userId)
+                    do {
+                        await updateProfileImageInPosts(newImageUrl: downloadURL.absoluteString, userId: userId)
+                    } catch {
+                        print("Warning: Failed to update profile image in posts: \(error.localizedDescription)")
+                        // Continue execution even if post updates fail
+                    }
                 }
                 
-                // Biyografi ve ilgi alanlarını güncelle
-                if tempBio != bio || interests != interests {
+                // Biyografiyi güncelle
+                if tempBio != bio {
                     try await Firestore.firestore().collection("users").document(Auth.auth().currentUser?.uid ?? "").updateData([
                         "bio": tempBio,
-                        "interests": interests
                     ])
                     bio = tempBio
                 }
                 
                 // Kullanıcı adını güncelle
-                if !username.isEmpty {
+                if !tempUsername.isEmpty && tempUsername != username {
                     try await Firestore.firestore().collection("users").document(Auth.auth().currentUser?.uid ?? "").updateData([
-                        "username": username,
-                        "usernameLower": username.lowercased()
+                        "username": tempUsername,
+                        "usernameLower": tempUsername.lowercased()
                     ])
+                    username = tempUsername
                 }
                 
                 await MainActor.run {
@@ -370,12 +377,9 @@ struct EditProfileView: View {
 }
 
 #Preview {
-    NavigationView {
-        EditProfileView(
-            username: .constant("username"),
-            bio: .constant("bio"),
-            interests: .constant([]),
-            profileImageUrl: .constant(nil)
-        )
-    }
+    EditProfileView(
+        username: .constant("username"),
+        bio: .constant("bio"),
+        profileImageUrl: .constant(nil)
+    )
 } 

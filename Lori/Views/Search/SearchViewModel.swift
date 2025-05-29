@@ -8,9 +8,7 @@ class SearchViewModel: ObservableObject {
     @Published var searchText = ""
     @Published var searchResults: [User] = []
     @Published var recentSearches: [User] = []
-    @Published var suggestedUsers: [User] = []
     @Published var isLoading = false
-    @Published var isLoadingSuggestions = false
     @Published var error: Error?
     
     private let db = Firestore.firestore()
@@ -19,7 +17,6 @@ class SearchViewModel: ObservableObject {
     
     init() {
         loadRecentSearches()
-        loadSuggestedUsers()
         setupSearchPublisher()
     }
     
@@ -321,105 +318,6 @@ class SearchViewModel: ObservableObject {
         db.collection("userInteractions").addDocument(data: clickData) { error in
             if let error = error {
                 print("Profil tıklama analitiği kaydedilemedi: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    // Önerilen kullanıcıları yükle
-    func loadSuggestedUsers() {
-        guard let currentUserId = Auth.auth().currentUser?.uid else { return }
-        
-        isLoadingSuggestions = true
-        
-        Task {
-            do {
-                // Popüler kullanıcıları getir (takipçi sayısına göre)
-                let popularUsersQuery = try await db.collection("users")
-                    .whereField("followers", isGreaterThan: 0)
-                    .order(by: "followers", descending: true)
-                    .limit(to: 10)
-                    .getDocuments()
-                
-                var suggested: [User] = []
-                
-                for document in popularUsersQuery.documents {
-                    // Kendi hesabını önerme
-                    if document.documentID == currentUserId { continue }
-                    
-                    let data = document.data()
-                    
-                    let usernameLower = data["usernameLower"] as? String ?? (data["username"] as? String ?? "").lowercased()
-                    let user = User(
-                        id: document.documentID,
-                        username: data["username"] as? String ?? "",
-                        email: data["email"] as? String ?? "",
-                        profileImageUrl: data["profileImageUrl"] as? String,
-                        bio: data["bio"] as? String,
-                        followers: data["followers"] as? Int ?? 0,
-                        following: data["following"] as? Int ?? 0,
-                        createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
-                        isVerified: data["isVerified"] as? Bool ?? false,
-                        usernameLower: usernameLower
-                    )
-                    
-                    // Kullanıcının geçerli veriye sahip olup olmadığını kontrol et
-                    guard user.isValid else {
-                        print("Geçersiz kullanıcı verisi atlandı - UserID: \(user.id), Username: \(user.username)")
-                        continue
-                    }
-                    
-                    suggested.append(user)
-                }
-                
-                // Rastgele kullanıcılar ekle (her yenileme farklı sonuçlar için)
-                let randomUsersQuery = try await db.collection("users")
-                    .limit(to: 20)
-                    .getDocuments()
-                
-                var allUsers: [User] = []
-                for document in randomUsersQuery.documents {
-                    if document.documentID == currentUserId { continue }
-                    if suggested.contains(where: { $0.id == document.documentID }) { continue }
-                    
-                    let data = document.data()
-                    
-                    let usernameLower = data["usernameLower"] as? String ?? (data["username"] as? String ?? "").lowercased()
-                    let user = User(
-                        id: document.documentID,
-                        username: data["username"] as? String ?? "",
-                        email: data["email"] as? String ?? "",
-                        profileImageUrl: data["profileImageUrl"] as? String,
-                        bio: data["bio"] as? String,
-                        followers: data["followers"] as? Int ?? 0,
-                        following: data["following"] as? Int ?? 0,
-                        createdAt: (data["createdAt"] as? Timestamp)?.dateValue() ?? Date(),
-                        isVerified: data["isVerified"] as? Bool ?? false,
-                        usernameLower: usernameLower
-                    )
-                    
-                    // Kullanıcının geçerli veriye sahip olup olmadığını kontrol et
-                    guard user.isValid else {
-                        print("Geçersiz kullanıcı verisi atlandı - UserID: \(user.id), Username: \(user.username)")
-                        continue
-                    }
-                    
-                    allUsers.append(user)
-                }
-                
-                // Rastgele karıştır ve ekle
-                allUsers.shuffle()
-                let remainingSlots = max(0, 8 - suggested.count)
-                suggested.append(contentsOf: Array(allUsers.prefix(remainingSlots)))
-                
-                await MainActor.run {
-                    self.suggestedUsers = suggested
-                    self.isLoadingSuggestions = false
-                }
-            } catch {
-                await MainActor.run {
-                    self.isLoadingSuggestions = false
-                }
-                print("Önerilen kullanıcılar yüklenemedi: \(error.localizedDescription)")
             }
         }
     }

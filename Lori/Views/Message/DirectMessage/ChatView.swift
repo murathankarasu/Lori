@@ -13,6 +13,7 @@ struct ChatView: View {
     @State private var showingProfile = false
     @State private var showingDeleteConfirmation = false
     @State private var isNotificationsMuted = false
+    @State private var selectedImage: UIImage?
     var hideHeader: Bool = false
     
     var body: some View {
@@ -60,10 +61,6 @@ struct ChatView: View {
                                     Text(otherUserName)
                                         .font(.system(size: 16, weight: .semibold))
                                         .foregroundColor(.white)
-                                    
-                                    Text("Aktif") // Online durumu
-                                        .font(.system(size: 12))
-                                        .foregroundColor(.gray)
                                 }
                             }
                         }
@@ -224,6 +221,17 @@ struct ChatView: View {
             if let conversation = viewModel.conversations.first(where: { $0.id == conversationId }),
                let otherUserId = conversation.users.first(where: { $0 != viewModel.userId }) {
                 await viewModel.loadUserInfo(for: otherUserId)
+                
+                // Diğer kullanıcının profil resmini önceden yükle
+                if let user = viewModel.userCache[otherUserId], 
+                   let profileImageUrl = user.profileImageUrl, 
+                   !profileImageUrl.isEmpty,
+                   let url = URL(string: profileImageUrl) {
+                    Task { @MainActor in
+                        let prefetcher = ImagePrefetcher(urls: [url])
+                        prefetcher.start()
+                    }
+                }
             }
         }
         .actionSheet(isPresented: $showingActionSheet) {
@@ -241,7 +249,13 @@ struct ChatView: View {
             )
         }
         .sheet(isPresented: $showingImagePicker) {
-            // ImagePicker burada eklenebilir
+            ImagePicker(image: $selectedImage)
+        }
+        .onChange(of: selectedImage) { image in
+            if let image = image {
+                sendImageMessage(image: image)
+                selectedImage = nil // Reset after sending
+            }
         }
         .alert(isPresented: $isShowingError) {
             Alert(
@@ -278,6 +292,16 @@ struct ChatView: View {
            let otherUserId = conversation.users.first(where: { $0 != viewModel.userId }) {
             Task {
                 await viewModel.sendMessage(to: conversationId, receiverId: otherUserId)
+            }
+        }
+    }
+    
+    private func sendImageMessage(image: UIImage) {
+        // Bu konuşmadaki diğer kullanıcının ID'sini al
+        if let conversation = viewModel.conversations.first(where: { $0.id == conversationId }),
+           let otherUserId = conversation.users.first(where: { $0 != viewModel.userId }) {
+            Task {
+                await viewModel.sendImageMessage(image: image, to: conversationId, receiverId: otherUserId)
             }
         }
     }

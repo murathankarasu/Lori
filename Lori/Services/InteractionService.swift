@@ -7,6 +7,7 @@ class InteractionService {
     private let db = Firestore.firestore()
     private let emotionService = EmotionService.shared
     private let userEmotionService = UserEmotionService.shared
+    private let notificationService = NotificationService.shared
     
     private init() {}
     
@@ -98,6 +99,17 @@ class InteractionService {
                                 emotion: emotionAnalysis.emotion,
                                 confidence: emotionAnalysis.confidence
                             )
+                            
+                            // Beğeni bildirimi gönder (sadece kendi postunu beğenmiyorsa)
+                            if post.userId != userId {
+                                self.notificationService.sendSocialNotification(
+                                    type: .like,
+                                    from: userId,
+                                    to: post.userId,
+                                    postId: postId
+                                )
+                            }
+                            
                             // İşlem başarıyla tamamlandı
                             await MainActor.run {
                                 completion(!isLiked, nil)
@@ -241,6 +253,23 @@ class InteractionService {
                                 emotion: emotionAnalysis.emotion,
                                 confidence: emotionAnalysis.confidence
                             )
+                            
+                            // Post sahibine yorum bildirimi gönder (kendi yorumunu yapmıyorsa)
+                            if comment.userId != userId {
+                                // Post sahibini bul
+                                let postDoc = try await self.db.collection("posts").document(postId).getDocument()
+                                if let postData = postDoc.data(),
+                                   let postAuthorId = postData["userId"] as? String,
+                                   postAuthorId != userId {
+                                    self.notificationService.sendSocialNotification(
+                                        type: .comment,
+                                        from: userId,
+                                        to: postAuthorId,
+                                        postId: postId
+                                    )
+                                }
+                            }
+                            
                             // İşlem başarıyla tamamlandı
                             await MainActor.run {
                                 completion(nil)

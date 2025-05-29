@@ -28,6 +28,7 @@ class ProfileViewModel: ObservableObject {
     private var userListener: ListenerRegistration?
     private var followersListener: ListenerRegistration?
     private var followingListener: ListenerRegistration?
+    private let notificationService = NotificationService.shared
     
     init(userId: String? = nil) {
         let effectiveUserId = userId ?? Auth.auth().currentUser?.uid ?? ""
@@ -233,6 +234,14 @@ class ProfileViewModel: ObservableObject {
                     "followers": FieldValue.arrayUnion([currentUserId])
                 ])
                 followersCount += 1
+                
+                // Takip bildirimi gönder (sadece takip ettiğinde)
+                notificationService.sendSocialNotification(
+                    type: .follow,
+                    from: currentUserId,
+                    to: userId,
+                    postId: nil
+                )
             }
         } catch {
             // Hata durumunda UI'ı eski haline getir

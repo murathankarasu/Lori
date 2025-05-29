@@ -153,5 +153,6 @@ class KeywordAnalysisService {
 // Operation type enum to control when API calls are made
 public enum AnalyticsOperationType: String {
     case postCreation = "post_creation"
+    case profileImage = "profile_image"
     case other = "other"
 } 

@@ -230,73 +230,8 @@ struct SearchView: View {
                     }
                 }
                 
-                // Önerilen kullanıcılar bölümü
-                if !viewModel.suggestedUsers.isEmpty {
-                    VStack(alignment: .leading, spacing: 16) {
-                        HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Suggested Users")
-                                    .font(.system(size: 20, weight: .semibold))
-                                    .foregroundColor(.white)
-                                
-                                Text("Discover new people")
-                                    .font(.system(size: 14))
-                                    .foregroundColor(.gray)
-                            }
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                viewModel.loadSuggestedUsers()
-                            }) {
-                                Group {
-                                    if viewModel.isLoadingSuggestions {
-                                        ProgressView()
-                                            .scaleEffect(0.8)
-                                            .progressViewStyle(CircularProgressViewStyle(tint: .black))
-                                    } else {
-                                        Image(systemName: "arrow.clockwise")
-                                            .font(.system(size: 14, weight: .medium))
-                                            .rotationEffect(.degrees(viewModel.isLoadingSuggestions ? 360 : 0))
-                                            .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: viewModel.isLoadingSuggestions)
-                                    }
-                                }
-                                .foregroundColor(.black)
-                                .frame(width: 32, height: 32)
-                                .background(Color.white)
-                                .clipShape(Circle())
-                            }
-                            .disabled(viewModel.isLoadingSuggestions)
-                        }
-                        .padding(.horizontal, 20)
-                        
-                        LazyVStack(spacing: 0) {
-                            ForEach(viewModel.suggestedUsers) { user in
-                                UserCell(user: user, onTap: {
-                                    viewModel.navigateToProfile(user)
-                                }, onRemove: nil, showRemoveButton: false)
-                                
-                                if user.id != viewModel.suggestedUsers.last?.id {
-                                    Divider()
-                                        .background(Color.white.opacity(0.1))
-                                        .padding(.leading, 82)
-                                }
-                            }
-                        }
-                        .background(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(Color.white.opacity(0.03))
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 16)
-                                        .stroke(Color.white.opacity(0.08), lineWidth: 1)
-                                )
-                        )
-                        .padding(.horizontal, 20)
-                    }
-                }
-                
-                // Eğer hiç içerik yoksa
-                if viewModel.recentSearches.isEmpty && viewModel.suggestedUsers.isEmpty {
+                // Eğer son aramalar yoksa
+                if viewModel.recentSearches.isEmpty {
                     VStack(spacing: 24) {
                         VStack(spacing: 16) {
                             Image(systemName: "person.2.circle")
@@ -418,22 +353,42 @@ struct UserCell: View {
             onTap()
         }) {
             HStack(spacing: 16) {
-                // Profil fotoğrafı
+                // Profil fotoğrafı - Improved loading
                 KFImage(URL(string: user.profileImageUrl ?? ""))
                     .cacheMemoryOnly(false)
                     .cacheOriginalImage()
-                    .fade(duration: 0.25)
-                    .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 120, height: 120)))
+                    .fade(duration: 0.2)
+                    .setProcessor(DownsamplingImageProcessor(size: CGSize(width: 108, height: 108)))
                     .loadDiskFileSynchronously()
+                    .backgroundDecode()
+                    .onProgress { receivedSize, totalSize in
+                        // Progress handling if needed
+                    }
+                    .onSuccess { result in
+                        // Success handling if needed
+                    }
+                    .onFailure { error in
+                        print("Profile image load failed for user \(user.username): \(error)")
+                    }
                     .placeholder {
                         ZStack {
                             Circle()
-                                .fill(Color.white.opacity(0.1))
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(colors: [
+                                            Color.white.opacity(0.1),
+                                            Color.white.opacity(0.05)
+                                        ]),
+                                        startPoint: .topLeading,
+                                        endPoint: .bottomTrailing
+                                    )
+                                )
                             
                             Image(systemName: "person.fill")
                                 .font(.system(size: 24, weight: .medium))
                                 .foregroundColor(.gray)
                         }
+                        .frame(width: 54, height: 54)
                     }
                     .resizable()
                     .scaledToFill()
@@ -441,7 +396,17 @@ struct UserCell: View {
                     .clipShape(Circle())
                     .overlay(
                         Circle()
-                            .stroke(Color.white.opacity(0.15), lineWidth: 1)
+                            .stroke(
+                                LinearGradient(
+                                    gradient: Gradient(colors: [
+                                        Color.white.opacity(0.2),
+                                        Color.white.opacity(0.1)
+                                    ]),
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                ),
+                                lineWidth: 1
+                            )
                     )
                 
                 VStack(alignment: .leading, spacing: 6) {
