@@ -1,10 +1,9 @@
 //
 //  ContentView.swift
-//  Lori
+//  Lorien
 //
-//  Created by Murathan Karasu on 18.03.2025.
+//  Created by Murathan on 23.05.2025.
 //
-
 import SwiftUI
 import FirebaseAuth
 import Kingfisher
@@ -116,12 +115,8 @@ struct ContentView: View {
         ImageCache.default.clearDiskCache()
         ImageCache.default.clearMemoryCache()
         
-        // Önbellek indirme davranışı ayarla
-        let processor = CroppingImageProcessor(size: CGSize(width: 120, height: 120))
-            |> RoundCornerImageProcessor(cornerRadius: 60)
-        
+        // Global processor'ı kaldırdık - artık her KFImage kendi stilini belirleyecek
         KingfisherManager.shared.defaultOptions = [
-            .processor(processor),
             .scaleFactor(UIScreen.main.scale),
             .cacheOriginalImage,
             .diskCacheExpiration(.days(7)),
