@@ -102,6 +102,7 @@ struct PostView: View {
                     .resizable()
                     .aspectRatio(contentMode: .fill)
                     .frame(maxWidth: .infinity, minHeight: 200, maxHeight: 400)
+                    .clipped()
                     .background(Color.black)
                     .cornerRadius(16)
                     .onAppear {
