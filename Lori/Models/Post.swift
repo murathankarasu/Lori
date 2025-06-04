@@ -34,6 +34,33 @@ struct Post: Identifiable, Codable, Hashable, Equatable {
         return id ?? UUID().uuidString
     }
     
+    // Static relative time formatter
+    var relativeTimeString: String {
+        let calendar = Calendar.current
+        let now = Date()
+        let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear, .month, .year], from: timestamp, to: now)
+        
+        if let year = components.year, year >= 1 {
+            return "\(year) year\(year == 1 ? "" : "s") ago"
+        }
+        if let month = components.month, month >= 1 {
+            return "\(month) month\(month == 1 ? "" : "s") ago"
+        }
+        if let week = components.weekOfYear, week >= 1 {
+            return "\(week) week\(week == 1 ? "" : "s") ago"
+        }
+        if let day = components.day, day >= 1 {
+            return "\(day) day\(day == 1 ? "" : "s") ago"
+        }
+        if let hour = components.hour, hour >= 1 {
+            return "\(hour) hour\(hour == 1 ? "" : "s") ago"
+        }
+        if let minute = components.minute, minute >= 1 {
+            return "\(minute) minute\(minute == 1 ? "" : "s") ago"
+        }
+        return "Just now"
+    }
+    
     // Identifiable protokolü için
     var identifier: String {
         return uniqueId
@@ -165,50 +192,14 @@ struct Post: Identifiable, Codable, Hashable, Equatable {
 
     // Firestore'dan okumak için initializer
     init?(id: String, data: [String: Any]) {
-        guard let userId = data["userId"] as? String else {
+        guard let userId = data["userId"] as? String,
+              !userId.isEmpty else {
             print("Error creating Post (ID: \(id)): Missing or invalid 'userId'")
-            self.id = id
-            self.userId = ""
-            self.username = ""
-            self.content = ""
-            self.imageUrl = nil
-            self.profileImageUrl = nil
-            self.timestamp = Date()
-            self.likes = 0
-            self.comments = []
-            self.tags = []
-            self.category = "featured"
-            self.mentions = nil
-            self.interests = nil
-            self.emotionAnalysis = nil
-            self.isAd = false
-            self.adMetadata = nil
-            self.commentsCount = 0
-            self.likesCount = 0
-            self.keywords = nil
             return nil
         }
-        guard let username = data["username"] as? String else {
+        guard let username = data["username"] as? String,
+              !username.isEmpty else {
             print("Error creating Post (ID: \(id)): Missing or invalid 'username'")
-            self.id = id
-            self.userId = userId
-            self.username = ""
-            self.content = ""
-            self.imageUrl = nil
-            self.profileImageUrl = nil
-            self.timestamp = Date()
-            self.likes = 0
-            self.comments = []
-            self.tags = []
-            self.category = "featured"
-            self.mentions = nil
-            self.interests = nil
-            self.emotionAnalysis = nil
-            self.isAd = false
-            self.adMetadata = nil
-            self.commentsCount = 0
-            self.likesCount = 0
-            self.keywords = nil
             return nil
         }
         guard let content = data["content"] as? String else {

@@ -7,6 +7,7 @@
 import SwiftUI
 import FirebaseAuth
 import Kingfisher
+import UIKit
 
 struct ContentView: View {
     @State private var isLoggedIn = false
@@ -96,8 +97,20 @@ struct ContentView: View {
     
     private func setupAuthListener() {
         _ = Auth.auth().addStateDidChangeListener { _, user in
-            if user != nil {
-                isLoggedIn = true
+            if let user = user {
+                Task {
+                    do {
+                        try await user.reload()
+                        await MainActor.run {
+                            isLoggedIn = user.isEmailVerified
+                        }
+                    } catch {
+                        print("Auth listener: failed to reload user \(error.localizedDescription)")
+                        await MainActor.run {
+                            isLoggedIn = false
+                        }
+                    }
+                }
             } else {
                 isLoggedIn = false
             }

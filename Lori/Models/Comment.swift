@@ -9,6 +9,33 @@ struct Comment: Identifiable, Codable, Hashable {
     let content: String
     let timestamp: Date
     
+    // Static relative time formatter
+    var relativeTimeString: String {
+        let calendar = Calendar.current
+        let now = Date()
+        let components = calendar.dateComponents([.minute, .hour, .day, .weekOfYear, .month, .year], from: timestamp, to: now)
+        
+        if let year = components.year, year >= 1 {
+            return "\(year) year\(year == 1 ? "" : "s") ago"
+        }
+        if let month = components.month, month >= 1 {
+            return "\(month) month\(month == 1 ? "" : "s") ago"
+        }
+        if let week = components.weekOfYear, week >= 1 {
+            return "\(week) week\(week == 1 ? "" : "s") ago"
+        }
+        if let day = components.day, day >= 1 {
+            return "\(day) day\(day == 1 ? "" : "s") ago"
+        }
+        if let hour = components.hour, hour >= 1 {
+            return "\(hour) hour\(hour == 1 ? "" : "s") ago"
+        }
+        if let minute = components.minute, minute >= 1 {
+            return "\(minute) minute\(minute == 1 ? "" : "s") ago"
+        }
+        return "Just now"
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case postId
