@@ -6,6 +6,7 @@ struct NotificationCenterView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var selectedNotification: AppNotification?
     @State private var showingActionSheet = false
+    @State private var showingOptionsMenu = false
     
     var body: some View {
         ZStack {
@@ -29,6 +30,13 @@ struct NotificationCenterView: View {
                         .font(.system(size: 28, weight: .bold))
                         .foregroundColor(.white)
                     Spacer()
+                    
+                    // Three-dot menu button
+                    Button(action: { showingOptionsMenu = true }) {
+                        Image(systemName: "ellipsis.circle")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(.white)
+                    }
                 }
                 .padding(.top, (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first?.safeAreaInsets.top ?? 20 + 12)
                 .padding(.horizontal, 20)
@@ -75,6 +83,28 @@ struct NotificationCenterView: View {
         } message: {
             Text("This action cannot be undone.")
         }
+        .confirmationDialog("Notification Options", isPresented: $showingOptionsMenu, titleVisibility: .visible) {
+            Button("Mark All as Read") {
+                notificationService.markAllAsRead()
+            }
+            Button("Clear Badge") {
+                clearAppBadge()
+            }
+            Button("Delete All", role: .destructive) {
+                showingActionSheet = true
+            }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("Choose an action for your notifications")
+        }
+    }
+    
+    private func clearAppBadge() {
+        // Clear the app badge count
+        UIApplication.shared.applicationIconBadgeNumber = 0
+        
+        // Also mark all notifications as read to sync the state
+        notificationService.markAllAsRead()
     }
     
     private func deleteNotification(_ notification: AppNotification) {
