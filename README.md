@@ -1,116 +1,129 @@
 # Lori
 
-**Prepared by:**  
-**Murathan Karasu – Founder & Owner**
+Lori is a sophisticated social media platform built with Swift, focusing on user interaction, content moderation, and emotional intelligence. The platform combines modern social networking features with advanced AI-powered content analysis and user experience optimization.
 
----
+## 🌟 Features
 
-## Table of Contents
+### Core Functionality
+- **Post Management**: Create, share, and interact with posts
+- **Direct Messaging**: Real-time private messaging between users
+- **User Profiles**: Customizable user profiles with interest tracking
+- **Notifications**: Comprehensive notification system with in-app and push notifications
+- **Search**: Advanced search capabilities for posts and users
 
-1. Who Are We?  
-2. Mission & Vision  
-3. Business Model  
-4. Marketing Plan  
-5. E-Business Objective  
-6. Customer Acquisition Strategies  
-7. Competitor Analysis  
-8. Offline Marketplace & Logistics  
-9. Social Media Strategy  
-10. Platform Overview  
-11. Google Ads & SEO  
+### Advanced Features
+- **Content Moderation**
+  - Hate speech detection
+  - Disinformation analysis
+  - Media content analysis
+  - Keyword analysis
 
----
+### Emotional Intelligence
+- **Emotion Analysis**: AI-powered emotion detection in user interactions
+- **User Emotion Tracking**: Monitor and analyze user emotional patterns
+- **Recommendation Engine**: Personalized content recommendations based on user behavior
 
-## 1. Who Are We?  
-Lori is a next-generation social media startup built in 2025. It aims to create a safe, respectful, and informative digital environment.
+### Media Handling
+- **Media Analysis**: Advanced processing of images and videos
+- **Podcast Support**: Audio content management and processing
+- **Direct Message Media**: Secure media sharing in private conversations
 
-**Purpose:**  
-To eliminate disinformation and hate speech from digital platforms, while promoting empathy, verified content, and inclusive communities.
+## 🏗 Architecture
 
----
+The project follows a clean architecture pattern with clear separation of concerns:
 
-## 2. Mission & Vision
+### Services Layer
+- **Core Services**
+  - `DirectMessageService`: Manages private messaging
+  - `InteractionService`: Handles user interactions
+  - `CacheManager`: Optimizes data caching
+  - `NotificationCoreService`: Core notification functionality
 
-### Mission  
-To create a digital space where users can interact safely, share knowledge, and express themselves freely—without hate or misinformation.  
-*Utilizing AI moderation, ethical guidelines, and community participation.*
+- **Analysis Services**
+  - `DisinformationService`: Content verification
+  - `HateSpeechService`: Content moderation
+  - `EmotionService`: Emotional analysis
+  - `MediaAnalysisService`: Media content processing
 
-### Vision  
-To become one of the world’s most trusted social media platforms, influencing positive digital behavior with a user-first mindset.
+- **User Experience Services**
+  - `RecommendationService`: Content recommendations
+  - `UserEmotionService`: User emotion tracking
+  - `InAppNotificationService`: In-app notification management
 
----
+### Views Layer
+Organized into feature-specific directories:
+- `Post/`: Post-related views
+- `Message/`: Messaging interface
+- `Profile/`: User profile views
+- `Search/`: Search functionality
+- `Auth/`: Authentication views
+- `Common/`: Shared UI components
 
-## 3. Business Model  
-**Type:** Freemium + C2C (Consumer-to-Consumer)  
-**Revenue Streams:**  
-- Commissions from content creators  
-- Ethical ad placements  
-- Premium subscriptions for verified users or organizations  
+### Models Layer
+Core data models including:
+- `User`: User profile and preferences
+- `Post`: Content structure
+- `DirectMessage`: Private messaging
+- `Notification`: Notification system
+- `EmotionAnalysis`: Emotional data
+- `SupportTicket`: User support system
 
----
+## 🛠 Technical Stack
 
-## 4. Marketing Plan  
+- **Language**: Swift
+- **Architecture**: MVVM (Model-View-ViewModel)
+- **Database**: Firestore (based on FirestoreIndexes.swift)
+- **Media Processing**: Custom media analysis services
+- **AI Integration**: Multiple AI services for content analysis
 
-### Target Audience  
-- **Age:** 16 – 45  
-- **Income:** Middle to High  
-- **Interests:** Social awareness, digital well-being  
+## 🔒 Security Features
 
-### SWOT Analysis  
-- **Strengths:** AI moderation, unique positioning, trust-based  
-- **Weaknesses:** Moderation cost, trust-building time  
-- **Opportunities:** NGO/university partnerships, market demand  
-- **Threats:** Mainstream competition, AI error risks  
+- Content moderation
+- Hate speech detection
+- Disinformation prevention
+- Secure media handling
+- User privacy protection
 
-### 4P Analysis  
-- **Product:** Moderated, clean social media platform  
-- **Price:** Free basic, $5–10/month premium  
-- **Place:** Website, mobile app, city events  
-- **Promotion:** NGO partnerships, social campaigns, influencer marketing  
+## 📱 User Experience
 
----
+- Real-time notifications
+- In-app messaging
+- Emotional intelligence features
+- Personalized recommendations
+- Media-rich content support
 
-## 5. E-Business Objective  
-Scalable and ethical growth focusing on trust.  
-*Quality moderation prioritized over rapid user growth.*
+## 🚀 Getting Started
 
----
+1. Clone the repository
+2. Install required dependencies
+3. Set up Firebase configuration
+4. Configure necessary API keys
+5. Build and run the project
 
-## 6. Customer Acquisition Strategies  
-- Influencer promotions  
-- Google Ads (mental health, digital detox topics)  
-- Interactive social campaigns  
-- Beta programs via universities  
+## 📝 Requirements
 
----
+- iOS 14.0+
+- Xcode 12.0+
+- Swift 5.0+
+- Firebase account
+- Required API keys for various services
 
-## 7. Competitor Analysis  
-- **Direct:** X (Twitter), Reddit  
-- **Indirect:** Moderation-focused platforms  
-- **Lori's Edge:** Verified, ethical, AI-driven community  
+## 🤝 Contributing
 
----
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
 
-## 8. Offline Marketplace & Logistics  
-Currently digital-only. Offline activities include community events and workshops.
+## 📄 License
 
----
+This project is proprietary software. All rights reserved.
 
-## 9. Social Media Strategy  
-- Daily posts (educational, uplifting)  
-- Live expert sessions  
-- Karma-based engagement system  
+## 👥 Team
 
----
+Lori is developed and maintained by me and cursor.
 
-## 10. Platform Overview  
-- **Features:** Feed, account management, event registration, feedback/safety tools  
-- **Design Tools:** Figma  
+## 📞 Support
 
----
-
-## 11. Google Ads & SEO  
-- Safe media, digital wellness keywords  
-- SEO optimization using Yoast: meta tags, internal linking, keyword strategy  
-
----
+For support, please use the in-app support ticket system or contact the development team directly. 
