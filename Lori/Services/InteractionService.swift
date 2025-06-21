@@ -2,6 +2,9 @@ import Foundation
 import FirebaseFirestore
 import FirebaseAuth
 
+/// Kullanıcı etkileşimlerini yöneten servis
+/// Bu servis beğeni, yorum, görüntüleme gibi etkileşimleri işler
+/// Ayrıca duygu analizi ve bildirim gönderme işlemlerini de yapar
 class InteractionService {
     static let shared = InteractionService()
     private let db = Firestore.firestore()
@@ -15,6 +18,9 @@ class InteractionService {
     // MARK: - Like İşlemleri
     
     /// Post beğeni durumunu değiştirir (beğeni ekler veya kaldırır)
+    /// Bu fonksiyon toggle mantığıyla çalışır - eğer beğenilmişse kaldırır, beğenilmemişse ekler
+    /// Beğeni işlemi sırasında post'un duygusunu API ile analiz eder ve kullanıcı etkileşimini kaydeder
+    /// Ayrıca beğeni bildirimi gönderir (kendi postunu beğenmediği sürece)
     /// - Parameters:
     ///   - post: Beğeni yapılacak post
     ///   - isLiked: Mevcut beğeni durumu (true: beğenilmiş, false: beğenilmemiş)
@@ -33,35 +39,38 @@ class InteractionService {
         let postRef = db.collection("posts").document(postId)
         
         if isLiked {
-            // Remove like
+            // Beğeniyi kaldır
             likeRef.delete { error in
                 if let error = error {
                     completion(isLiked, error)
                     return
                 }
                 
-                // Decrease like count
+                // Beğeni sayısını azalt
                 postRef.updateData(["likes": FieldValue.increment(Int64(-1))]) { error in
                     if let error = error {
                         completion(isLiked, error)
                         return
                     }
                     
-                    // Record dislike interaction
+                    // Beğeni kaldırma etkileşimini kaydet
                     Task {
                         do {
-                            // Use post's current emotion or create random emotion
+                            // Post'un duygusunu API ile analiz et
                             let emotion: String
                             let confidence: Double
                             
-                            if let postEmotion = post.emotionAnalysis {
-                                emotion = postEmotion.emotion
-                                confidence = postEmotion.confidence
+                            if !post.content.isEmpty {
+                                // Post içeriğini API ile analiz et
+                                let emotionAnalysis = try await self.emotionService.analyzeEmotion(text: post.content, operationType: .like)
+                                emotion = emotionAnalysis.emotion
+                                confidence = emotionAnalysis.confidence
+                                print("🔍 Post emotion analysis for dislike: \(emotion) (confidence: \(confidence))")
                             } else {
-                                // Generate random emotion
-                                let emotions = ["joy", "fear", "anger", "love", "sadness", "surprise"]
-                                emotion = emotions.randomElement() ?? "joy"
-                                confidence = Double.random(in: 0.6...0.9)
+                                // Post içeriği yoksa varsayılan duygu kullan
+                                emotion = "Neşe (Joy)"
+                                confidence = 0.5
+                                print("🔍 No post content for emotion analysis, using default: \(emotion)")
                             }
                             
                             try await self.userEmotionService.saveInteraction(
@@ -71,13 +80,13 @@ class InteractionService {
                                 emotion: emotion,
                                 confidence: confidence
                             )
-                            // Operation completed successfully
+                            // İşlem başarıyla tamamlandı
                             await MainActor.run {
                                 completion(!isLiked, nil)
                             }
                         } catch {
                             print("Dislike interaction could not be saved: \(error)")
-                            // Even if there's an error, the unlike operation should be completed
+                            // Hata olsa bile beğeni kaldırma işlemi tamamlanmalı
                             await MainActor.run {
                                 completion(!isLiked, nil)
                             }
@@ -86,35 +95,38 @@ class InteractionService {
                 }
             }
         } else {
-            // Add like
+            // Beğeni ekle
             likeRef.setData([:]) { error in
                 if let error = error {
                     completion(isLiked, error)
                     return
                 }
                 
-                // Increase like count
+                // Beğeni sayısını artır
                 postRef.updateData(["likes": FieldValue.increment(Int64(1))]) { error in
                     if let error = error {
                         completion(isLiked, error)
                         return
                     }
                     
-                    // Record interaction
+                    // Etkileşimi kaydet ve bildirim gönder
                     Task {
                         do {
-                            // Use post's current emotion or create random emotion
+                            // Post'un duygusunu API ile analiz et
                             let emotion: String
                             let confidence: Double
                             
-                            if let postEmotion = post.emotionAnalysis {
-                                emotion = postEmotion.emotion
-                                confidence = postEmotion.confidence
+                            if !post.content.isEmpty {
+                                // Post içeriğini API ile analiz et
+                                let emotionAnalysis = try await self.emotionService.analyzeEmotion(text: post.content, operationType: .like)
+                                emotion = emotionAnalysis.emotion
+                                confidence = emotionAnalysis.confidence
+                                print("🔍 Post emotion analysis for like: \(emotion) (confidence: \(confidence))")
                             } else {
-                                // Generate random emotion
-                                let emotions = ["joy", "fear", "anger", "love", "sadness", "surprise"]
-                                emotion = emotions.randomElement() ?? "joy"
-                                confidence = Double.random(in: 0.6...0.9)
+                                // Post içeriği yoksa varsayılan duygu kullan
+                                emotion = "Neşe (Joy)"
+                                confidence = 0.5
+                                print("🔍 No post content for emotion analysis, using default: \(emotion)")
                             }
                             
                             try await self.userEmotionService.saveInteraction(
@@ -125,58 +137,13 @@ class InteractionService {
                                 confidence: confidence
                             )
                             
-                            // Send like notification (only if not liking own post)
-                            print("🔔 DEBUG: Checking if should send like notification")
-                            print("   - Post author ID: '\(post.userId)'")
-                            print("   - Current user ID: '\(userId)'")
-                            print("   - Post ID: '\(postId)'")
-                            print("   - Are they different? \(post.userId != userId)")
-                            
-                            if post.userId != userId {
-                                print("🔔 DEBUG: ✅ SENDING like notification")
-                                print("   - FROM: \(userId)")
-                                print("   - TO: \(post.userId)")
-                                
-                                self.notificationService.sendSocialNotification(
-                                    type: .like,
-                                    from: userId,
-                                    to: post.userId,
-                                    postId: postId
-                                )
-                                
-                                // Create in-app notification
-                                Task {
-                                    do {
-                                        // Get information of the user who liked
-                                        let userDoc = try await self.db.collection("users").document(userId).getDocument()
-                                        if let userData = userDoc.data(),
-                                           let senderName = userData["username"] as? String {
-                                            print("   - Sender name: \(senderName)")
-                                            print("   - Creating in-app notification for TARGET user: \(post.userId)")
-                                            
-                                            self.inAppNotificationService.createLikeNotification(
-                                                for: post.userId,
-                                                from: userId,
-                                                senderName: senderName,
-                                                postId: postId
-                                            )
-                                        }
-                                    } catch {
-                                        print("In-app notification could not be created: \(error)")
-                                    }
-                                }
-                            } else {
-                                print("🔔 DEBUG: ❌ NOT sending notification - user is liking their own post")
-                                print("   - Both IDs are: \(userId)")
-                            }
-                            
-                            // Operation completed successfully
+                            // İşlem başarıyla tamamlandı
                             await MainActor.run {
                                 completion(!isLiked, nil)
                             }
                         } catch {
                             print("Like interaction could not be saved: \(error)")
-                            // Even if there's an error, the like operation should be completed
+                            // Hata olsa bile beğeni işlemi tamamlanmalı
                             await MainActor.run {
                                 completion(!isLiked, nil)
                             }
@@ -190,9 +157,11 @@ class InteractionService {
     // MARK: - Beğeni Dinleme İşlemleri
     
     /// Bir postun beğeni sayısını ve kullanıcının beğeni durumunu dinler
+    /// Bu fonksiyon gerçek zamanlı güncellemeler sağlar
+    /// Firestore listener kullanarak beğeni değişikliklerini anında yakalar
     /// - Parameters:
     ///   - postId: Post ID
-    ///   - onUpdate: Güncelleme olduğunda çağrılacak closure
+    ///   - onUpdate: Güncelleme olduğunda çağrılacak closure (beğeni sayısı, kullanıcının beğeni durumu)
     /// - Returns: Dinleyici kaydı (remove() için kullanılabilir)
     func listenToLikes(for postId: String, onUpdate: @escaping (Int, Bool) -> Void) -> ListenerRegistration {
         let likesRef = db.collection("posts")
@@ -216,10 +185,13 @@ class InteractionService {
     // MARK: - Yorum İşlemleri
     
     /// Bir yorum ekler ve etkileşim olarak kaydeder
+    /// Bu fonksiyon önce nefret söylemi kontrolü yapar
+    /// Eğer nefret söylemi tespit edilirse yorumu eklemez
+    /// Yorum eklendikten sonra duygu analizi yapar ve bildirim gönderir
     /// - Parameters:
     ///   - comment: Eklenecek yorum
     ///   - post: Yorumun ekleneceği post
-    ///   - completion: İşlem tamamlandığında çağrılacak closure (Bool: başarılı mı, String?: hata mesajı)
+    ///   - completion: İşlem tamamlandığında çağrılacak closure (Error?: hata mesajı)
     func addComment(comment: Comment, to post: Post, completion: @escaping (Error?) -> Void) {
         guard let postId = post.id,
               let userId = Auth.auth().currentUser?.uid else {
@@ -245,7 +217,7 @@ class InteractionService {
                 
                 // API üzerinden kontrol
                 let response = try await HateSpeechService.shared.checkHateSpeech(text: comment.content)
-                // DÜZELTME: API'nin isHateSpeech değerine güvenme, her zaman kategori "1" kontrolü yap
+                // ÖNEMLİ: API'nin isHateSpeech değerine güvenme, her zaman kategori "1" kontrolü yap
                 let isHateSpeech = response.data.category == "1"
                 
                 if isHateSpeech {
@@ -265,13 +237,15 @@ class InteractionService {
                 
             } catch {
                 print("Hate speech check error: \(error)")
-                // Add comment even in case of error (don't block due to API error)
+                // API hatası durumunda bile yorumu ekle (API hatası nedeniyle engelleme)
                 await saveComment(comment: comment, postId: postId, userId: userId, completion: completion)
             }
         }
     }
     
     /// Yorumu kaydeder ve etkileşimi kaydeder
+    /// Bu fonksiyon yorumu Firestore'a kaydeder, yorum sayısını artırır
+    /// Duygu analizi yapar ve bildirim gönderir
     /// - Parameters:
     ///   - comment: Kaydedilecek yorum
     ///   - postId: Post ID
@@ -287,25 +261,25 @@ class InteractionService {
         let postRef = db.collection("posts").document(postId)
         
         do {
-            // Save comment
+            // Yorumu kaydet
             try commentRef.setData(from: comment) { error in
                 if let error = error {
                     completion(error)
                     return
                 }
                 
-                // Increase comment count
+                // Yorum sayısını artır
                 postRef.updateData(["comments": FieldValue.increment(Int64(1))]) { error in
                     if let error = error {
                         completion(error)
                         return
                     }
                     
-                    // Record interaction and perform emotion analysis
+                    // Etkileşimi kaydet ve duygu analizi yap
                     Task {
                         do {
-                            // Make API call for comment
-                            let emotionAnalysis = try await self.emotionService.analyzeEmotion(text: comment.content, operationType: .other)
+                            // Yorum için API çağrısı yap
+                            let emotionAnalysis = try await self.emotionService.analyzeEmotion(text: comment.content, operationType: .comment)
                             try await self.userEmotionService.saveInteraction(
                                 userId: userId,
                                 postId: postId,
@@ -314,46 +288,13 @@ class InteractionService {
                                 confidence: emotionAnalysis.confidence
                             )
                             
-                            // Send comment notification to post owner (if not commenting on own post)
-                            // Find post owner
-                            let postDoc = try await self.db.collection("posts").document(postId).getDocument()
-                            if let postData = postDoc.data(),
-                               let postAuthorId = postData["userId"] as? String,
-                               postAuthorId != userId {
-                                self.notificationService.sendSocialNotification(
-                                    type: .comment,
-                                    from: userId,
-                                    to: postAuthorId,
-                                    postId: postId
-                                )
-                                
-                                // Create in-app notification
-                                Task {
-                                    do {
-                                        // Get information of the user who commented
-                                        let userDoc = try await self.db.collection("users").document(userId).getDocument()
-                                        if let userData = userDoc.data(),
-                                           let senderName = userData["username"] as? String {
-                                            self.inAppNotificationService.createCommentNotification(
-                                                for: postAuthorId,
-                                                from: userId,
-                                                senderName: senderName,
-                                                postId: postId
-                                            )
-                                        }
-                                    } catch {
-                                        print("In-app notification could not be created: \(error)")
-                                    }
-                                }
-                            }
-                            
-                            // Operation completed successfully
+                            // İşlem başarıyla tamamlandı
                             await MainActor.run {
                                 completion(nil)
                             }
                         } catch {
                             print("Comment interaction could not be saved: \(error)")
-                            // Even if there's an error, the comment should have been added
+                            // Hata olsa bile yorum eklenmiş olmalı
                             await MainActor.run {
                                 completion(nil)
                             }
@@ -369,9 +310,11 @@ class InteractionService {
     // MARK: - Yorum Dinleme İşlemleri
     
     /// Bir postun yorumlarını dinler
+    /// Bu fonksiyon gerçek zamanlı yorum güncellemeleri sağlar
+    /// Yorumlar tarih sırasına göre sıralanır (en yeni önce)
     /// - Parameters:
     ///   - postId: Post ID
-    ///   - onUpdate: Güncelleme olduğunda çağrılacak closure
+    ///   - onUpdate: Güncelleme olduğunda çağrılacak closure (yorum listesi)
     /// - Returns: Dinleyici kaydı (remove() için kullanılabilir)
     func listenToComments(for postId: String, onUpdate: @escaping ([Comment]) -> Void) -> ListenerRegistration {
         let commentsRef = db.collection("posts")
@@ -392,7 +335,9 @@ class InteractionService {
     
     // MARK: - Görüntüleme Etkileşimi
     
-    /// Post görüntüleme etkileşimini kaydeder
+    /// Post görüntüleme sayısını artırır (ana feed için)
+    /// Bu fonksiyon sadece görüntüleme sayısını artırır, duygu analizi yapmaz
+    /// Ana feed'de post görüntülendiğinde kullanılır
     /// - Parameters:
     ///   - post: Görüntülenen post
     func recordViewInteraction(for post: Post) {
@@ -434,6 +379,87 @@ class InteractionService {
                             print("Görüntülenme sayısı güncellenirken hata: \(error.localizedDescription)")
                         }
                     }
+                }
+            }
+        }
+    }
+    
+    /// Post detay görüntüleme etkileşimini kaydeder (post detail sayfası için)
+    /// Bu fonksiyon post detayına bakıldığında hem görüntüleme sayısını artırır hem de duygu analizi yapar
+    /// Sadece post detail sayfasında kullanılır
+    /// - Parameters:
+    ///   - post: Detayı görüntülenen post
+    func recordDetailViewInteraction(for post: Post) {
+        guard let postId = post.id,
+              let userId = Auth.auth().currentUser?.uid else { return }
+        
+        // Post'un views alt koleksiyonunda kullanıcının görüntüleme kaydını kontrol et
+        let viewRef = db.collection("posts")
+            .document(postId)
+            .collection("views")
+            .document(userId)
+        
+        // Önce kullanıcının daha önce görüntüleyip görüntülemediğini kontrol et
+        viewRef.getDocument { [weak self] snapshot, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Görüntüleme kontrolü sırasında hata: \(error.localizedDescription)")
+                return
+            }
+            
+            // Eğer kullanıcı daha önce görüntülemediyse
+            if snapshot?.exists == false {
+                // Görüntüleme kaydını oluştur
+                viewRef.setData([
+                    "timestamp": FieldValue.serverTimestamp(),
+                    "userId": userId
+                ]) { error in
+                    if let error = error {
+                        print("Görüntüleme kaydı oluşturulurken hata: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    // Post'un toplam görüntülenme sayısını artır
+                    self.db.collection("posts").document(postId).updateData([
+                        "viewCount": FieldValue.increment(Int64(1))
+                    ]) { error in
+                        if let error = error {
+                            print("Görüntülenme sayısı güncellenirken hata: \(error.localizedDescription)")
+                        }
+                    }
+                }
+            }
+            
+            // Post detayına bakıldığında duygu analizi yap ve etkileşimi kaydet (her zaman)
+            Task {
+                do {
+                    let emotion: String
+                    let confidence: Double
+                    
+                    if !post.content.isEmpty {
+                        // Post içeriğini API ile analiz et
+                        let emotionAnalysis = try await self.emotionService.analyzeEmotion(text: post.content, operationType: .like)
+                        emotion = emotionAnalysis.emotion
+                        confidence = emotionAnalysis.confidence
+                        print("🔍 Post emotion analysis for detail view: \(emotion) (confidence: \(confidence))")
+                    } else {
+                        // Post içeriği yoksa varsayılan duygu kullan
+                        emotion = "joy"
+                        confidence = 0.5
+                        print("🔍 No post content for emotion analysis, using default: \(emotion)")
+                    }
+                    
+                    try await self.userEmotionService.saveInteraction(
+                        userId: userId,
+                        postId: postId,
+                        interactionType: .viewDetail,
+                        emotion: emotion,
+                        confidence: confidence
+                    )
+                    print("✅ Detail view interaction saved with emotion: \(emotion)")
+                } catch {
+                    print("Detail view interaction could not be saved: \(error)")
                 }
             }
         }

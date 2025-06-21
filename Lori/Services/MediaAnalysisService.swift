@@ -54,6 +54,7 @@ struct SightengineError: Codable {
     let message: String?
 }
 
+/// Medya analizi hataları
 enum MediaAnalysisError: LocalizedError {
     case networkError(String)
     case invalidURL(String)
@@ -89,28 +90,32 @@ enum MediaAnalysisError: LocalizedError {
     }
 }
 
+/// Medya içerik analizi servisi
+/// Bu servis Sightengine API kullanarak görsellerde uygunsuz içerik tespiti yapar
+/// NSFW, şiddet, silah, kan gibi içerikleri tespit eder
+/// Retry mekanizması ve cache sistemi ile güvenilirlik sağlar
 class MediaAnalysisService {
-    // Sightengine API Configuration
+    // Sightengine API Konfigürasyonu
     private let sightengineAPIURL = "https://api.sightengine.com/1.0/check.json"
-    private let apiUser = "1381822354" // Replace with your actual API user
-    private let apiSecret = "4QqdF2a8TSyJMdE2hGDAd3CCpTcHsPHH" // Replace with your actual API secret
+    private let apiUser = "1381822354" // Gerçek API kullanıcı adınızla değiştirin
+    private let apiSecret = "4QqdF2a8TSyJMdE2hGDAd3CCpTcHsPHH" // Gerçek API şifrenizle değiştirin
     
     private let logger = Logger(subsystem: "com.lorien.app", category: "MediaAnalysis")
     
-    // Configuration constants
-    private let maxImageSizeBytes: Int = 8_000_000 // 8MB max for Sightengine
+    // Konfigürasyon sabitleri
+    private let maxImageSizeBytes: Int = 8_000_000 // Sightengine için 8MB maksimum
     private let compressionQuality: CGFloat = 0.9
-    private let maxDimension: CGFloat = 2048 // Higher resolution for better accuracy
-    private let baseTimeoutInterval: TimeInterval = 30 // Sightengine is much faster
+    private let maxDimension: CGFloat = 2048 // Daha iyi doğruluk için yüksek çözünürlük
+    private let baseTimeoutInterval: TimeInterval = 30 // Sightengine çok daha hızlı
     private let maxTimeoutInterval: TimeInterval = 60
     
-    // Content moderation thresholds
+    // İçerik moderasyon eşikleri
     private let nsfwThreshold: Double = 0.5
     private let violenceThreshold: Double = 0.5
     private let weaponThreshold: Double = 0.5
-    private let goreThreshold: Double = 0.3 // Lower threshold for gore (more strict)
+    private let goreThreshold: Double = 0.3 // Kan için daha düşük eşik (daha katı)
     
-    // Add cache for image analysis results
+    // Görsel analizi sonuçları için cache
     private var imageCache: [String: Bool] = [:]
     
     // API durumunu kontrol etmek için
@@ -120,8 +125,12 @@ class MediaAnalysisService {
     private let maxRetries: Int = 3
     private let retryDelay: TimeInterval = 2.0
 
+    /// Belirli HTTP durum kodları için retry yapılıp yapılmayacağını belirler
+    /// 5xx hataları ve belirli 4xx hataları için retry yapar
+    /// - Parameter statusCode: HTTP durum kodu
+    /// - Returns: Bool - Retry yapılacak mı
     private func shouldRetry(statusCode: Int) -> Bool {
-        // Retry on 5xx errors and specific 4xx errors that might be temporary
+        // 5xx hataları ve geçici olabilecek belirli 4xx hataları için retry
         return (statusCode >= 500 && statusCode < 600) || 
                (statusCode == 429) || // Too Many Requests
                (statusCode == 408) || // Request Timeout
@@ -130,8 +139,12 @@ class MediaAnalysisService {
                (statusCode == 504)    // Gateway Timeout
     }
 
+    /// Ağ hataları için retry yapılıp yapılmayacağını belirler
+    /// Timeout ve ağ bağlantı sorunları için retry yapar
+    /// - Parameter error: Ağ hatası
+    /// - Returns: Bool - Retry yapılacak mı
     private func shouldRetryOnNetworkError(_ error: Error) -> Bool {
-        // Retry on timeout and network connectivity issues
+        // Timeout ve ağ bağlantı sorunları için retry
         let nsError = error as NSError
         return nsError.domain == NSURLErrorDomain && (
             nsError.code == NSURLErrorTimedOut ||
@@ -141,19 +154,30 @@ class MediaAnalysisService {
         )
     }
 
+    /// Retry gecikmesini hesaplar
+    /// Exponential backoff ile jitter ekler
+    /// - Returns: TimeInterval - Gecikme süresi
     private func getRetryDelay() -> TimeInterval {
-        // Exponential backoff with jitter
+        // Exponential backoff ile jitter
         let baseDelay = retryDelay * pow(2.0, Double(retryCount))
         let jitter = Double.random(in: 0...0.3) * baseDelay
-        return min(baseDelay + jitter, 15.0) // Cap at 15 seconds
+        return min(baseDelay + jitter, 15.0) // 15 saniye ile sınırla
     }
 
+    /// Retry durumunu sıfırlar
+    /// API'nin tekrar kullanılabilir olduğunu işaretler
     private func resetRetryState() {
         retryCount = 0
         isApiAvailable = true
         lastApiCheck = nil
     }
 
+    /// Görseli sıkıştırır ve yeniden boyutlandırır
+    /// Bu fonksiyon API'ye gönderilecek görseli optimize eder
+    /// Maksimum boyut sınırlarını aşmamak için sıkıştırma yapar
+    /// - Parameter imageData: İşlenecek görsel verisi
+    /// - Returns: Data - İşlenmiş görsel verisi
+    /// - Throws: MediaAnalysisError - Görsel işleme hatası
     private func compressAndResizeImage(_ imageData: Data) throws -> Data {
         guard let image = UIImage(data: imageData) else {
             throw MediaAnalysisError.imageProcessingError("Unsupported image format")
@@ -162,7 +186,7 @@ class MediaAnalysisService {
         let originalSize = image.size
         logger.info("Original image size: \(originalSize.width)x\(originalSize.height), Data size: \(imageData.count) bytes")
         
-        // Calculate new size if needed
+        // Gerekirse yeni boyutu hesapla
         var newSize = originalSize
         if originalSize.width > maxDimension || originalSize.height > maxDimension {
             let ratio = min(maxDimension / originalSize.width, maxDimension / originalSize.height)
@@ -170,7 +194,7 @@ class MediaAnalysisService {
             logger.info("Image will be resized: \(newSize.width)x\(newSize.height)")
         }
         
-        // Resize if necessary
+        // Gerekirse yeniden boyutlandır
         var processedImage = image
         if newSize != originalSize {
             UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
@@ -179,11 +203,11 @@ class MediaAnalysisService {
             UIGraphicsEndImageContext()
         }
         
-        // Compress
+        // Sıkıştır
         var quality = compressionQuality
         var compressedData = processedImage.jpegData(compressionQuality: quality)
         
-        // Gradually reduce quality if still too large
+        // Hala çok büyükse kaliteyi kademeli olarak azalt
         while let data = compressedData, data.count > maxImageSizeBytes && quality > 0.2 {
             quality -= 0.1
             compressedData = processedImage.jpegData(compressionQuality: quality)
@@ -198,23 +222,32 @@ class MediaAnalysisService {
         return finalData
     }
 
+    /// Görsel boyutuna göre timeout hesaplar
+    /// Büyük görseller için daha uzun timeout süresi verir
+    /// - Parameter dataSize: Görsel veri boyutu
+    /// - Returns: TimeInterval - Timeout süresi
     private func calculateTimeoutForImageSize(_ dataSize: Int) -> TimeInterval {
-        // Dynamic timeout based on image size (Sightengine is much faster)
+        // Görsel boyutuna göre dinamik timeout (Sightengine çok daha hızlı)
         let sizeMB = Double(dataSize) / 1_000_000.0
-        let dynamicTimeout = baseTimeoutInterval + (sizeMB * 5.0) // Add 5 seconds per MB
+        let dynamicTimeout = baseTimeoutInterval + (sizeMB * 5.0) // MB başına 5 saniye ekle
         return min(dynamicTimeout, maxTimeoutInterval)
     }
 
+    /// Sightengine API yanıtından güvenlik değerlendirmesi yapar
+    /// NSFW, şiddet, silah, kan içeriklerini kontrol eder
+    /// Belirlenen eşik değerlerine göre güvenli/güvensiz kararı verir
+    /// - Parameter response: Sightengine API yanıtı
+    /// - Returns: Bool - Görsel güvenli mi (true: güvenli, false: güvensiz)
     private func evaluateSafetyFromSightengineResponse(_ response: SightengineResponse) -> Bool {
         logger.info("Sightengine response being evaluated: \(String(describing: response))")
         
-        // Check for API errors
+        // API hatalarını kontrol et
         if let error = response.error {
             logger.error("Sightengine API error: \(error.message ?? "Unknown error")")
-            return true // Default to safe on API errors
+            return true // API hatalarında varsayılan olarak güvenli
         }
         
-        // Check NSFW content
+        // NSFW içeriği kontrol et
         if let nudity = response.nudity {
             let sexualActivity: Double = nudity.sexual_activity ?? 0.0
             let sexualDisplay: Double = nudity.sexual_display ?? 0.0
@@ -224,13 +257,13 @@ class MediaAnalysisService {
             if sexualActivity > nsfwThreshold || 
                sexualDisplay > nsfwThreshold || 
                erotica > nsfwThreshold ||
-               suggestive > (nsfwThreshold + 0.2) { // Higher threshold for suggestive
+               suggestive > (nsfwThreshold + 0.2) { // Suggestive için daha yüksek eşik
                 logger.info("NSFW content detected - Sexual Activity: \(sexualActivity), Sexual Display: \(sexualDisplay), Erotica: \(erotica), Suggestive: \(suggestive)")
                 return false
             }
         }
         
-        // Check violence
+        // Şiddet kontrolü
         if let violence = response.violence, let violenceProb: Double = violence.prob {
             if violenceProb > violenceThreshold {
                 logger.info("Violence content detected - Probability: \(violenceProb)")
@@ -238,7 +271,7 @@ class MediaAnalysisService {
             }
         }
         
-        // Check weapons
+        // Silah kontrolü
         if let weapon = response.weapon, let weaponProb: Double = weapon.prob {
             if weaponProb > weaponThreshold {
                 logger.info("Weapon content detected - Probability: \(weaponProb)")
@@ -246,7 +279,7 @@ class MediaAnalysisService {
             }
         }
         
-        // Check gore
+        // Kan kontrolü
         if let gore = response.gore, let goreProb: Double = gore.prob {
             if goreProb > goreThreshold {
                 logger.info("Gore content detected - Probability: \(goreProb)")
@@ -258,45 +291,54 @@ class MediaAnalysisService {
         return true
     }
 
+    /// Görsel verisini analiz eder
+    /// Bu fonksiyon Sightengine API kullanarak görselde uygunsuz içerik tespiti yapar
+    /// Sadece post oluşturma ve profil resmi işlemleri için API çağrısı yapar
+    /// Diğer işlemler için cache'den sonuç döner veya güvenli varsayar
+    /// - Parameters:
+    ///   - imageData: Analiz edilecek görsel verisi
+    ///   - operationType: İşlem türü (post oluşturma, profil resmi, diğer)
+    /// - Returns: Bool - Görsel güvenli mi (true: güvenli, false: güvensiz)
+    /// - Throws: MediaAnalysisError - Ağ hatası, API hatası, kimlik doğrulama hatası
     func analyzeImageData(_ imageData: Data, operationType: AnalyticsOperationType = .other) async throws -> Bool {
-        // Validate API credentials
+        // API kimlik bilgilerini doğrula
         guard apiUser != "YOUR_SIGHTENGINE_API_USER" && apiSecret != "YOUR_SIGHTENGINE_API_SECRET" else {
             logger.error("Sightengine API credentials not set")
             throw MediaAnalysisError.invalidCredentials
         }
         
-        // Generate a hash for the image data to use as cache key
+        // Görsel verisi için hash oluştur (cache anahtarı olarak kullan)
         let imageHash: String = SHA256.hash(data: imageData).compactMap { String(format: "%02x", $0) }.joined()
         
         logger.info("Starting Sightengine image analysis, Operation type: \(operationType.rawValue), Image size: \(imageData.count) bytes")
         
-        // Check API availability
+        // API kullanılabilirliğini kontrol et
         if !isApiAvailable {
-            // If last check was more than 5 minutes ago, try again
+            // Son kontrol 5 dakikadan eskiyse tekrar dene
             if let lastCheck = lastApiCheck, Date().timeIntervalSince(lastCheck) > 300 {
                 resetRetryState()
                 logger.info("Sightengine API being checked again")
             } else {
                 logger.warning("Sightengine API currently unavailable, returning cached result")
-                return true // Default to safe if API is unavailable
+                return true // API kullanılamıyorsa varsayılan olarak güvenli
             }
         }
         
-        // Only make API calls for post creation and profile images
+        // Sadece post oluşturma ve profil resimleri için API çağrısı yap
         guard operationType == .postCreation || operationType == .profileImage else {
             logger.info("Sightengine API call skipped: Only called for post creation and profile image")
             
-            // Check if we have a cached result for this image
+            // Bu görsel için cache'de sonuç var mı kontrol et
             if let cachedResult = imageCache[imageHash] {
                 logger.info("Using cached image analysis result")
                 return cachedResult
             }
             
-            // Default to safe for other operations to avoid API costs
+            // Diğer işlemler için API maliyetini önlemek amacıyla güvenli varsay
             return true
         }
         
-        // Check cache first
+        // Önce cache'i kontrol et
         if let cachedResult = imageCache[imageHash] {
             logger.info("Using cached Sightengine analysis result")
             return cachedResult
@@ -307,13 +349,13 @@ class MediaAnalysisService {
             throw MediaAnalysisError.invalidURL("Sightengine API URL invalid.")
         }
         
-        // Process and compress the image
+        // Görseli işle ve sıkıştır
         let processedImageData: Data
         do {
             processedImageData = try compressAndResizeImage(imageData)
         } catch {
             logger.error("Image processing error: \(error.localizedDescription)")
-            // If image processing fails, try with original data
+            // Görsel işleme başarısız olursa orijinal veriyle dene
             processedImageData = imageData
         }
         
@@ -322,15 +364,15 @@ class MediaAnalysisService {
         let boundary = UUID().uuidString
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
-        // Dynamic timeout based on image size
+        // Görsel boyutuna göre dinamik timeout
         let timeoutInterval = calculateTimeoutForImageSize(processedImageData.count)
         request.timeoutInterval = timeoutInterval
         logger.info("Sightengine API timeout set: \(timeoutInterval) seconds")
 
-        // Create multipart form data for Sightengine API
+        // Sightengine API için multipart form data oluştur
         var body = Data()
         
-        // Add API credentials
+        // API kimlik bilgilerini ekle
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"api_user\"\r\n\r\n".data(using: .utf8)!)
         body.append("\(apiUser)\r\n".data(using: .utf8)!)
@@ -339,12 +381,12 @@ class MediaAnalysisService {
         body.append("Content-Disposition: form-data; name=\"api_secret\"\r\n\r\n".data(using: .utf8)!)
         body.append("\(apiSecret)\r\n".data(using: .utf8)!)
         
-        // Add models to check
+        // Kontrol edilecek modelleri ekle
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"models\"\r\n\r\n".data(using: .utf8)!)
         body.append("nudity-2.0,violence,weapon,gore\r\n".data(using: .utf8)!)
         
-        // Add image file
+        // Görsel dosyasını ekle
         body.append("--\(boundary)\r\n".data(using: .utf8)!)
         body.append("Content-Disposition: form-data; name=\"media\"; filename=\"image.jpg\"\r\n".data(using: .utf8)!)
         body.append("Content-Type: image/jpeg\r\n\r\n".data(using: .utf8)!)
@@ -374,18 +416,18 @@ class MediaAnalysisService {
                 let responseBody = String(data: data, encoding: .utf8)
                 logger.error("Sightengine analysis failed, status code: \(httpResponse.statusCode), response: \(responseBody ?? "empty")")
                 
-                // Check for authentication errors
+                // Kimlik doğrulama hatalarını kontrol et
                 if httpResponse.statusCode == 401 || httpResponse.statusCode == 403 {
                     throw MediaAnalysisError.authenticationError("Sightengine API authentication error")
                 }
                 
-                // Mark API as unavailable
+                // Sunucu hatalarında API'yi kullanılamaz olarak işaretle
                 if httpResponse.statusCode >= 500 {
                     isApiAvailable = false
                     lastApiCheck = Date()
                     logger.warning("Sightengine API marked as temporarily unavailable due to server error")
                     
-                    // Return safe result for server errors to not block user experience
+                    // Sunucu hatalarında kullanıcı deneyimini engellememek için güvenli sonuç döndür
                     logger.info("Returning safe result due to server error")
                     return true
                 }
@@ -393,7 +435,7 @@ class MediaAnalysisService {
                 throw MediaAnalysisError.analysisFailed(statusCode: httpResponse.statusCode, message: responseBody)
             }
             
-            // Reset retry state on success
+            // Başarıda retry durumunu sıfırla
             resetRetryState()
             
             do {
@@ -404,7 +446,7 @@ class MediaAnalysisService {
                 
                 logger.info("Sightengine image analysis result: \(isSafe ? "Safe" : "Unsafe")")
                 
-                // Cache the result
+                // Sonucu cache'le
                 imageCache[imageHash] = isSafe
                 
                 return isSafe
@@ -418,7 +460,7 @@ class MediaAnalysisService {
         } catch {
             logger.error("Sightengine analysis encountered network error: \(error.localizedDescription)")
             
-            // Retry on network errors (including timeouts)
+            // Ağ hatalarında retry (timeout dahil)
             if shouldRetryOnNetworkError(error) && self.retryCount < self.maxRetries {
                 self.retryCount += 1
                 let delay = getRetryDelay()
@@ -427,7 +469,7 @@ class MediaAnalysisService {
                 return try await analyzeImageData(imageData, operationType: operationType)
             }
             
-            // If all retries failed, mark API as unavailable and return safe result
+            // Tüm denemeler başarısız olursa API'yi kullanılamaz olarak işaretle ve güvenli sonuç döndür
             if self.retryCount >= self.maxRetries {
                 isApiAvailable = false
                 lastApiCheck = Date()

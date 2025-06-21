@@ -1,10 +1,12 @@
 import Foundation
 
+/// Nefret söylemi tespiti için kullanılan servis
+/// Bu servis hem yerel CSV tabanlı kontrol hem de uzak API kontrolü yapar
 public class HateSpeechService {
     static let shared = HateSpeechService()
     private let baseURL = "https://hate-speech-service-main-services.up.railway.app/"
     private let session: URLSession
-    private var bannedWords: [String: String] = [:]
+    private var bannedWords: [String: String] = [:] // Yasaklı kelimeler ve kategorileri
     
     public init() {
         let config = URLSessionConfiguration.default
@@ -19,9 +21,11 @@ public class HateSpeechService {
             "Content-Type": "application/json"
         ]
         self.session = URLSession(configuration: config)
-        loadBannedWords()
+        loadBannedWords() // Uygulama başlatılırken yasaklı kelimeleri yükle
     }
     
+    /// CSV dosyasından yasaklı kelimeleri yükler
+    /// Bu fonksiyon uygulama başlatılırken çağrılır ve yasaklı kelimeleri hafızaya yükler
     private func loadBannedWords() {
         guard let path = Bundle.main.path(forResource: "banned_words", ofType: "csv") else {
             print("❌ Banned words file not found")
@@ -60,6 +64,10 @@ public class HateSpeechService {
         }
     }
     
+    /// Metni yerel CSV tabanlı yasaklı kelime kontrolü yapar
+    /// Bu fonksiyon hızlı bir ön kontrol sağlar ve API çağrısı yapmadan önce kullanılır
+    /// - Parameter text: Kontrol edilecek metin
+    /// - Returns: (containsHateSpeech: Bool, category: String?, word: String?) - Nefret söylemi içeriyor mu, kategori ve bulunan kelime
     func checkLocalHateSpeech(_ text: String) -> (containsHateSpeech: Bool, category: String?, word: String?) {
         print("\n💬 LOCAL HATE SPEECH CHECK STARTED: \"\(text)\"")
         let words = text.lowercased().components(separatedBy: .whitespacesAndNewlines)
@@ -80,16 +88,23 @@ public class HateSpeechService {
         return (false, nil, nil)
     }
     
+    /// Ana nefret söylemi kontrol fonksiyonu
+    /// Önce yerel CSV kontrolü yapar, eğer nefret söylemi bulunursa hemen döner
+    /// Bulunmazsa uzak API'ye istek gönderir
+    /// - Parameter text: Kontrol edilecek metin
+    /// - Returns: HateSpeechResponse - API'den gelen detaylı analiz sonucu
+    /// - Throws: HateSpeechError - Ağ hatası, sunucu hatası vb.
     func checkHateSpeech(text: String) async throws -> HateSpeechResponse {
         print("\n🔴 HATE SPEECH CHECK STARTED 🔴")
         print("Text being checked: \(text)")
         
-        // First CSV-based check
+        // İlk olarak CSV tabanlı hızlı kontrol yap
         let localCheck = checkLocalHateSpeech(text)
         if localCheck.containsHateSpeech {
             print("✅ CSV check: Hate speech detected")
             
-            // Create metrics
+            // CSV kontrolünde nefret söylemi bulunduysa API çağrısı yapmadan hemen döner
+            // Bu performans optimizasyonu sağlar
             let metrics = HateSpeechResponse.HateSpeechData.Details.Metrics(
                 wordCount: text.components(separatedBy: .whitespacesAndNewlines).count,
                 averageWordLength: Double(text.count) / Double(text.components(separatedBy: .whitespacesAndNewlines).count),
@@ -97,7 +112,6 @@ public class HateSpeechService {
                 capitalizationRatio: 0.0
             )
             
-            // Create details
             let details = HateSpeechResponse.HateSpeechData.Details(
                 emojiCount: 0,
                 textLength: text.count,
@@ -106,7 +120,6 @@ public class HateSpeechService {
                 metrics: metrics
             )
             
-            // Create HateSpeechData
             let hateSpeechData = HateSpeechResponse.HateSpeechData(
                 isHateSpeech: true,
                 confidence: 1.0,
@@ -114,7 +127,6 @@ public class HateSpeechService {
                 details: details
             )
             
-            // Create HateSpeechResponse and return
             return HateSpeechResponse(
                 status: "success",
                 data: hateSpeechData,
@@ -124,7 +136,7 @@ public class HateSpeechService {
         
         print("ℹ️ CSV check: Hate speech not detected, proceeding to API check")
         
-        // API check
+        // CSV kontrolünde nefret söylemi bulunmadıysa uzak API'ye istek gönder
         guard let url = URL(string: "\(baseURL)/api/check-hate-speech") else {
             print("❌ Invalid URL: \(baseURL)/api/check-hate-speech")
             throw HateSpeechError.invalidResponse
@@ -171,7 +183,7 @@ public class HateSpeechService {
             print("Parsed Response: \(apiResponse)")
             print("===================\n")
             
-            // Convert APIResponse to HateSpeechResponse
+            // APIResponse'u HateSpeechResponse'a dönüştür
             let metrics = HateSpeechResponse.HateSpeechData.Details.Metrics(
                 wordCount: apiResponse.data.details.metrics.wordCount,
                 averageWordLength: apiResponse.data.details.metrics.averageWordLength,
@@ -187,8 +199,9 @@ public class HateSpeechService {
                 metrics: metrics
             )
             
-            // DÜZELTME: API'nin döndüğü isHateSpeech FALSE olsa bile 
-            // category "1" ise nefret söylemi olarak işaretlemek için override ettik
+            // ÖNEMLİ: API'nin döndüğü isHateSpeech FALSE olsa bile 
+            // category "1" ise nefret söylemi olarak işaretlemek için override ediyoruz
+            // Bu, API'nin tutarsızlığını gidermek için yapılan bir düzeltme
             let isHateSpeech = apiResponse.data.category == "1" ? true : apiResponse.data.isHateSpeech
             
             let hateSpeechData = HateSpeechResponse.HateSpeechData(
@@ -217,6 +230,10 @@ public class HateSpeechService {
         }
     }
     
+    /// Nefret söylemi kategorilerini API'den alır
+    /// Bu fonksiyon kullanıcı arayüzünde kategori seçeneklerini göstermek için kullanılır
+    /// - Returns: [String: [String]] - Kategori adları ve alt kategorileri
+    /// - Throws: HateSpeechError - Ağ hatası, sunucu hatası vb.
     func getCategories() async throws -> [String: [String]] {
         guard let url = URL(string: "\(baseURL)/categories") else {
             throw HateSpeechError.invalidResponse
@@ -288,6 +305,14 @@ public class HateSpeechService {
         }
     }
     
+    /// Debounced nefret söylemi kontrolü
+    /// Bu fonksiyon kullanıcı yazarken sürekli API çağrısı yapılmasını önlemek için kullanılır
+    /// Belirtilen süre kadar bekledikten sonra kontrol yapar
+    /// - Parameters:
+    ///   - text: Kontrol edilecek metin
+    ///   - delay: Bekleme süresi (varsayılan: 1.0 saniye)
+    /// - Returns: HateSpeechResponse - Kontrol sonucu
+    /// - Throws: HateSpeechError - Ağ hatası, sunucu hatası vb.
     func debouncedCheck(text: String, delay: TimeInterval = 1.0) async throws -> HateSpeechResponse {
         try await Task.sleep(nanoseconds: UInt64(delay * 1_000_000_000))
         return try await checkHateSpeech(text: text)

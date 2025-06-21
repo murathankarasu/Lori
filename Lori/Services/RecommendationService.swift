@@ -1,6 +1,7 @@
 import Foundation
 import FirebaseAuth
 
+/// Ağ hataları enum'u
 enum NetworkError: Error {
     case invalidURL
     case requestFailed(Error)
@@ -8,10 +9,19 @@ enum NetworkError: Error {
     case decodingError(Error)
 }
 
+/// Kullanıcı önerileri servisi
+/// Bu servis kullanıcının duygu analizi verilerine dayalı olarak kişiselleştirilmiş öneriler alır
+/// Uzak API'den öneri verilerini çeker ve işler
 class RecommendationService {
     
     private let baseURL = "https://recommend-service-main-services.up.railway.app/api/recommendations/"
     
+    /// Kullanıcı için önerileri getirir
+    /// Bu fonksiyon kullanıcının ID'sini kullanarak uzak API'den kişiselleştirilmiş öneriler alır
+    /// Öneriler kullanıcının duygu analizi geçmişine dayalı olarak oluşturulur
+    /// Hata durumlarında detaylı loglama yapar ve uygun hata yönetimi sağlar
+    /// - Parameter userId: Önerilerin alınacağı kullanıcının ID'si
+    /// - Returns: Result<RecommendationResponse, NetworkError> - Başarılı öneri yanıtı veya hata
     func fetchRecommendations(userId: String) async -> Result<RecommendationResponse, NetworkError> {
         guard let url = URL(string: baseURL + userId) else {
             return .failure(.invalidURL)
@@ -19,14 +29,15 @@ class RecommendationService {
         
         var request = URLRequest(url: url)
         request.httpMethod = "GET"
-        // Timeout değerini arttır
+        // Timeout değerini arttır - öneri API'si daha yavaş olabilir
         request.timeoutInterval = 60
-        // Cache politikasını belirle
+        // Cache politikasını belirle - her zaman güncel veri al
         request.cachePolicy = .reloadIgnoringLocalCacheData
         // Gerekli başlıkları ekle
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         
         do {
+            // URLSession konfigürasyonu - uzun süren istekler için optimize edilmiş
             let config = URLSessionConfiguration.default
             config.timeoutIntervalForRequest = 60
             config.timeoutIntervalForResource = 120
@@ -50,7 +61,7 @@ class RecommendationService {
             }
             
             let decoder = JSONDecoder()
-            // Keydecodingstrategy için snake_case'i kabul et
+            // Keydecodingstrategy için snake_case'i kabul et - API'den gelen veri formatına uygun
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             
             do {
@@ -60,7 +71,7 @@ class RecommendationService {
             } catch let decodingError as DecodingError {
                 print("Decoding Error: \(decodingError)")
                 
-                // Daha detaylı hata bilgisi
+                // Daha detaylı hata bilgisi - hangi alanın sorunlu olduğunu göster
                 switch decodingError {
                 case .keyNotFound(let key, let context):
                     print("Missing key: \(key.stringValue), path: \(context.codingPath.map { $0.stringValue })")
@@ -68,6 +79,7 @@ class RecommendationService {
                     print("Type mismatch: expected \(type), path: \(context.codingPath.map { $0.stringValue })")
                     
                     // Comments alanı için özel hata yönetimi
+                    // API'den gelen veri formatı beklenenden farklı olabilir
                     if context.codingPath.last?.stringValue == "comments" {
                         do {
                             // JSON'ı önce dictionary olarak çözümle ve elle dönüştür
@@ -75,6 +87,7 @@ class RecommendationService {
                                let recommendations = json["recommendations"] as? [[String: Any]] {
                                 
                                 // Özel bir yapı oluşturmak yerine basit bir başarılı yanıt döndür
+                                // Bu, API'den gelen veri formatı sorunlarını çözer
                                 return .success(RecommendationResponse(
                                     emotionPattern: [:],
                                     recommendations: [],
@@ -94,7 +107,8 @@ class RecommendationService {
                     print("Unknown decoding error")
                 }
                 
-                // Kullanıcıya boş bir liste dönmek daha iyi olabilir
+                // Kullanıcıya boş bir liste döndürmek daha iyi olabilir
+                // Bu, API'den gelen veri formatı sorunlarında uygulamanın çökmesini önler
                 return .success(RecommendationResponse(
                     emotionPattern: [:],
                     recommendations: [],

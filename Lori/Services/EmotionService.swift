@@ -8,8 +8,31 @@ public class EmotionService {
     // Add a cache to store emotion analysis results
     private var emotionCache: [String: EmotionAnalysis] = [:]
     
-    // Available emotions for random selection
-    private let availableEmotions = ["joy", "fear", "anger", "love", "sadness", "surprise"]
+    // Available emotions for random selection with Turkish-English format
+    private let availableEmotions = [
+        "Üzüntü (Sadness)",
+        "Neşe (Joy)", 
+        "Aşk (Love)",
+        "Öfke (Anger)",
+        "Korku (Fear)",
+        "Şaşkınlık (Surprise)"
+    ]
+    
+    // English to Turkish-English mapping
+    private let emotionMapping: [String: String] = [
+        "sadness": "Üzüntü (Sadness)",
+        "joy": "Neşe (Joy)",
+        "love": "Aşk (Love)", 
+        "anger": "Öfke (Anger)",
+        "fear": "Korku (Fear)",
+        "surprise": "Şaşkınlık (Surprise)",
+        "neşe": "Neşe (Joy)",
+        "korku": "Korku (Fear)",
+        "öfke": "Öfke (Anger)",
+        "aşk": "Aşk (Love)",
+        "üzüntü": "Üzüntü (Sadness)",
+        "şaşkınlık": "Şaşkınlık (Surprise)"
+    ]
     
     public init() {
         let config = URLSessionConfiguration.default
@@ -33,9 +56,9 @@ public class EmotionService {
         print("İşlem türü: \(operationType.rawValue)")
         
         // Check if we should use the API based on operation type
-        // Only allow API calls for post creation and like operations
-        guard operationType == .postCreation || operationType == .like else {
-            print("⚠️ API çağrısı atlanıyor: Sadece gönderi oluşturma ve beğeni için API çağrısı yapılıyor")
+        // Only allow API calls for post creation, like, and comment operations
+        guard operationType == .postCreation || operationType == .like || operationType == .comment else {
+            print("⚠️ API çağrısı atlanıyor: Sadece gönderi oluşturma, beğeni ve yorum için API çağrısı yapılıyor")
             
             // Check if we have a cached result for this text
             if let cachedEmotion = emotionCache[text] {
@@ -109,8 +132,11 @@ public class EmotionService {
                 return 0.0
             }()
             
+            // Map the emotion to Turkish-English format
+            let mappedEmotion = emotionMapping[apiResponse.emotion.lowercased()] ?? apiResponse.emotion
+            
             let emotionAnalysis = EmotionAnalysis(
-                emotion: apiResponse.emotion,
+                emotion: mappedEmotion,
                 confidence: confidence
             )
             
@@ -131,7 +157,7 @@ public class EmotionService {
             print("🎲 Mevcut duygular: \(availableEmotions.joined(separator: ", "))")
             
             // Return a random emotion when an error occurs
-            let randomEmotion = availableEmotions.randomElement() ?? "joy"
+            let randomEmotion = availableEmotions.randomElement() ?? "Neşe (Joy)"
             print("⚠️ Rastgele seçilen duygu: \(randomEmotion)")
             print("📊 Güven skoru: 0.5 (rastgele seçim)")
             print("===================\n")
@@ -173,5 +199,6 @@ enum EmotionError: Error {
 public enum EmotionOperationType: String {
     case postCreation = "post_creation"
     case like = "like"
+    case comment = "comment"
     case other = "other"
 } 
