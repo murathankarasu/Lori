@@ -54,51 +54,51 @@ struct DirectMessageListView: View {
                     .padding(.vertical, 16)
                     
                     // Search field
-                    HStack(spacing: 12) {
-                        Image(systemName: "magnifyingglass")
-                            .foregroundColor(.white)
-                            .font(.system(size: 16, weight: .medium))
-                        
-                        ZStack(alignment: .leading) {
-                            if searchText.isEmpty {
-                                Text("Search messages")
-                                    .foregroundColor(.white.opacity(0.7))
-                                    .font(.system(size: 16))
-                            }
-                            
-                            TextField("", text: $searchText)
-                                .foregroundColor(.white)
-                                .font(.system(size: 16))
-                                .autocapitalization(.none)
-                                .disableAutocorrection(true)
-                                .onChange(of: searchText) { newValue in
-                                    viewModel.searchText = newValue
-                                }
-                        }
-                        
-                        if !searchText.isEmpty {
-                            Button(action: {
-                                searchText = ""
-                                viewModel.searchText = ""
-                            }) {
-                                Image(systemName: "xmark.circle.fill")
-                                    .foregroundColor(.white)
-                                    .font(.system(size: 16))
-                            }
-                        }
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 12)
-                    .background(
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(Color.white.opacity(0.1))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 12)
-                                    .stroke(Color.white.opacity(0.08), lineWidth: 1)
-                            )
-                    )
-                    .padding(.horizontal, 20)
-                    .padding(.bottom, 16)
+                    // HStack(spacing: 12) {
+                    //     Image(systemName: "magnifyingglass")
+                    //         .foregroundColor(.white)
+                    //         .font(.system(size: 16, weight: .medium))
+                    //     
+                    //     ZStack(alignment: .leading) {
+                    //         if searchText.isEmpty {
+                    //             Text("Search messages")
+                    //                 .foregroundColor(.white.opacity(0.7))
+                    //                 .font(.system(size: 16))
+                    //         }
+                    //         
+                    //         TextField("", text: $searchText)
+                    //             .foregroundColor(.white)
+                    //             .font(.system(size: 16))
+                    //             .autocapitalization(.none)
+                    //             .disableAutocorrection(true)
+                    //             .onChange(of: searchText) { newValue in
+                    //                 viewModel.searchText = newValue
+                    //             }
+                    //     }
+                    //     
+                    //     if !searchText.isEmpty {
+                    //         Button(action: {
+                    //             searchText = ""
+                    //             viewModel.searchText = ""
+                    //         }) {
+                    //             Image(systemName: "xmark.circle.fill")
+                    //                 .foregroundColor(.white)
+                    //                 .font(.system(size: 16))
+                    //         }
+                    //     }
+                    // }
+                    // .padding(.horizontal, 16)
+                    // .padding(.vertical, 12)
+                    // .background(
+                    //     RoundedRectangle(cornerRadius: 12)
+                    //         .fill(Color.white.opacity(0.1))
+                    //         .overlay(
+                    //             RoundedRectangle(cornerRadius: 12)
+                    //                 .stroke(Color.white.opacity(0.08), lineWidth: 1)
+                    //         )
+                    // )
+                    // .padding(.horizontal, 20)
+                    // .padding(.bottom, 16)
                     
                     if viewModel.isLoading {
                         Spacer()
@@ -168,7 +168,7 @@ struct DirectMessageListView: View {
                         // Conversation list
                         ScrollView {
                             LazyVStack(spacing: 0) {
-                                ForEach(viewModel.filteredConversations) { conversation in
+                                ForEach(viewModel.conversations) { conversation in
                                     Button(action: {
                                         // Set clicked conversation
                                         selectedConversationId = conversation.id
@@ -186,7 +186,7 @@ struct DirectMessageListView: View {
                                     }
                                     .buttonStyle(PlainButtonStyle())
                                     
-                                    if conversation.id != viewModel.filteredConversations.last?.id {
+                                    if conversation.id != viewModel.conversations.last?.id {
                                         Divider()
                                             .background(Color.gray.opacity(0.2))
                                             .padding(.horizontal, 20)

@@ -27,15 +27,6 @@ class DirectMessageViewModel: ObservableObject {
     init(userId: String) {
         self.userId = userId
         
-        // Konuşma arama metni değişikliklerini dinle
-        $searchText
-            .debounce(for: .milliseconds(300), scheduler: RunLoop.main)
-            .removeDuplicates()
-            .sink { [weak self] _ in
-                self?.filterConversations()
-            }
-            .store(in: &cancellables)
-        
         // Kullanıcı arama metni değişikliklerini dinle
         $userSearchText
             .debounce(for: .milliseconds(300), scheduler: RunLoop.main) // Daha doğru zamanlama için 300ms
@@ -65,19 +56,18 @@ class DirectMessageViewModel: ObservableObject {
     }
     
     // Filtrelenmiş sohbetleri döndürür
-    var filteredConversations: [DirectMessageConversation] {
-        if searchText.isEmpty {
-            return conversations
-        }
-        return conversations.filter { conversation in
-            // TODO: Daha kapsamlı filtreleme: Diğer kullanıcının adını veya kullanıcı adını da kontrol et
-            conversation.lastMessage.lowercased().contains(searchText.lowercased())
-        }
-    }
+    // var filteredConversations: [DirectMessageConversation] {
+    //     if searchText.isEmpty {
+    //         return conversations
+    //     }
+    //     return conversations.filter { conversation in
+    //         conversation.lastMessage.lowercased().contains(searchText.lowercased())
+    //     }
+    // }
     
-    private func filterConversations() {
-        objectWillChange.send()
-    }
+    // private func filterConversations() {
+    //     objectWillChange.send()
+    // }
     
     // Kullanıcıları ara
     func searchUsers(query: String) async {
