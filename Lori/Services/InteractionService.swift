@@ -253,10 +253,18 @@ class InteractionService {
     ///   - completion: İşlem tamamlandığında çağrılacak closure
     @MainActor
     private func saveComment(comment: Comment, postId: String, userId: String, completion: @escaping (Error?) -> Void) async {
-        let commentRef = db.collection("posts")
-            .document(postId)
-            .collection("comments")
-            .document()
+        let commentRef: DocumentReference
+        if let commentId = comment.id, !commentId.isEmpty {
+            commentRef = db.collection("posts")
+                .document(postId)
+                .collection("comments")
+                .document(commentId)
+        } else {
+            commentRef = db.collection("posts")
+                .document(postId)
+                .collection("comments")
+                .document()
+        }
         
         let postRef = db.collection("posts").document(postId)
         
