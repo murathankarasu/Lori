@@ -1,13 +1,16 @@
 # Lori
-<img width="1170" height="2532" alt="IMG_5022" src="https://github.com/user-attachments/assets/d283ea1d-e1cb-453c-a945-f73dfa3efc08" />
-<img width="1170" height="2532" alt="IMG_5202" src="https://github.com/user-attachments/assets/64470d5e-a287-4ff1-a88e-bcced1aaea69" />
-<img width="1170" height="2532" alt="IMG_5203" src="https://github.com/user-attachments/assets/67f6ed14-9272-4540-83d1-902f9da6ad8b" />
-<img width="1170" height="2532" alt="IMG_5204" src="https://github.com/user-attachments/assets/70817d00-edf7-475c-9c62-7429c527191d" />
-<img width="1170" height="2532" alt="IMG_5205" src="https://github.com/user-attachments/assets/321d7855-b2e8-4c9d-84d6-96b751453c94" />
-<img width="1170" height="2532" alt="IMG_5208" src="https://github.com/user-attachments/assets/e0e60e67-687f-4e86-923a-3f240c2483c8" />
-<img width="1170" height="2532" alt="IMG_5207" src="https://github.com/user-attachments/assets/689f3628-4ce9-4254-85cd-69d2f2a11df5" />
-<img width="1170" height="2532" alt="IMG_5206" src="https://github.com/user-attachments/assets/ccbbd9f2-313e-4ae3-826a-935d1482e251" />
-<img width="1170" height="2532" alt="IMG_5209" src="https://github.com/user-attachments/assets/477a678d-eceb-42e8-bbde-c625f214264e" />
+
+<div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+  <img src="https://github.com/user-attachments/assets/d283ea1d-e1cb-453c-a945-f73dfa3efc08" width="200"/>
+  <img src="https://github.com/user-attachments/assets/64470d5e-a287-4ff1-a88e-bcced1aaea69" width="200"/>
+  <img src="https://github.com/user-attachments/assets/67f6ed14-9272-4540-83d1-902f9da6ad8b" width="200"/>
+  <img src="https://github.com/user-attachments/assets/70817d00-edf7-475c-9c62-7429c527191d" width="200"/>
+  <img src="https://github.com/user-attachments/assets/321d7855-b2e8-4c9d-84d6-96b751453c94" width="200"/>
+  <img src="https://github.com/user-attachments/assets/e0e60e67-687f-4e86-923a-3f240c2483c8" width="200"/>
+  <img src="https://github.com/user-attachments/assets/689f3628-4ce9-4254-85cd-69d2f2a11df5" width="200"/>
+  <img src="https://github.com/user-attachments/assets/ccbbd9f2-313e-4ae3-826a-935d1482e251" width="200"/>
+  <img src="https://github.com/user-attachments/assets/477a678d-eceb-42e8-bbde-c625f214264e" width="200"/>
+</div>
 
 Lori is a sophisticated social media platform built with Swift, focusing on user interaction, content moderation, and emotional intelligence. The platform combines modern social networking features with advanced AI-powered content analysis and user experience optimization.
 
