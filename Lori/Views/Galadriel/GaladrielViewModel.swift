@@ -5,7 +5,7 @@ class GaladrielViewModel: ObservableObject {
     @Published var messages: [Message] = []
     @Published var debugLogs: [String] = []
     
-    private let apiKey = "KDkIFj1szU8PneUglhNFAjUIpJlM3Aj3"
+    private let apiKey = "********************"
     private let apiEndpoint = "https://api.mistral.ai/v1/chat/completions"
     
     private func addLog(_ message: String) {
