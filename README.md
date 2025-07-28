@@ -1,7 +1,6 @@
 # Lori
 
 <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-  <img src="https://github.com/user-attachments/assets/d283ea1d-e1cb-453c-a945-f73dfa3efc08" width="200"/>
   <img src="https://github.com/user-attachments/assets/64470d5e-a287-4ff1-a88e-bcced1aaea69" width="200"/>
   <img src="https://github.com/user-attachments/assets/67f6ed14-9272-4540-83d1-902f9da6ad8b" width="200"/>
   <img src="https://github.com/user-attachments/assets/70817d00-edf7-475c-9c62-7429c527191d" width="200"/>
